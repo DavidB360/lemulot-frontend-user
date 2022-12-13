@@ -38,5 +38,6 @@ const styles = StyleSheet.create({
 		flexDirection: "column",
 		justifyContent: "center",
 		margin: 25,
+		backgroundColor: "blue",
 	},
 })
