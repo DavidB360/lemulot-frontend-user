@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 
-export default function TutoScreen({ navigation }) {
+export default function TutoScreen({ navigation }: any) {
 	return (
 		<View style={styles.container}>
 			<Text>TutoScreen</Text>

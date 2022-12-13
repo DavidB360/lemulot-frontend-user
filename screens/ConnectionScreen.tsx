@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { View, Text, TouchableOpacity, StyleSheet, Button, Image } from "react-native"
 import { NavigationContainer } from "@react-navigation/native"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
@@ -33,6 +34,12 @@ export default function ConnectionScreen({ navigation }: any) {
 			/>
 		</View>
 	)
+=======
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+
+export default function ConnectionScreen({ navigation }: any) {
+	return <View style={styles.container}></View>;
+>>>>>>> Dams
 }
 
 const styles = StyleSheet.create({
@@ -40,6 +47,11 @@ const styles = StyleSheet.create({
 		flex: 1,
 		alignItems: "center",
 		justifyContent: "center",
+<<<<<<< HEAD
 		backgroundColor: "blue",
 	},
 })
+=======
+	},
+});
+>>>>>>> Dams
