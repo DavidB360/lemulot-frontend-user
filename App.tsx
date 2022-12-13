@@ -9,6 +9,8 @@ import ResearchScreen from "./screens/ResearchScreen";
 import TutoScreen from "./screens/TutoScreen";
 import TypeScreen from "./screens/TypeScreen";
 import ConnectionScreen from "./screens/ConnectionScreen";
+import SignInScreen from "./screens/SignInScreen";
+import SignUpScreen from "./screens/SignUpScreen";
 
 import { Provider } from "react-redux";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
@@ -40,13 +42,15 @@ export default function App() {
 		<Provider store={store}>
 			<PersistGate persistor={persistor}>
 				<NavigationContainer>
-					<Stack.Navigator screenOptions={{ headerShown: false }}>
+					<Stack.Navigator screenOptions={{ headerShown: true }}>
 						<Stack.Screen name="Intro" component={IntroScreen} />
 						<Stack.Screen name="Home" component={HomeScreen} />
 						<Stack.Screen
 							name="Connection"
 							component={ConnectionScreen}
 						/>
+						<Stack.Screen name="SignIn" component={SignInScreen} />
+						<Stack.Screen name="SignUp" component={SignUpScreen} />
 						<Stack.Screen name="Type" component={TypeScreen} />
 						<Stack.Screen
 							name="Research"
