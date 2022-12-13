@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 
-export default function HomeScreen({ navigation }) {
+export default function HomeScreen({ navigation }: any) {
 	return (
 		<View style={styles.container}>
 			<TouchableOpacity onPress={() => navigation.navigate("Type")}>

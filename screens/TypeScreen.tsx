@@ -1,9 +1,11 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 
-export default function TutoScreen({ navigation }) {
+export default function TypeScreen({ navigation }: any) {
 	return (
 		<View style={styles.container}>
-			<Text>TutoScreen</Text>
+			<TouchableOpacity onPress={() => navigation.navigate("Research")}>
+				<Text>Go To ResearchScreen</Text>
+			</TouchableOpacity>
 		</View>
 	);
 }

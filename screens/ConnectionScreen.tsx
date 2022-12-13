@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 
-export default function ConnectionScreen({ navigation }) {
+export default function ConnectionScreen({ navigation }: any) {
 	return <View style={styles.container}></View>;
 }
 
