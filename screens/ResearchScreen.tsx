@@ -47,7 +47,7 @@ const tutorials = [
 //	   |oo|	   |			|\  /|
 //	   (_p)	  <	  Je dis	| \/ |
 //	__{|_)}	   |			|    |
-//	  _| |_
+//	  _| L
 
 	return (
 		<View style={styles.container}>
