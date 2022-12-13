@@ -8,17 +8,18 @@ export default function IntroScreen({ navigation }: any) {
 			</View>
 			<View style={styles.textcontent}>
 				<Text style={styles.text}>
-					Si tu en a marre de galérer, de tous le temps demander de
-					l’aide à tes enfants ou petit enfants. Si tu cherches une
-					assistance, un dépannage, ou simplement apprendre et
-					comprendre comment utiliser internet ou ton mobile. Alors
-					rassure toi tu es au bonne endroit !
+					Si tu en as marre de galérer et de tout le temps demander de
+					l’aide à tes enfants ou petit enfants.
 				</Text>
 				<Text style={styles.text}>
-					Tu trouveras ici des guides, des tutoriels et toutes l’aide
-					nécessaire pour résoudre tes difficultés et faire de toi un
-					vrai pro de l’informatique. Bientôt c’est à toi qu’on
-					demanderas de l’aide.
+					Si tu cherches une assistance, un dépannage, ou simplement
+					apprendre comment utiliser internet ou ton mobile, alors
+					rassure toi, tu es au bon endroit !
+				</Text>
+				<Text style={styles.text}>
+					Tu trouveras ici des leçons et toute l’aide nécessaire pour
+					résoudre tes difficultés et faire de toi un vrai pro de
+					l’informatique.
 				</Text>
 			</View>
 			<TouchableOpacity
@@ -40,15 +41,19 @@ const styles = StyleSheet.create({
 	},
 
 	title: {
-		fontSize: 25,
+		fontSize: 30,
+		textShadowColor: "#696969",
+		textShadowOffset: { width: 0, height: 3 },
+		textShadowRadius: 5,
 	},
 
 	textcontent: {
-		padding: 10,
+		padding: 20,
 	},
 
 	text: {
 		fontSize: 22,
+		textAlign: "left",
 	},
 
 	btn: {
@@ -60,14 +65,25 @@ const styles = StyleSheet.create({
 		borderRightWidth: 3,
 		borderRadius: 30,
 		borderStyle: "solid",
-		borderColor: "#a9a9a9",
+		borderColor: "#808080",
 		width: 150,
 		height: 100,
+		shadowColor: "#000000",
+		shadowOffset: {
+			width: 0,
+			height: 12,
+		},
+		shadowOpacity: 0.58,
+		shadowRadius: 16.0,
+
+		elevation: 25,
 	},
 
 	textbtn: {
 		color: "#fff",
 		fontSize: 22,
-		// padding: 20,
+		textShadowColor: "#000000",
+		textShadowOffset: { width: 0, height: 2 },
+		textShadowRadius: 5,
 	},
 });
