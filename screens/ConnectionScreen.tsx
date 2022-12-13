@@ -1,4 +1,11 @@
-import { View, Text, TouchableOpacity, StyleSheet, Button, Image } from "react-native"
+import {
+	View,
+	Text,
+	TouchableOpacity,
+	StyleSheet,
+	Button,
+	Image,
+} from "react-native";
 
 export default function ConnectionScreen({ navigation }: any) {
 	return (
@@ -24,7 +31,7 @@ export default function ConnectionScreen({ navigation }: any) {
 				<Text style={styles.text}>S'inscrire</Text>
 			</TouchableOpacity>
 		</View>
-	)
+	);
 }
 
 const styles = StyleSheet.create({
@@ -53,4 +60,4 @@ const styles = StyleSheet.create({
 		borderWidth: 1,
 		width: 200,
 	},
-})
+});

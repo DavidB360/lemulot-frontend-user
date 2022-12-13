@@ -1,13 +1,29 @@
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 
 export default function HomeScreen({ navigation }: any) {
 	return (
 		<View style={styles.container}>
-			<TouchableOpacity onPress={() => navigation.navigate("Type")}>
-				<Text>Go To TypeScreen</Text>
+			<TouchableOpacity
+				style={styles.btnType}
+				onPress={() => navigation.navigate("Type")}
+			>
+				<Text style={styles.textBtnType}>Go To TypeScreen</Text>
+				<Image
+					style={styles.imgBtnType}
+					source={require("../assets/mulot_professeur.jpg")}
+				/>
 			</TouchableOpacity>
-			<TouchableOpacity onPress={() => navigation.navigate("Connection")}>
-				<Text>Go To ConnectionScreen</Text>
+			<TouchableOpacity
+				style={styles.btnConnection}
+				onPress={() => navigation.navigate("Connection")}
+			>
+				<Text style={styles.textBtnConnection}>
+					Go To ConnectionScreen
+				</Text>
+				<Image
+					style={styles.imgBtnType}
+					source={require("../assets/mulot_assistant.jpg")}
+				/>
 			</TouchableOpacity>
 		</View>
 	);
@@ -19,4 +35,17 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		justifyContent: "center",
 	},
+
+	btnType: {},
+
+	textBtnType: {},
+
+	imgBtnType: {
+		width: 200,
+		height: 200,
+	},
+
+	btnConnection: {},
+
+	textBtnConnection: {},
 });
