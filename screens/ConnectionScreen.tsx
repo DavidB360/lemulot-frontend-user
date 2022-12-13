@@ -1,36 +1,22 @@
 import { View, Text, TouchableOpacity, StyleSheet, Button, Image } from "react-native"
-import { NavigationContainer } from "@react-navigation/native"
-import { createNativeStackNavigator } from "@react-navigation/native-stack"
-import SignInScreen from "./SignInScreen"
-import SignUpScreen from "./SignUpScreen"
-
-const Stack = createNativeStackNavigator()
 
 export default function ConnectionScreen({ navigation }: any) {
 	return (
 		<View style={styles.container}>
-			<TouchableOpacity
-				title="Go to SignIn"
-				onPress={() => navigation.navigate("SignIn")}
-			/>
-
-			<TouchableOpacity onPress={this._onPressButton}>
+			<TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
 				<Image
 					style={styles.button}
-					source={require("./myButton.png")}
+					source={require("../assets/cle.jpg")}
 				/>
+				<Text style={styles.button}>Se connecter</Text>
 			</TouchableOpacity>
-			<TouchableOpacity onPress={this._onPressButton}>
+			<TouchableOpacity onPress={() => navigation.navigate("SignIn")}>
 				<Image
 					style={styles.button}
-					source={require("./myButton.png")}
+					source={require("../assets/stylo.jpg")}
 				/>
+				<Text style={styles.button}>S'inscrire</Text>
 			</TouchableOpacity>
-
-			<TouchableOpacity
-				title="Go to SignUp"
-				onPress={() => navigation.navigate("SignUp")}
-			/>
 		</View>
 	)
 }
@@ -38,8 +24,19 @@ export default function ConnectionScreen({ navigation }: any) {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
+		display: "flex",
 		alignItems: "center",
 		justifyContent: "center",
-		backgroundColor: "blue",
+		backgroundColor: "white",
+	},
+	button: {
+		borderStyle: "solid",
+		borderColor: "black",
+		width: 100,
+		height: 100,
+		display: "flex",
+		flexDirection: "column",
+		justifyContent: "center",
+		margin: 25,
 	},
 })
