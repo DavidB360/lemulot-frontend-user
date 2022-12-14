@@ -42,6 +42,7 @@ const styles = StyleSheet.create({
 
 	title: {
 		fontSize: 30,
+		color: "#191970",
 		textShadowColor: "#696969",
 		textShadowOffset: { width: 0, height: 3 },
 		textShadowRadius: 5,

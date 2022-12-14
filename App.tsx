@@ -35,7 +35,7 @@ import Type1Screen from "./screens/Type1Screen";
 import Type2Screen from "./screens/Type2Screen";
 import Type3Screen from "./screens/Type3Screen";
 import Type4Screen from "./screens/Type4Screen";
-import DictionaireScreen from "./screens/DictionaireScreen";
+import DicoScreen from "./screens/DicoScreen";
 import ConnectionScreen from "./screens/ConnectionScreen";
 import SignInScreen from "./screens/SignInScreen";
 import SignUpScreen from "./screens/SignUpScreen";
@@ -116,6 +116,7 @@ export default function App() {
 							name="Research"
 							component={ResearchScreen}
 						/>
+						<Stack.Screen name="Dico" component={DicoScreen} />
 						<Stack.Screen name="Tuto" component={TutoScreen} />
 						{/* Pour fonction TabNavigation */}
 						{/* <Stack.Screen

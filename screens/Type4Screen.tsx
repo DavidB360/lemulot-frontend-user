@@ -1,4 +1,5 @@
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 export default function Type4Screen({ navigation }: any) {
 	return (
@@ -13,6 +14,11 @@ export default function Type4Screen({ navigation }: any) {
 				style={styles.btnRetour}
 				onPress={() => navigation.navigate("Type1")}
 			>
+				<FontAwesome
+					name="long-arrow-left"
+					size={32}
+					style={styles.iconArrow}
+				/>
 				<Text style={styles.textBtnRetour}>Retour</Text>
 			</TouchableOpacity>
 			<TouchableOpacity
@@ -70,8 +76,9 @@ const styles = StyleSheet.create({
 		top: 55,
 		left: 20,
 		backgroundColor: "#5db194",
-		width: 100,
+		width: 125,
 		height: 50,
+		flexDirection: "row",
 		alignItems: "center",
 		justifyContent: "center",
 		borderRadius: 10,
@@ -89,7 +96,16 @@ const styles = StyleSheet.create({
 		elevation: 25,
 	},
 
+	iconArrow: {
+		paddingRight: 10,
+		color: "#ffffff",
+		textShadowColor: "#000000",
+		textShadowOffset: { width: 0, height: 2 },
+		textShadowRadius: 5,
+	},
+
 	textBtnRetour: {
+		paddingBottom: 5,
 		color: "#ffffff",
 		fontSize: 22,
 		textShadowColor: "#000000",
