@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 
-export default function TypeScreen({ navigation }: any) {
+export default function Type4Screen({ navigation }: any) {
 	return (
 		<View style={styles.container}>
 			<TouchableOpacity
@@ -11,37 +11,27 @@ export default function TypeScreen({ navigation }: any) {
 			</TouchableOpacity>
 			<TouchableOpacity
 				style={styles.btnRetour}
-				onPress={() => navigation.navigate("Home")}
+				onPress={() => navigation.navigate("Type1")}
 			>
 				<Text style={styles.textBtnRetour}>Retour</Text>
 			</TouchableOpacity>
 			<TouchableOpacity
-				style={styles.btnOrdinateur}
-				onPress={() => navigation.navigate("Type1")}
+				style={styles.btnPeripherique}
+				onPress={() => navigation.navigate("Research")}
 			>
-				<Text style={styles.textBtnOrdinateur}>Ordinateur</Text>
+				<Text style={styles.textBtnPeripherique}>Périphérique</Text>
 				<Image
-					style={styles.imgBtnOrdinateur}
+					style={styles.imgBtnPeripherique}
 					source={require("../assets/mulot_professeur.jpg")}
 				/>
 			</TouchableOpacity>
 			<TouchableOpacity
-				style={styles.btnMobile}
-				onPress={() => navigation.navigate("Type1")}
+				style={styles.btnAutre}
+				onPress={() => navigation.navigate("Research")}
 			>
-				<Text style={styles.textBtnMobile}>Mobile</Text>
+				<Text style={styles.textBtnAutre}>Autre</Text>
 				<Image
-					style={styles.imgBtnMobile}
-					source={require("../assets/mulot_professeur.jpg")}
-				/>
-			</TouchableOpacity>
-			<TouchableOpacity
-				style={styles.btnTablette}
-				onPress={() => navigation.navigate("Type1")}
-			>
-				<Text style={styles.textBtnTablette}>Tablette</Text>
-				<Image
-					style={styles.imgBtnTablette}
+					style={styles.imgBtnAutre}
 					source={require("../assets/mulot_professeur.jpg")}
 				/>
 			</TouchableOpacity>
@@ -107,7 +97,7 @@ const styles = StyleSheet.create({
 		textShadowRadius: 5,
 	},
 
-	btnOrdinateur: {
+	btnPeripherique: {
 		marginBottom: 10,
 		marginTop: 80,
 		borderColor: "#a9a9a9",
@@ -129,7 +119,7 @@ const styles = StyleSheet.create({
 		elevation: 25,
 	},
 
-	textBtnOrdinateur: {
+	textBtnPeripherique: {
 		fontSize: 22,
 		color: "#ffffff",
 		textShadowColor: "#000000",
@@ -137,12 +127,12 @@ const styles = StyleSheet.create({
 		textShadowRadius: 5,
 	},
 
-	imgBtnOrdinateur: {
+	imgBtnPeripherique: {
 		width: 180,
 		height: 150,
 	},
 
-	btnMobile: {
+	btnAutre: {
 		margin: 10,
 		borderColor: "#a9a9a9",
 		borderBottomWidth: 4,
@@ -163,7 +153,7 @@ const styles = StyleSheet.create({
 		elevation: 25,
 	},
 
-	textBtnMobile: {
+	textBtnAutre: {
 		fontSize: 22,
 		color: "#ffffff",
 		textShadowColor: "#000000",
@@ -171,41 +161,7 @@ const styles = StyleSheet.create({
 		textShadowRadius: 5,
 	},
 
-	imgBtnMobile: {
-		width: 180,
-		height: 150,
-	},
-
-	btnTablette: {
-		margin: 10,
-		borderColor: "#a9a9a9",
-		borderBottomWidth: 4,
-		borderLeftWidth: 2,
-		borderRightWidth: 2,
-		borderRadius: 5,
-		alignItems: "center",
-		justifyContent: "center",
-		backgroundColor: "#5db194",
-		shadowColor: "#000000",
-		shadowOffset: {
-			width: -10,
-			height: 12,
-		},
-		shadowOpacity: 0.58,
-		shadowRadius: 16.0,
-
-		elevation: 25,
-	},
-
-	textBtnTablette: {
-		fontSize: 22,
-		color: "#ffffff",
-		textShadowColor: "#000000",
-		textShadowOffset: { width: 0, height: 2 },
-		textShadowRadius: 5,
-	},
-
-	imgBtnTablette: {
+	imgBtnAutre: {
 		width: 180,
 		height: 150,
 	},

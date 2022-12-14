@@ -1,13 +1,41 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+
+// Pour fonction TabNavigation à laisser dans App.tsx
+// import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+// import FontAwesome from "react-native-vector-icons/FontAwesome";
+
+// A couper/coler dans ficher Page Utilisateur/Demande Aide
+// import { NavigationProp, ParamListBase } from "@react-navigation/native";
+
+// type TypeScreenProps = {
+// 	navigation: NavigationProp<ParamListBase>;
+// };
+
+// export default function TypeScreen({ navigation }: "à remplir"ScreenProps) {
+// 	return (
+
+{
+	/* <TouchableOpacity
+				onPress={() =>
+					navigation.navigate("TabNavigator", {
+						screen: "à remplir",
+					})
+				}
+			></TouchableOpacity> */
+}
 
 import HomeScreen from "./screens/HomeScreen";
 import IntroScreen from "./screens/IntroScreen";
 import ResearchScreen from "./screens/ResearchScreen";
 import TutoScreen from "./screens/TutoScreen";
 import TypeScreen from "./screens/TypeScreen";
+import Type1Screen from "./screens/Type1Screen";
+import Type2Screen from "./screens/Type2Screen";
+import Type3Screen from "./screens/Type3Screen";
+import Type4Screen from "./screens/Type4Screen";
+import DictionaireScreen from "./screens/DictionaireScreen";
 import ConnectionScreen from "./screens/ConnectionScreen";
 import SignInScreen from "./screens/SignInScreen";
 import SignUpScreen from "./screens/SignUpScreen";
@@ -31,10 +59,38 @@ const store = configureStore({
 const persistor = persistStore(store);
 
 const Stack = createNativeStackNavigator();
-const Tab = createBottomTabNavigator();
+// const Tab = createBottomTabNavigator();
 
 // const TabNavigator = () => {
-// 	return <Tab.Navigator></Tab.Navigator>;
+// 	return (
+// 		<Tab.Navigator
+// 			screenOptions={({ route }) => ({
+// 				tabBarIcon: ({ color, size }) => {
+// 					let iconName: string = "";
+
+// 					if (route.name === "à remplir") {
+// 						iconName = "à remplir";
+// 					} else if (route.name === "à remplir") {
+// 						iconName = "à remplir";
+// 					}
+
+// 					return (
+// 						<FontAwesome
+// 							name={iconName}
+// 							size={size}
+// 							color={color}
+// 						/>
+// 					);
+// 				},
+// 				tabBarActiveTintColor: "#e8be4b",
+// 				tabBarInactiveTintColor: "#b2b2b2",
+// 				headerShown: false,
+// 			})}
+// 		>
+// 			<Tab.Screen name="à remplir" component={à remplir} />
+// 			<Tab.Screen name="à remplir" component={à remplir} />
+// 		</Tab.Navigator>
+// 	);
 // };
 
 export default function App() {
@@ -52,11 +108,20 @@ export default function App() {
 						<Stack.Screen name="SignIn" component={SignInScreen} />
 						<Stack.Screen name="SignUp" component={SignUpScreen} />
 						<Stack.Screen name="Type" component={TypeScreen} />
+						<Stack.Screen name="Type1" component={Type1Screen} />
+						<Stack.Screen name="Type2" component={Type2Screen} />
+						<Stack.Screen name="Type3" component={Type3Screen} />
+						<Stack.Screen name="Type4" component={Type4Screen} />
 						<Stack.Screen
 							name="Research"
 							component={ResearchScreen}
 						/>
 						<Stack.Screen name="Tuto" component={TutoScreen} />
+						{/* Pour fonction TabNavigation */}
+						{/* <Stack.Screen
+							name="TabNavigator"
+							component={TabNavigator}
+						/> */}
 					</Stack.Navigator>
 				</NavigationContainer>
 			</PersistGate>
