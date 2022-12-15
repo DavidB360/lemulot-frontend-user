@@ -23,7 +23,7 @@ export default function SignIn({ navigation }: any) {
 
 	const handleConnection = () => {
 		if (EMAIL_REGEX.test(email)) {
-			fetch("http://localhost:3000/users/signin", {
+			fetch("http://192.168.1.38:3000/users/signin", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({ email: email, password: password }),
