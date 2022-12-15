@@ -37,23 +37,23 @@ import ConnectionScreen from "./screens/ConnectionScreen";
 import SignInScreen from "./screens/SignInScreen";
 import SignUpScreen from "./screens/SignUpScreen";
 
-import { Provider } from "react-redux";
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import { persistStore, persistReducer } from "redux-persist";
-import { PersistGate } from "redux-persist/integration/react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import user from "./reducers/user";
+import { Provider } from "react-redux"
+import { combineReducers, configureStore } from "@reduxjs/toolkit"
+import { persistStore, persistReducer } from "redux-persist"
+import { PersistGate } from "redux-persist/integration/react"
+import AsyncStorage from "@react-native-async-storage/async-storage"
+import user from "./reducers/user"
 
-const reducers = combineReducers({ user });
-const persistConfig = { key: "lemulot", storage: AsyncStorage };
+const reducers = combineReducers({ user })
+const persistConfig = { key: "lemulot", storage: AsyncStorage }
 
 const store = configureStore({
 	reducer: persistReducer(persistConfig, reducers),
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware({ serializableCheck: false }),
-});
+})
 
-const persistor = persistStore(store);
+const persistor = persistStore(store)
 
 const Stack = createNativeStackNavigator();
 // const Tab = createBottomTabNavigator();
@@ -124,5 +124,5 @@ export default function App() {
 				</NavigationContainer>
 			</PersistGate>
 		</Provider>
-	);
+	)
 }
