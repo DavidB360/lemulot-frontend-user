@@ -5,13 +5,13 @@ export default function HomeScreen({ navigation }: any) {
 		<View style={styles.container}>
 			<TouchableOpacity
 				style={styles.btnAide}
-				onPress={() => navigation.navigate("Type")}
+				// onPress={() => navigation.navigate("Type")}
 			>
 				<Text style={styles.textBtnAide}>?</Text>
 			</TouchableOpacity>
 			<TouchableOpacity
 				style={styles.btnType}
-				onPress={() => navigation.navigate("Type")}
+				onPress={() => navigation.navigate("Device")}
 			>
 				<Text style={styles.textBtnType}>Les Leçons du Mulot</Text>
 				<Image

@@ -30,11 +30,8 @@ import HomeScreen from "./screens/HomeScreen";
 import IntroScreen from "./screens/IntroScreen";
 import ResearchScreen from "./screens/ResearchScreen";
 import TutoScreen from "./screens/TutoScreen";
-import TypeScreen from "./screens/TypeScreen";
-import Type1Screen from "./screens/Type1Screen";
-import Type2Screen from "./screens/Type2Screen";
-import Type3Screen from "./screens/Type3Screen";
-import Type4Screen from "./screens/Type4Screen";
+import DeviceScreen from "./screens/DeviceScreen";
+import CategoryScreen from "./screens/CategoryScreen";
 import DicoScreen from "./screens/DicoScreen";
 import ConnectionScreen from "./screens/ConnectionScreen";
 import SignInScreen from "./screens/SignInScreen";
@@ -107,11 +104,11 @@ export default function App() {
 						/>
 						<Stack.Screen name="SignIn" component={SignInScreen} />
 						<Stack.Screen name="SignUp" component={SignUpScreen} />
-						<Stack.Screen name="Type" component={TypeScreen} />
-						<Stack.Screen name="Type1" component={Type1Screen} />
-						<Stack.Screen name="Type2" component={Type2Screen} />
-						<Stack.Screen name="Type3" component={Type3Screen} />
-						<Stack.Screen name="Type4" component={Type4Screen} />
+						<Stack.Screen name="Device" component={DeviceScreen} />
+						<Stack.Screen
+							name="Category"
+							component={CategoryScreen}
+						/>
 						<Stack.Screen
 							name="Research"
 							component={ResearchScreen}
