@@ -5,13 +5,24 @@ import {
 	StyleSheet,
 	ScrollView,
 } from "react-native";
+
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+	addToFavoriteLessons,
+	removeFromFavoriteLessons,
+	UserState,
+} from "../reducers/user";
+
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeartCirclePlus } from "@fortawesome/free-solid-svg-icons";
 
 export default function LeconScreen({ navigation }: any) {
+	const dispatch = useDispatch();
+	const user = useSelector((state: { user: UserState }) => state.user.value);
+
 	return (
 		<View style={styles.container}>
 			<View style={styles.btnTop}>
