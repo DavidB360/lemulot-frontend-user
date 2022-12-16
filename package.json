@@ -20,6 +20,7 @@
     "@react-navigation/native": "6",
     "@react-navigation/native-stack": "6",
     "@reduxjs/toolkit": "^1.9.1",
+    "@types/react-native-dotenv": "^0.2.0",
     "expo": "^47.0.8",
     "expo-camera": "~13.1.0",
     "expo-status-bar": "~1.4.2",

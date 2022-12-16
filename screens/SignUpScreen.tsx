@@ -10,6 +10,7 @@ import {
 } from "react-native"
 import { useDispatch } from "react-redux"
 import { login, UserState } from "../reducers/user"
+import {BACKEND_URL} from "@env"
 
 const EMAIL_REGEX: RegExp =
 	/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -29,7 +30,7 @@ export default function SignUp({ navigation }: any) {
 	const handleSignUp = () => {
 		if (EMAIL_REGEX.test(email)) {
 			// fetch("http://10.33.210.227:3000/users/signup", {
-			fetch("https://lemulot-backend.vercel.app/users/signup", {
+			fetch(BACKEND_URL+"users/signup", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({
