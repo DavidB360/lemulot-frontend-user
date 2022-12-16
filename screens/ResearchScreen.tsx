@@ -5,8 +5,6 @@ import {
 	StyleSheet,
 	TextInput,
 	ScrollView,
-	KeyboardAvoidingView,
-	Platform,
 } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
@@ -66,10 +64,6 @@ export default function ResearchScreen({ navigation }: any) {
 	//	  _| L
 
 	return (
-		// <KeyboardAvoidingView
-		// 	behavior={Platform.OS === "android" ? "padding" : "height"}
-		// 	style={styles.container}
-		// >
 		<View style={styles.container}>
 			<View style={styles.btnTop}>
 				<TouchableOpacity
@@ -115,19 +109,19 @@ export default function ResearchScreen({ navigation }: any) {
 					>
 						<View style={styles.tuto}>
 							<View style={styles.tutoText}>
-								<Text style={styles.textBtnResult}>
+								<Text style={styles.textResult}>
 									Title: "Envoyer une photo dans WhatsApp"
 								</Text>
-								<Text style={styles.textBtnResult}>
+								<Text style={styles.textResult}>
 									Device: "Smartphone"
 								</Text>
-								<Text style={styles.textBtnResult}>
+								<Text style={styles.textResult}>
 									Category: "Communication"
 								</Text>
-								<Text style={styles.textBtnResult}>
+								<Text style={styles.textResult}>
 									CreationDate: "13-12-2022"
 								</Text>
-								<Text style={styles.textBtnResult}>
+								<Text style={styles.textResult}>
 									Author: "Mulot Influenceur"
 								</Text>
 							</View>
@@ -137,7 +131,7 @@ export default function ResearchScreen({ navigation }: any) {
 									size={40}
 									color={"#5db194"}
 								/>
-								<Text style={styles.textBtndifficulty}>
+								<Text style={styles.textDifficulty}>
 									Facile
 								</Text>
 							</View>
@@ -148,19 +142,19 @@ export default function ResearchScreen({ navigation }: any) {
 					>
 						<View style={styles.tuto}>
 							<View style={styles.tutoText}>
-								<Text style={styles.textBtnResult}>
+								<Text style={styles.textResult}>
 									Title: "Envoyer une photo dans WhatsApp"
 								</Text>
-								<Text style={styles.textBtnResult}>
+								<Text style={styles.textResult}>
 									Device: "Smartphone"
 								</Text>
-								<Text style={styles.textBtnResult}>
+								<Text style={styles.textResult}>
 									Category: "Communication"
 								</Text>
-								<Text style={styles.textBtnResult}>
+								<Text style={styles.textResult}>
 									CreationDate: "13-12-2022"
 								</Text>
-								<Text style={styles.textBtnResult}>
+								<Text style={styles.textResult}>
 									Author: "Mulot Influenceur"
 								</Text>
 							</View>
@@ -170,7 +164,7 @@ export default function ResearchScreen({ navigation }: any) {
 									size={40}
 									color={"#5db194"}
 								/>
-								<Text style={styles.textBtndifficulty}>
+								<Text style={styles.textDifficulty}>
 									Facile
 								</Text>
 							</View>
@@ -181,19 +175,19 @@ export default function ResearchScreen({ navigation }: any) {
 					>
 						<View style={styles.tuto}>
 							<View style={styles.tutoText}>
-								<Text style={styles.textBtnResult}>
+								<Text style={styles.textResult}>
 									Title: "Envoyer une photo dans WhatsApp"
 								</Text>
-								<Text style={styles.textBtnResult}>
+								<Text style={styles.textResult}>
 									Device: "Smartphone"
 								</Text>
-								<Text style={styles.textBtnResult}>
+								<Text style={styles.textResult}>
 									Category: "Communication"
 								</Text>
-								<Text style={styles.textBtnResult}>
+								<Text style={styles.textResult}>
 									CreationDate: "13-12-2022"
 								</Text>
-								<Text style={styles.textBtnResult}>
+								<Text style={styles.textResult}>
 									Author: "Mulot Influenceur"
 								</Text>
 							</View>
@@ -203,9 +197,7 @@ export default function ResearchScreen({ navigation }: any) {
 									size={40}
 									color={"#ffd700"}
 								/>
-								<Text style={styles.textBtndifficulty}>
-									Moyen
-								</Text>
+								<Text style={styles.textDifficulty}>Moyen</Text>
 							</View>
 						</View>
 					</TouchableOpacity>
@@ -214,19 +206,19 @@ export default function ResearchScreen({ navigation }: any) {
 					>
 						<View style={styles.tuto}>
 							<View style={styles.tutoText}>
-								<Text style={styles.textBtnResult}>
+								<Text style={styles.textResult}>
 									Title: "Envoyer une photo dans WhatsApp"
 								</Text>
-								<Text style={styles.textBtnResult}>
+								<Text style={styles.textResult}>
 									Device: "Smartphone"
 								</Text>
-								<Text style={styles.textBtnResult}>
+								<Text style={styles.textResult}>
 									Category: "Communication"
 								</Text>
-								<Text style={styles.textBtnResult}>
+								<Text style={styles.textResult}>
 									CreationDate: "13-12-2022"
 								</Text>
-								<Text style={styles.textBtnResult}>
+								<Text style={styles.textResult}>
 									Author: "Mulot Influenceur"
 								</Text>
 							</View>
@@ -236,9 +228,7 @@ export default function ResearchScreen({ navigation }: any) {
 									size={40}
 									color={"#ffd700"}
 								/>
-								<Text style={styles.textBtndifficulty}>
-									Moyen
-								</Text>
+								<Text style={styles.textDifficulty}>Moyen</Text>
 							</View>
 						</View>
 					</TouchableOpacity>
@@ -247,19 +237,19 @@ export default function ResearchScreen({ navigation }: any) {
 					>
 						<View style={styles.tuto}>
 							<View style={styles.tutoText}>
-								<Text style={styles.textBtnResult}>
+								<Text style={styles.textResult}>
 									Title: "Envoyer une photo dans WhatsApp"
 								</Text>
-								<Text style={styles.textBtnResult}>
+								<Text style={styles.textResult}>
 									Device: "Smartphone"
 								</Text>
-								<Text style={styles.textBtnResult}>
+								<Text style={styles.textResult}>
 									Category: "Communication"
 								</Text>
-								<Text style={styles.textBtnResult}>
+								<Text style={styles.textResult}>
 									CreationDate: "13-12-2022"
 								</Text>
-								<Text style={styles.textBtnResult}>
+								<Text style={styles.textResult}>
 									Author: "Mulot Influenceur"
 								</Text>
 							</View>
@@ -269,7 +259,7 @@ export default function ResearchScreen({ navigation }: any) {
 									size={40}
 									color={"#ff4500"}
 								/>
-								<Text style={styles.textBtndifficulty}>
+								<Text style={styles.textDifficulty}>
 									Expert
 								</Text>
 							</View>
@@ -278,15 +268,12 @@ export default function ResearchScreen({ navigation }: any) {
 				</ScrollView>
 			</View>
 			<View style={styles.btnBottom}>
-				{/* <View style={styles.dico}> */}
 				<TouchableOpacity
 					style={styles.btnDico}
 					onPress={() => navigation.navigate("Dico")}
 				>
 					<Text style={styles.textBtnDico}>Dictionnaire</Text>
 				</TouchableOpacity>
-				{/* </View> */}
-				{/* <View style={styles.helprequest}> */}
 				<TouchableOpacity
 					style={styles.btnHelrequest}
 					// onPress={() => navigation.navigate("HelpRequest")}
@@ -295,10 +282,8 @@ export default function ResearchScreen({ navigation }: any) {
 						Demander de l'aide
 					</Text>
 				</TouchableOpacity>
-				{/* </View> */}
 			</View>
 		</View>
-		// </KeyboardAvoidingView>
 	);
 }
 
@@ -483,7 +468,7 @@ const styles = StyleSheet.create({
 		width: "70%",
 	},
 
-	textBtnResult: {
+	textResult: {
 		fontWeight: "bold",
 		fontSize: 15,
 		color: "#ffffff",
@@ -502,7 +487,7 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 	},
 
-	textBtndifficulty: {
+	textDifficulty: {
 		fontSize: 22,
 		textShadowColor: "#808080",
 		textShadowOffset: { width: 0, height: 2 },

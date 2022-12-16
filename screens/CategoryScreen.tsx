@@ -1,5 +1,12 @@
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import {
+	faEllipsis,
+	faWindowRestore,
+	faGear,
+	faGlobe,
+} from "@fortawesome/free-solid-svg-icons";
 
 export default function CategoryScreen({ navigation }: any) {
 	return (
@@ -25,44 +32,56 @@ export default function CategoryScreen({ navigation }: any) {
 			</View>
 			<View style={styles.iconContainer}>
 				<TouchableOpacity
-					style={styles.btnIcon}
+					style={styles.iconContent}
 					onPress={() => navigation.navigate("Research")}
 				>
 					<Text style={styles.textIcon}>Système</Text>
-					<Image
-						style={styles.icon}
-						source={require("../assets/mulot_professeur.jpg")}
-					/>
+					<View style={styles.icon}>
+						<FontAwesomeIcon
+							icon={faGear}
+							style={styles.iconColor}
+							size={130}
+						/>
+					</View>
 				</TouchableOpacity>
 				<TouchableOpacity
-					style={styles.btnIcon}
+					style={styles.iconContent}
 					onPress={() => navigation.navigate("Research")}
 				>
 					<Text style={styles.textIcon}>Internet</Text>
-					<Image
-						style={styles.icon}
-						source={require("../assets/mulot_professeur.jpg")}
-					/>
+					<View style={styles.icon}>
+						<FontAwesomeIcon
+							icon={faGlobe}
+							style={styles.iconColor}
+							size={130}
+						/>
+					</View>
 				</TouchableOpacity>
 				<TouchableOpacity
-					style={styles.btnIcon}
+					style={styles.iconContent}
 					onPress={() => navigation.navigate("Research")}
 				>
 					<Text style={styles.textIcon}>Logiciel</Text>
-					<Image
-						style={styles.icon}
-						source={require("../assets/mulot_professeur.jpg")}
-					/>
+					<View style={styles.icon}>
+						<FontAwesomeIcon
+							icon={faWindowRestore}
+							style={styles.iconColor}
+							size={130}
+						/>
+					</View>
 				</TouchableOpacity>
 				<TouchableOpacity
-					style={styles.btnIcon}
+					style={styles.iconContent}
 					onPress={() => navigation.navigate("Research")}
 				>
 					<Text style={styles.textIcon}>Autres</Text>
-					<Image
-						style={styles.icon}
-						source={require("../assets/mulot_professeur.jpg")}
-					/>
+					<View style={styles.icon}>
+						<FontAwesomeIcon
+							icon={faEllipsis}
+							style={styles.iconColor}
+							size={130}
+						/>
+					</View>
 				</TouchableOpacity>
 			</View>
 		</View>
@@ -164,19 +183,21 @@ const styles = StyleSheet.create({
 		width: "100%",
 	},
 
-	btnIcon: {
+	iconContent: {
 		marginTop: 20,
 		marginBottom: 40,
 		marginRight: 10,
 		marginLeft: 10,
-		borderColor: "#a9a9a9",
-		borderBottomWidth: 5,
-		borderLeftWidth: 3,
-		borderRightWidth: 3,
-		borderRadius: 5,
+		flexDirection: "column",
+		justifyContent: "flex-start",
 		alignItems: "center",
-		justifyContent: "center",
-		backgroundColor: "#5db194",
+		width: "42%",
+		borderColor: "#a9a9a9",
+		borderBottomWidth: 6,
+		borderLeftWidth: 4,
+		borderRightWidth: 4,
+		borderRadius: 5,
+		backgroundColor: "#778ed4",
 		shadowColor: "#000000",
 		shadowOffset: {
 			width: -10,
@@ -196,95 +217,18 @@ const styles = StyleSheet.create({
 		textShadowRadius: 5,
 	},
 
-	icon: {
-		width: 170,
-		height: 170,
+	iconColor: {
+		color: "#778ed4",
 	},
 
-	// btnInternet: {
-	// 	margin: 10,
-	// 	borderColor: "#a9a9a9",
-	// 	borderBottomWidth: 4,
-	// 	borderLeftWidth: 2,
-	// 	borderRightWidth: 2,
-	// 	borderRadius: 5,
-	// 	alignItems: "center",
-	// 	justifyContent: "center",
-	// 	backgroundColor: "#5db194",
-	// 	shadowColor: "#000000",
-	// 	shadowOffset: {
-	// 		width: -10,
-	// 		height: 12,
-	// 	},
-	// 	shadowOpacity: 0.58,
-	// 	shadowRadius: 16.0,
-
-	// 	elevation: 25,
-	// },
-
-	// textBtnInternet: {
-	// 	fontSize: 22,
-	// 	color: "#ffffff",
-	// 	textShadowColor: "#000000",
-	// 	textShadowOffset: { width: 0, height: 2 },
-	// 	textShadowRadius: 5,
-	// },
-
-	// btnLogiciel: {
-	// 	marginBottom: 10,
-	// 	borderColor: "#a9a9a9",
-	// 	borderBottomWidth: 4,
-	// 	borderLeftWidth: 2,
-	// 	borderRightWidth: 2,
-	// 	borderRadius: 5,
-	// 	alignItems: "center",
-	// 	justifyContent: "center",
-	// 	backgroundColor: "#5db194",
-	// 	shadowColor: "#000000",
-	// 	shadowOffset: {
-	// 		width: -10,
-	// 		height: 12,
-	// 	},
-	// 	shadowOpacity: 0.58,
-	// 	shadowRadius: 16.0,
-
-	// 	elevation: 25,
-	// },
-
-	// textBtnLogiciel: {
-	// 	fontSize: 22,
-	// 	color: "#ffffff",
-	// 	textShadowColor: "#000000",
-	// 	textShadowOffset: { width: 0, height: 2 },
-	// 	textShadowRadius: 5,
-	// },
-
-	// btnAutres: {
-	// 	margin: 10,
-	// 	borderColor: "#a9a9a9",
-	// 	borderBottomWidth: 4,
-	// 	borderLeftWidth: 2,
-	// 	borderRightWidth: 2,
-	// 	borderRadius: 5,
-	// 	alignItems: "center",
-	// 	justifyContent: "center",
-	// 	backgroundColor: "#5db194",
-	// 	shadowColor: "#000000",
-	// 	shadowOffset: {
-	// 		width: -10,
-	// 		height: 12,
-	// 	},
-	// 	shadowOpacity: 0.58,
-	// 	shadowRadius: 16.0,
-
-	// 	elevation: 25,
-	// },
-
-	// textBtnAutres: {
-	// 	fontSize: 22,
-	// 	color: "#ffffff",
-	// 	textShadowColor: "#000000",
-	// 	textShadowOffset: { width: 0, height: 2 },
-	// 	textShadowRadius: 5,
-	// },
+	icon: {
+		justifyContent: "center",
+		alignItems: "center",
+		backgroundColor: "#fff",
+		width: "100%",
+		height: 145,
+		borderTopWidth: 1,
+		borderColor: "#a9a9a9",
+		color: "#778ed4",
+	},
 });

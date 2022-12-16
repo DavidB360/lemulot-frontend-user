@@ -26,12 +26,12 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 			></TouchableOpacity> */
 }
 
-import HomeScreen from "./screens/HomeScreen";
 import IntroScreen from "./screens/IntroScreen";
-import ResearchScreen from "./screens/ResearchScreen";
-import TutoScreen from "./screens/TutoScreen";
+import HomeScreen from "./screens/HomeScreen";
 import DeviceScreen from "./screens/DeviceScreen";
 import CategoryScreen from "./screens/CategoryScreen";
+import ResearchScreen from "./screens/ResearchScreen";
+import TutoScreen from "./screens/TutoScreen";
 import DicoScreen from "./screens/DicoScreen";
 import ConnectionScreen from "./screens/ConnectionScreen";
 import SignInScreen from "./screens/SignInScreen";
