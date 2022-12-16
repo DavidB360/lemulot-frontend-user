@@ -8,6 +8,7 @@ import {
 	TouchableOpacity,
 	View,
 } from "react-native"
+import FontAwesome from "react-native-vector-icons/FontAwesome"
 import { useDispatch } from "react-redux"
 import { login, UserState } from "../reducers/user"
 
@@ -24,7 +25,7 @@ export default function SignIn({ navigation }: any) {
 	const handleConnection = () => {
 		if (EMAIL_REGEX.test(email)) {
 			// fetch("http://192.168.1.48:3000/users/signin", {
-			fetch(process.env.BACKEND_URL+"users/signin", {
+			fetch(process.env.BACKEND_URL + "users/signin", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({ email: email, password: password }),
@@ -56,13 +57,25 @@ export default function SignIn({ navigation }: any) {
 			style={styles.container}
 			behavior={Platform.OS === "ios" ? "padding" : "height"}
 		>
-			<TouchableOpacity
-				//onPress={() => handleSubmit()}
-				style={styles.btnHelp}
-				activeOpacity={0.8}
-			>
-				<Text>?</Text>
-			</TouchableOpacity>
+			<View style={styles.btnTop}>
+				<TouchableOpacity
+					style={styles.btnRetour}
+					onPress={() => navigation.navigate("Home")}
+				>
+					<FontAwesome
+						name="long-arrow-left"
+						size={50}
+						style={styles.iconArrow}
+					/>
+					<Text style={styles.textBtnRetour}>Retour</Text>
+				</TouchableOpacity>
+				<TouchableOpacity
+					style={styles.btnAide}
+					// onPress={() => navigation.navigate("Type")}
+				>
+					<Text style={styles.textBtnAide}>?</Text>
+				</TouchableOpacity>
+			</View>
 			<Text style={styles.title}>Connexion</Text>
 
 			<View style={styles.inputContainer}>
@@ -86,33 +99,36 @@ export default function SignIn({ navigation }: any) {
 				{emailError && (
 					<Text style={styles.error}>Email ou mot de passe incorrect.</Text>
 				)}
-				<TouchableOpacity
-					//onPress={() => handleSubmit()}
-					style={styles.button}
-					activeOpacity={0.8}
-				>
-					<Text style={styles.textButton}>Mot de passe oublie</Text>
-				</TouchableOpacity>
-				<TouchableOpacity
-					onPress={() => handleConnection()}
-					style={styles.button}
-					activeOpacity={0.8}
-				>
-					<Text style={styles.textButton}>Se connecter</Text>
-				</TouchableOpacity>
+				<View style={styles.btnBottom}>
+					<TouchableOpacity
+						style={styles.btnPassword}
+						onPress={() => navigation.navigate("Dico")}
+					>
+						<Text style={styles.textBtnPassword}>Mot de passe oublie</Text>
+					</TouchableOpacity>
+					<TouchableOpacity
+						style={styles.btnConnection}
+						// onPress={() => navigation.navigate("HelpRequest")}
+					>
+						<Text style={styles.textBtnConnection}>Connexion</Text>
+					</TouchableOpacity>
+				</View>
 			</View>
 		</KeyboardAvoidingView>
 	)
 }
 
 const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		flexDirection: "column",
+		alignItems: "center",
+		justifyContent: "flex-start",
+		backgroundColor: "#ffffff",
+	},
 	background: {
 		width: "100%",
 		height: "100%",
-	},
-	container: {
-		flex: 1,
-		backgroundColor: "white",
 	},
 	title: {
 		fontSize: 40,
@@ -131,48 +147,172 @@ const styles = StyleSheet.create({
 		borderWidth: 1,
 		fontSize: 16,
 	},
-	button: {
-		alignItems: "center",
-		justifyContent: "center",
-		backgroundColor: "#5db194",
-		borderBottomWidth: 8,
-		borderLeftWidth: 3,
-		borderRightWidth: 3,
-		borderRadius: 10,
-		borderStyle: "solid",
-		borderColor: "#a9a9a9",
-		width: 300,
-		height: 60,
-		marginTop: 50,
-	},
-	textButton: {
-		height: 30,
-		fontSize: 22,
-		color: "#fff",
-	},
 	error: {
 		color: "red",
 	},
-	btnHelp: {
+	btnTop: {
+		flexDirection: "row",
+		justifyContent: "space-between",
+		alignItems: "center",
+		width: "100%",
+		marginBottom: 30,
+		marginTop: 50,
+	},
+	btnAide: {
+		marginRight: 20,
+		backgroundColor: "#fffb00",
+		width: 80,
+		height: 80,
 		alignItems: "center",
 		justifyContent: "center",
-		backgroundColor: "#fffb00",
+		borderRadius: 40,
+		borderColor: "#808080",
 		borderBottomWidth: 4,
 		borderLeftWidth: 2,
 		borderRightWidth: 2,
-		borderRadius: 30,
-		borderStyle: "solid",
-		borderColor: "#a9a9a9",
-		width: 55,
-		height: 55,
-		color: "#fff",
-		fontSize: 22,
 		shadowOffset: {
 			width: -10,
 			height: 12,
 		},
 		shadowOpacity: 0.58,
 		shadowRadius: 16.0,
+
 		elevation: 25,
+	},
+
+	textBtnAide: {
+		color: "#000000",
+		fontSize: 50,
+		opacity: 0.6,
+	},
+
+	btnRetour: {
+		flexDirection: "column",
+		alignItems: "center",
+		justifyContent: "center",
+		marginLeft: 20,
+		backgroundColor: "#5db194",
+		width: 80,
+		height: 80,
+		borderRadius: 40,
+		borderColor: "#808080",
+		borderBottomWidth: 4,
+		borderLeftWidth: 2,
+		borderRightWidth: 2,
+		shadowOffset: {
+			width: -10,
+			height: 12,
+		},
+		shadowOpacity: 0.58,
+		shadowRadius: 16.0,
+
+		elevation: 25,
+	},
+	textBtnRetour: {
+		paddingBottom: 5,
+		color: "#ffffff",
+		fontSize: 15,
+		textShadowColor: "#000000",
+		textShadowOffset: { width: 0, height: 2 },
+		textShadowRadius: 5,
+	},
+	btnBottom: {
+		flexDirection: "column",
+		justifyContent: "center",
+		alignItems: "center",
+		width: "100%",
+	},
+
+	iconContent: {
+		marginTop: 20,
+		marginBottom: 40,
+		marginRight: 10,
+		marginLeft: 10,
+		flexDirection: "column",
+		justifyContent: "flex-start",
+		alignItems: "center",
+		width: "42%",
+		borderColor: "#a9a9a9",
+		borderBottomWidth: 6,
+		borderLeftWidth: 4,
+		borderRightWidth: 4,
+		borderRadius: 5,
+		backgroundColor: "#778ed4",
+		shadowColor: "#000000",
+		shadowOffset: {
+			width: -10,
+			height: 12,
+		},
+		shadowOpacity: 0.58,
+		shadowRadius: 16.0,
+
+		elevation: 25,
+	},
+	iconArrow: {
+		paddingRight: 5,
+		marginBottom: -15,
+		color: "#ffffff",
+		textShadowColor: "#000000",
+		textShadowOffset: { width: 0, height: 2 },
+		textShadowRadius: 5,
+	},
+
+	btnPassword: {
+		marginTop: 20,
+		marginBottom: 10,
+		backgroundColor: "#778ed4",
+		width: "90%",
+		height: 60,
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "center",
+		borderRadius: 10,
+		borderColor: "#808080",
+		borderBottomWidth: 4,
+		borderLeftWidth: 2,
+		borderRightWidth: 2,
+		shadowOffset: {
+			width: -10,
+			height: 12,
+		},
+		shadowOpacity: 0.58,
+		shadowRadius: 16.0,
+
+		elevation: 25,
+	},
+
+	textBtnPassword: {
+		fontSize: 22,
+		color: "#ffffff",
+		textShadowColor: "#000000",
+		textShadowOffset: { width: 0, height: 2 },
+		textShadowRadius: 5,
+	},
+	btnConnection: {
+		marginTop: 10,
+		backgroundColor: "#fffb00",
+		width: "90%",
+		height: 60,
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "center",
+		borderRadius: 10,
+		borderColor: "#808080",
+		borderBottomWidth: 4,
+		borderLeftWidth: 2,
+		borderRightWidth: 2,
+		shadowOffset: {
+			width: -10,
+			height: 12,
+		},
+		shadowOpacity: 0.58,
+		shadowRadius: 16.0,
+
+		elevation: 25,
+	},
+
+	textBtnConnection: {
+		fontSize: 22,
+		color: "#000000",
 	},
 })
