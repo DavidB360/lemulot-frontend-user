@@ -1,15 +1,9 @@
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import { useDispatch } from 'react-redux';
-import { updateDevice } from '../reducers/device';
-
-// import { faAddressBook } from '@fortawesome/free-solid-svg-icons';
-// import { fas } from '@fortawesome/free-solid-svg-icons';
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faCoffee } from "@fortawesome/free-solid-svg-icons";
-{
-	/* <FontAwesomeIcon icon={faCoffee} /> */
-}
+import { useDispatch } from "react-redux";
+import { updateDevice } from "../reducers/device";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faComputer } from "@fortawesome/free-solid-svg-icons";
 
 export default function DeviceScreen({ navigation }: any) {
 	const dispatch = useDispatch();
@@ -37,36 +31,51 @@ export default function DeviceScreen({ navigation }: any) {
 			<View style={styles.iconContainer}>
 				<TouchableOpacity
 					style={styles.iconContent}
-					onPress={() => {dispatch(updateDevice('computer')); navigation.navigate("Category");}}
+					onPress={() => {
+						dispatch(updateDevice("computer"));
+						navigation.navigate("Category");
+					}}
 				>
 					<Text style={styles.textIcon}>Ordinateur</Text>
-					<FontAwesome
-						style={styles.iconComputer}
-						name="desktop"
-						size={100}
-					/>
+					<View style={styles.icon}>
+						<FontAwesomeIcon
+							icon={faComputer}
+							style={styles.iconColor}
+							size={130}
+						/>
+					</View>
 				</TouchableOpacity>
 				<TouchableOpacity
 					style={styles.iconContent}
-					onPress={() => {dispatch(updateDevice('mobile')); navigation.navigate("Category");}}
+					onPress={() => {
+						dispatch(updateDevice("mobile"));
+						navigation.navigate("Category");
+					}}
 				>
 					<Text style={styles.textIcon}>Mobile</Text>
-					<FontAwesome
-						style={styles.iconMobile}
-						name="mobile"
-						size={100}
-					/>
+					<View style={styles.icon}>
+						<FontAwesome
+							style={styles.iconColor}
+							name="mobile"
+							size={100}
+						/>
+					</View>
 				</TouchableOpacity>
 				<TouchableOpacity
 					style={styles.iconContent}
-					onPress={() => {dispatch(updateDevice('tablet')); navigation.navigate("Category");}}
+					onPress={() => {
+						dispatch(updateDevice("tablet"));
+						navigation.navigate("Category");
+					}}
 				>
 					<Text style={styles.textIcon}>Tablette</Text>
-					<FontAwesome
-						style={styles.iconTablet}
-						name="tablet"
-						size={100}
-					/>
+					<View style={styles.icon}>
+						<FontAwesome
+							style={styles.iconColor}
+							name="tablet"
+							size={100}
+						/>
+					</View>
 				</TouchableOpacity>
 			</View>
 		</View>
@@ -201,36 +210,18 @@ const styles = StyleSheet.create({
 		textShadowRadius: 5,
 	},
 
-	iconComputer: {
-		color: "#5db194",
-		backgroundColor: "#fff",
-		borderWidth: 1,
-		borderColor: "#000",
-		width: 120,
-		height: 120,
-		paddingLeft: 6,
-		paddingTop: 15,
+	iconColor: {
+		color: "#778ed4",
 	},
 
-	iconMobile: {
-		color: "#5db194",
+	icon: {
+		justifyContent: "center",
+		alignItems: "center",
 		backgroundColor: "#fff",
-		borderWidth: 1,
-		borderColor: "#000",
-		width: 120,
-		height: 120,
-		paddingLeft: 38,
-		paddingTop: 10,
-	},
-
-	iconTablet: {
-		color: "#5db194",
-		backgroundColor: "#fff",
-		borderWidth: 1,
-		borderColor: "#000",
-		width: 120,
-		height: 120,
-		paddingLeft: 28,
-		paddingTop: 12,
+		width: "100%",
+		height: 145,
+		borderTopWidth: 1,
+		borderColor: "#a9a9a9",
+		color: "#778ed4",
 	},
 });
