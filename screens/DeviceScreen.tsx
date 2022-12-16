@@ -1,5 +1,7 @@
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { useDispatch } from 'react-redux';
+import { updateDevice } from '../reducers/device';
 
 // import { faAddressBook } from '@fortawesome/free-solid-svg-icons';
 // import { fas } from '@fortawesome/free-solid-svg-icons';
@@ -10,6 +12,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 }
 
 export default function DeviceScreen({ navigation }: any) {
+	const dispatch = useDispatch();
 	return (
 		<View style={styles.container}>
 			<View style={styles.btnTop}>
@@ -34,7 +37,7 @@ export default function DeviceScreen({ navigation }: any) {
 			<View style={styles.iconContainer}>
 				<TouchableOpacity
 					style={styles.iconContent}
-					onPress={() => navigation.navigate("Category")}
+					onPress={() => {dispatch(updateDevice('computer')); navigation.navigate("Category");}}
 				>
 					<Text style={styles.textIcon}>Ordinateur</Text>
 					<FontAwesome
@@ -45,7 +48,7 @@ export default function DeviceScreen({ navigation }: any) {
 				</TouchableOpacity>
 				<TouchableOpacity
 					style={styles.iconContent}
-					onPress={() => navigation.navigate("Category")}
+					onPress={() => {dispatch(updateDevice('mobile')); navigation.navigate("Category");}}
 				>
 					<Text style={styles.textIcon}>Mobile</Text>
 					<FontAwesome
@@ -56,7 +59,7 @@ export default function DeviceScreen({ navigation }: any) {
 				</TouchableOpacity>
 				<TouchableOpacity
 					style={styles.iconContent}
-					onPress={() => navigation.navigate("Category")}
+					onPress={() => {dispatch(updateDevice('tablet')); navigation.navigate("Category");}}
 				>
 					<Text style={styles.textIcon}>Tablette</Text>
 					<FontAwesome

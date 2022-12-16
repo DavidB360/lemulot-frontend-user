@@ -37,14 +37,16 @@ import ConnectionScreen from "./screens/ConnectionScreen";
 import SignInScreen from "./screens/SignInScreen";
 import SignUpScreen from "./screens/SignUpScreen";
 
-import { Provider } from "react-redux"
-import { combineReducers, configureStore } from "@reduxjs/toolkit"
-import { persistStore, persistReducer } from "redux-persist"
-import { PersistGate } from "redux-persist/integration/react"
-import AsyncStorage from "@react-native-async-storage/async-storage"
-import user from "./reducers/user"
+import { Provider } from "react-redux";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { persistStore, persistReducer } from "redux-persist";
+import { PersistGate } from "redux-persist/integration/react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import user from "./reducers/user";
+import device from "./reducers/device";
+import category from "./reducers/category";
 
-const reducers = combineReducers({ user })
+const reducers = combineReducers({ user, device, category })
 const persistConfig = { key: "lemulot", storage: AsyncStorage }
 
 const store = configureStore({

@@ -1,13 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export type DeviceState = {
-	value: {
-		device: string | null;
-	};
+	value: string | null;
 };
 
 const initialState: DeviceState = {
-	value: { device: null },
+	value: null,
 };
 
 export const deviceSlice = createSlice({
@@ -15,7 +13,7 @@ export const deviceSlice = createSlice({
 	initialState,
 	reducers: {
 		updateDevice: (state, action: PayloadAction<string>) => {
-			state.value.device = action.payload;
+			state.value = action.payload;
 		},
 	},
 });

@@ -9,11 +9,15 @@ import {
 	Platform,
 } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-
+import { useSelector } from 'react-redux';
+import { DeviceState } from '../reducers/device';
+import { CategoryState } from '../reducers/category';
 import React, { useState } from "react";
 
 export default function ResearchScreen({ navigation }: any) {
 	// const [tutorial, setTutorial] = useState("");
+	const device = useSelector((state: { device: DeviceState }) => state.device.value);
+	const category = useSelector((state: { category: CategoryState }) => state.category.value);
 
 	// un tableau de tutos à charger pour mon Daminou :
 	const tutorials = [

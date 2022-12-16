@@ -5,12 +5,12 @@ export type UserState = {
 		token: string | null
 		firstName: string | null
 		lastName: string | null
-		favoriteLessons: string | null
+		favoriteLessons: string[]
 	}
 }
 
 const initialState: UserState = {
-	value: { token: null, firstName: null, lastName: null, favoriteLessons: null },
+	value: { token: null, firstName: null, lastName: null, favoriteLessons: [] },
 }
 
 export const userSlice = createSlice({

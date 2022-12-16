@@ -1,7 +1,10 @@
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { useDispatch } from 'react-redux';
+import { updateCategory } from '../reducers/category';
 
 export default function CategoryScreen({ navigation }: any) {
+	const dispatch = useDispatch();
 	return (
 		<View style={styles.container}>
 			<View style={styles.btnTop}>
@@ -26,7 +29,7 @@ export default function CategoryScreen({ navigation }: any) {
 			<View style={styles.iconContainer}>
 				<TouchableOpacity
 					style={styles.btnIcon}
-					onPress={() => navigation.navigate("Research")}
+					onPress={() => {dispatch(updateCategory('system')); navigation.navigate("Research");}}
 				>
 					<Text style={styles.textIcon}>Système</Text>
 					<Image
@@ -36,7 +39,7 @@ export default function CategoryScreen({ navigation }: any) {
 				</TouchableOpacity>
 				<TouchableOpacity
 					style={styles.btnIcon}
-					onPress={() => navigation.navigate("Research")}
+					onPress={() => {dispatch(updateCategory('internet')); navigation.navigate("Research");}}
 				>
 					<Text style={styles.textIcon}>Internet</Text>
 					<Image
@@ -46,7 +49,7 @@ export default function CategoryScreen({ navigation }: any) {
 				</TouchableOpacity>
 				<TouchableOpacity
 					style={styles.btnIcon}
-					onPress={() => navigation.navigate("Research")}
+					onPress={() => {dispatch(updateCategory('software')); navigation.navigate("Research");}}
 				>
 					<Text style={styles.textIcon}>Logiciel</Text>
 					<Image
@@ -56,7 +59,7 @@ export default function CategoryScreen({ navigation }: any) {
 				</TouchableOpacity>
 				<TouchableOpacity
 					style={styles.btnIcon}
-					onPress={() => navigation.navigate("Research")}
+					onPress={() => {dispatch(updateCategory(null)); navigation.navigate("Research");}}
 				>
 					<Text style={styles.textIcon}>Autres</Text>
 					<Image
