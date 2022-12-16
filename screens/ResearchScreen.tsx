@@ -541,10 +541,6 @@ const styles = StyleSheet.create({
 		textShadowRadius: 5,
 	},
 
-	// helprequest: {
-	// 	paddingTop: 10,
-	// },
-
 	btnHelrequest: {
 		marginTop: 10,
 		backgroundColor: "#fffb00",
