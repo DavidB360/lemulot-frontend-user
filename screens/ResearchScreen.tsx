@@ -7,15 +7,19 @@ import {
 	ScrollView,
 } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import { useSelector } from 'react-redux';
-import { DeviceState } from '../reducers/device';
-import { CategoryState } from '../reducers/category';
+import { useSelector } from "react-redux";
+import { DeviceState } from "../reducers/device";
+import { CategoryState } from "../reducers/category";
 import React, { useState } from "react";
 
 export default function ResearchScreen({ navigation }: any) {
 	// const [tutorial, setTutorial] = useState("");
-	const device = useSelector((state: { device: DeviceState }) => state.device.value);
-	const category = useSelector((state: { category: CategoryState }) => state.category.value);
+	const device = useSelector(
+		(state: { device: DeviceState }) => state.device.value
+	);
+	const category = useSelector(
+		(state: { category: CategoryState }) => state.category.value
+	);
 
 	// un tableau de tutos à charger pour mon Daminou :
 	const tutorials = [
@@ -97,7 +101,7 @@ export default function ResearchScreen({ navigation }: any) {
 				/>
 				<TouchableOpacity
 					style={styles.btnResearch}
-					onPress={() => navigation.navigate("Research")}
+					onPress={() => navigation.navigate("Tuto")}
 				>
 					<FontAwesome
 						name="search"
@@ -109,7 +113,7 @@ export default function ResearchScreen({ navigation }: any) {
 			<View style={styles.resultResearch}>
 				<ScrollView>
 					<TouchableOpacity
-						onPress={() => navigation.navigate("Research")}
+						onPress={() => navigation.navigate("Tuto")}
 					>
 						<View style={styles.tuto}>
 							<View style={styles.tutoText}>
@@ -142,7 +146,7 @@ export default function ResearchScreen({ navigation }: any) {
 						</View>
 					</TouchableOpacity>
 					<TouchableOpacity
-						onPress={() => navigation.navigate("Research")}
+						onPress={() => navigation.navigate("Tuto")}
 					>
 						<View style={styles.tuto}>
 							<View style={styles.tutoText}>
@@ -175,7 +179,7 @@ export default function ResearchScreen({ navigation }: any) {
 						</View>
 					</TouchableOpacity>
 					<TouchableOpacity
-						onPress={() => navigation.navigate("Research")}
+						onPress={() => navigation.navigate("Tuto")}
 					>
 						<View style={styles.tuto}>
 							<View style={styles.tutoText}>
@@ -206,7 +210,7 @@ export default function ResearchScreen({ navigation }: any) {
 						</View>
 					</TouchableOpacity>
 					<TouchableOpacity
-						onPress={() => navigation.navigate("Research")}
+						onPress={() => navigation.navigate("Tuto")}
 					>
 						<View style={styles.tuto}>
 							<View style={styles.tutoText}>
@@ -237,7 +241,7 @@ export default function ResearchScreen({ navigation }: any) {
 						</View>
 					</TouchableOpacity>
 					<TouchableOpacity
-						onPress={() => navigation.navigate("Research")}
+						onPress={() => navigation.navigate("Tuto")}
 					>
 						<View style={styles.tuto}>
 							<View style={styles.tutoText}>

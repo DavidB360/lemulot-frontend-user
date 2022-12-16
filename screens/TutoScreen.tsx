@@ -14,7 +14,7 @@ export default function LeconScreen({ navigation }: any) {
 			<View style={styles.btnTop}>
 				<TouchableOpacity
 					style={styles.btnRetour}
-					onPress={() => navigation.navigate("Category")}
+					onPress={() => navigation.navigate("Research")}
 				>
 					<FontAwesome
 						name="long-arrow-left"
@@ -29,6 +29,15 @@ export default function LeconScreen({ navigation }: any) {
 				>
 					<Text style={styles.textBtnAide}>?</Text>
 				</TouchableOpacity>
+			</View>
+			<View style={styles.tuto}>
+				<View style={styles.titleTuto}>
+					<Text style={styles.textTitle}>Créer une adresse Mail</Text>
+					<TouchableOpacity
+						style={styles.btnFavorite}
+						// onPress={() => }
+					></TouchableOpacity>
+				</View>
 			</View>
 		</View>
 	);
