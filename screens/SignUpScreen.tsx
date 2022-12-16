@@ -28,7 +28,8 @@ export default function SignUp({ navigation }: any) {
 
 	const handleSignUp = () => {
 		if (EMAIL_REGEX.test(email)) {
-			fetch("http://192.168.1.48:3000/users/signup", {
+			// fetch("http://192.168.1.48:3000/users/signup", {
+			fetch(process.env.BACKEND_URL+"users/signup", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({
