@@ -23,8 +23,8 @@ export default function SignIn({ navigation }: any) {
 
 	const handleConnection = () => {
 		if (EMAIL_REGEX.test(email)) {
-			// fetch("http://192.168.1.48:3000/users/signin", {
-			fetch(process.env.BACKEND_URL+"users/signin", {
+			// fetch("http://10.33.210.227:3000/users/signin", {
+			fetch("https://lemulot-backend.vercel.app/users/signin", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({ email: email, password: password }),
