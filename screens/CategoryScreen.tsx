@@ -26,6 +26,9 @@ export default function CategoryScreen({ navigation }: any) {
 					/>
 					<Text style={styles.textBtnRetour}>Retour</Text>
 				</TouchableOpacity>
+
+				<Text style={styles.title}>Catégorie</Text>
+
 				<TouchableOpacity
 					style={styles.btnAide}
 					// onPress={() => navigation.navigate("Type")}
@@ -89,7 +92,7 @@ export default function CategoryScreen({ navigation }: any) {
 						navigation.navigate("Research");
 					}}
 				>
-					<Text style={styles.textIcon}>Autres</Text>
+					<Text style={styles.textIcon}>Toutes</Text>
 					<View style={styles.icon}>
 						<FontAwesomeIcon
 							icon={faEllipsis}
@@ -119,6 +122,14 @@ const styles = StyleSheet.create({
 		width: "100%",
 		marginBottom: 30,
 		marginTop: 50,
+	},
+
+	title: {
+		fontSize: 25,
+		color: "#191970",
+		textShadowColor: "#696969",
+		textShadowOffset: { width: 0, height: 3 },
+		textShadowRadius: 5,
 	},
 
 	btnAide: {
