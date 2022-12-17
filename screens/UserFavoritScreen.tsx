@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faBell, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
 export default function UserFavoritScreen({ navigation }: any) {
 	return (
