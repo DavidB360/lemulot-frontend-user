@@ -21,6 +21,9 @@ export default function DeviceScreen({ navigation }: any) {
 					/>
 					<Text style={styles.textBtnRetour}>Retour</Text>
 				</TouchableOpacity>
+
+				<Text style={styles.title}>Equipement</Text>
+
 				<TouchableOpacity
 					style={styles.btnAide}
 					// onPress={() => navigation.navigate("Type")}
@@ -98,6 +101,14 @@ const styles = StyleSheet.create({
 		width: "100%",
 		marginBottom: 30,
 		marginTop: 50,
+	},
+
+	title: {
+		fontSize: 25,
+		color: "#191970",
+		textShadowColor: "#696969",
+		textShadowOffset: { width: 0, height: 3 },
+		textShadowRadius: 5,
 	},
 
 	btnAide: {

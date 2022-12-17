@@ -7,13 +7,20 @@ import {
 	ScrollView,
 } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { DeviceState } from "../reducers/device";
 import { CategoryState } from "../reducers/category";
-import React, { useState } from "react";
+import { updateTuto } from "../reducers/tuto";
+import React, { useState, useEffect } from "react";
 
 export default function ResearchScreen({ navigation }: any) {
-	// const [tutorial, setTutorial] = useState("");
+	const dispatch = useDispatch();
+	
+	// intitiation d'un useState pour l'input de recherche
+	const [tutorialSearch, setTutorialSearch] = useState("");
+
+	// on charge les reducers device et category pour connaître la navigation effectuée par 
+	// l'utilisateur sur les pages de menu précédentes
 	const device = useSelector(
 		(state: { device: DeviceState }) => state.device.value
 	);
@@ -21,49 +28,153 @@ export default function ResearchScreen({ navigation }: any) {
 		(state: { category: CategoryState }) => state.category.value
 	);
 
-	// un tableau de tutos à charger pour mon Daminou :
+	// intitialisation d'un useState qui va stocker les tutoriels à afficher en fonction
+	// des reducers device et category
+	const [selectedTutorials, setSelectedTutorials] = useState<any>([]);
+
+	// tableau de tutoriels pour test
 	const tutorials = [
-		{
+		{	
+			_id: "1",
 			title: "Créer une adresse email",
 			author: "Professeur Mulot",
-			creationDate: "13-12-2022",
-			device: "ordinateur",
-			category: "logiciel",
-			difficulty: "débutant",
+			creationDate: "12-12-2022",
+			device: "computer",
+			category: "internet",
+			difficulty: "easy",
 			content:
 				"<View><Text>Nous allons créer une adresse gmail pas à pas avec toi ...</Text></View>",
 		},
 		{
+			_id: "2",
 			title: "Se connecter à un réseau wifi",
 			author: "Mulot bricolo",
-			creationDate: "13-12-2022",
-			device: "ordinateur",
-			category: "connexion",
-			difficulty: "débutant",
+			creationDate: "14-12-2022",
+			device: "computer",
+			category: "system",
+			difficulty: "easy",
 			content:
 				"<View><Text>Cliquer sur l'icone à droite de votre barre des tâches ...</Text></View>",
 		},
 		{
+			_id: "3",
 			title: "Envoyer une photo dans WhatsApp",
 			author: "Mulot influenceur",
-			creationDate: "13-12-2022",
-			device: "smartphone",
-			category: "communication",
-			difficulty: "débutant",
+			creationDate: "15-12-2022",
+			device: "mobile",
+			category: "software",
+			difficulty: "easy",
 			content:
 				"<View><Text>en bas de votre écran, appuyer sur le bouton en forme d'appareil photo ...</Text></View>",
 		},
 		{
+			_id: "4",
 			title: "Nettoyer son ordinateur avec ccleaner",
 			author: "Mulot hacker",
-			creationDate: "13-12-2022",
-			device: "ordinateur",
-			category: "logiciel",
-			difficulty: "avancé",
+			creationDate: "16-12-2022",
+			device: "computer",
+			category: "system",
+			difficulty: "advanced",
 			content:
 				"<View><Text>Télécharger l'application ccleaner à l'adresse suivante...</Text></View>",
 		},
+		{
+			_id: "5",
+			title: "Repérer les emails frauduleux",
+			author: "Mulot hacker",
+			creationDate: "14-12-2022",
+			device: "computer",
+			category: "internet",
+			difficulty: "intermediate",
+			content:
+				"<View><Text>Télécharger l'application ccleaner à l'adresse suivante...</Text></View>",
+		},
+		{
+			_id: "6",
+			title: "Se connecter à un réseau wifi",
+			author: "Mulot bricolo",
+			creationDate: "16-12-2022",
+			device: "tablet",
+			category: "system",
+			difficulty: "easy",
+			content:
+				"<View><Text>Cliquer sur l'icone à droite de votre barre des tâches ...</Text></View>",
+		},
 	];
+
+	// useEffect qui ne s'applique qu'au chargment de la page pour ne pas lancer le setter de SelectedTutorials à l'infini
+	// la création de ce useEffect et du useState selectedTutorials permettent de traiter le cas où category === null
+	// mais c'est une méthode un peu lourde qui doit pouvoir être optimisée
+	useEffect(() => {
+		if (category !== null) { 
+			setSelectedTutorials(tutorials.filter(tuto => tuto.device === device && tuto.category === category));
+		} else {
+			setSelectedTutorials(tutorials.filter(tuto => tuto.device === device));
+		}
+	}, []);
+
+	// console.log(selectedTutorials);
+
+	// automatisation de l'affichage des tutoriels : on crée le contenu à partir du tableau de tutoriels avec un "map"
+	const displayedTutorials = selectedTutorials.map((tutorial: any, i: any) => { return (
+		<TouchableOpacity key={i}
+			onPress={() => {dispatch(updateTuto(tutorial._id)); navigation.navigate("Tuto");}}
+		>
+			<View style={styles.tuto}>
+				<View style={styles.tutoText}>
+					<Text style={styles.textTitle}>
+						Titre : {tutorial.title}
+					</Text>
+					<Text style={styles.textDate}>
+						Date de création : {tutorial.creationDate}
+					</Text>
+					<Text style={styles.textAuthor}>
+						Auteur : {tutorial.author}
+					</Text>
+				</View>
+
+				{ (tutorial.difficulty === 'easy') &&
+				<View style={styles.difficulty}>
+					<FontAwesome
+						name="thermometer-empty"
+						size={40}
+						color={"#5db194"}
+					/>
+					<Text style={styles.textDifficulty}>
+						Facile
+					</Text>
+				</View>
+				}
+
+				{ (tutorial.difficulty === 'intermediate') &&
+				<View style={styles.difficulty}>
+					<FontAwesome
+						name="thermometer-half"
+						size={40}
+						color={"#ffd700"}
+					/>
+					<Text style={styles.textDifficulty}>
+						Moyen
+					</Text>
+				</View>
+				}
+
+				{ (tutorial.difficulty === 'advanced') &&
+				<View style={styles.difficulty}>
+					<FontAwesome
+						name="thermometer-full"
+						size={40}
+						color={"#ff4500"}
+					/>
+					<Text style={styles.textDifficulty}>
+						Avancé
+					</Text>	
+				</View>
+				}
+								
+			</View>
+		</TouchableOpacity>
+	)});
 
 	//	  ()_|)
 	//	   |oo|	   |			|\  /|
@@ -73,7 +184,9 @@ export default function ResearchScreen({ navigation }: any) {
 
 	return (
 		<View style={styles.container}>
+
 			<View style={styles.btnTop}>
+
 				<TouchableOpacity
 					style={styles.btnRetour}
 					onPress={() => navigation.navigate("Category")}
@@ -85,20 +198,29 @@ export default function ResearchScreen({ navigation }: any) {
 					/>
 					<Text style={styles.textBtnRetour}>Retour</Text>
 				</TouchableOpacity>
+
+				<View>
+					
+				</View>
+
 				<TouchableOpacity
 					style={styles.btnAide}
 					// onPress={() => navigation.navigate("Type")}
 				>
 					<Text style={styles.textBtnAide}>?</Text>
 				</TouchableOpacity>
+
 			</View>
+
 			<View style={styles.researchContainer}>
+
 				<TextInput
 					style={styles.input}
-					//onChangeText={(e) => setTutorial(e.target.value)}
-					//value={tutorial}
+					onChangeText={(value) => setTutorialSearch(value)}
+					value={tutorialSearch}
 					placeholder="Recherche..."
 				/>
+
 				<TouchableOpacity
 					style={styles.btnResearch}
 					onPress={() => navigation.navigate("Tuto")}
@@ -109,170 +231,12 @@ export default function ResearchScreen({ navigation }: any) {
 						style={styles.iconResearch}
 					/>
 				</TouchableOpacity>
+
 			</View>
+
 			<View style={styles.resultResearch}>
 				<ScrollView>
-					<TouchableOpacity
-						onPress={() => navigation.navigate("Tuto")}
-					>
-						<View style={styles.tuto}>
-							<View style={styles.tutoText}>
-								<Text style={styles.textResult}>
-									Title: "Envoyer une photo dans WhatsApp"
-								</Text>
-								<Text style={styles.textResult}>
-									Device: "Smartphone"
-								</Text>
-								<Text style={styles.textResult}>
-									Category: "Communication"
-								</Text>
-								<Text style={styles.textResult}>
-									CreationDate: "13-12-2022"
-								</Text>
-								<Text style={styles.textResult}>
-									Author: "Mulot Influenceur"
-								</Text>
-							</View>
-							<View style={styles.difficulty}>
-								<FontAwesome
-									name="thermometer-empty"
-									size={40}
-									color={"#5db194"}
-								/>
-								<Text style={styles.textDifficulty}>
-									Facile
-								</Text>
-							</View>
-						</View>
-					</TouchableOpacity>
-					<TouchableOpacity
-						onPress={() => navigation.navigate("Tuto")}
-					>
-						<View style={styles.tuto}>
-							<View style={styles.tutoText}>
-								<Text style={styles.textResult}>
-									Title: "Envoyer une photo dans WhatsApp"
-								</Text>
-								<Text style={styles.textResult}>
-									Device: "Smartphone"
-								</Text>
-								<Text style={styles.textResult}>
-									Category: "Communication"
-								</Text>
-								<Text style={styles.textResult}>
-									CreationDate: "13-12-2022"
-								</Text>
-								<Text style={styles.textResult}>
-									Author: "Mulot Influenceur"
-								</Text>
-							</View>
-							<View style={styles.difficulty}>
-								<FontAwesome
-									name="thermometer-empty"
-									size={40}
-									color={"#5db194"}
-								/>
-								<Text style={styles.textDifficulty}>
-									Facile
-								</Text>
-							</View>
-						</View>
-					</TouchableOpacity>
-					<TouchableOpacity
-						onPress={() => navigation.navigate("Tuto")}
-					>
-						<View style={styles.tuto}>
-							<View style={styles.tutoText}>
-								<Text style={styles.textResult}>
-									Title: "Envoyer une photo dans WhatsApp"
-								</Text>
-								<Text style={styles.textResult}>
-									Device: "Smartphone"
-								</Text>
-								<Text style={styles.textResult}>
-									Category: "Communication"
-								</Text>
-								<Text style={styles.textResult}>
-									CreationDate: "13-12-2022"
-								</Text>
-								<Text style={styles.textResult}>
-									Author: "Mulot Influenceur"
-								</Text>
-							</View>
-							<View style={styles.difficulty}>
-								<FontAwesome
-									name="thermometer-half"
-									size={40}
-									color={"#ffd700"}
-								/>
-								<Text style={styles.textDifficulty}>Moyen</Text>
-							</View>
-						</View>
-					</TouchableOpacity>
-					<TouchableOpacity
-						onPress={() => navigation.navigate("Tuto")}
-					>
-						<View style={styles.tuto}>
-							<View style={styles.tutoText}>
-								<Text style={styles.textResult}>
-									Title: "Envoyer une photo dans WhatsApp"
-								</Text>
-								<Text style={styles.textResult}>
-									Device: "Smartphone"
-								</Text>
-								<Text style={styles.textResult}>
-									Category: "Communication"
-								</Text>
-								<Text style={styles.textResult}>
-									CreationDate: "13-12-2022"
-								</Text>
-								<Text style={styles.textResult}>
-									Author: "Mulot Influenceur"
-								</Text>
-							</View>
-							<View style={styles.difficulty}>
-								<FontAwesome
-									name="thermometer-half"
-									size={40}
-									color={"#ffd700"}
-								/>
-								<Text style={styles.textDifficulty}>Moyen</Text>
-							</View>
-						</View>
-					</TouchableOpacity>
-					<TouchableOpacity
-						onPress={() => navigation.navigate("Tuto")}
-					>
-						<View style={styles.tuto}>
-							<View style={styles.tutoText}>
-								<Text style={styles.textResult}>
-									Title: "Envoyer une photo dans WhatsApp"
-								</Text>
-								<Text style={styles.textResult}>
-									Device: "Smartphone"
-								</Text>
-								<Text style={styles.textResult}>
-									Category: "Communication"
-								</Text>
-								<Text style={styles.textResult}>
-									CreationDate: "13-12-2022"
-								</Text>
-								<Text style={styles.textResult}>
-									Author: "Mulot Influenceur"
-								</Text>
-							</View>
-							<View style={styles.difficulty}>
-								<FontAwesome
-									name="thermometer-full"
-									size={40}
-									color={"#ff4500"}
-								/>
-								<Text style={styles.textDifficulty}>
-									Expert
-								</Text>
-							</View>
-						</View>
-					</TouchableOpacity>
+					{displayedTutorials}
 				</ScrollView>
 			</View>
 			<View style={styles.btnBottom}>
@@ -474,12 +438,27 @@ const styles = StyleSheet.create({
 		marginTop: 5,
 		marginLeft: 5,
 		width: "70%",
+		height: "100%",
+		flexDirection: "column",
+		justifyContent: "space-between",
 	},
 
-	textResult: {
+	textTitle: {
 		fontWeight: "bold",
-		fontSize: 15,
+		fontSize: 18,
 		color: "#ffffff",
+		marginTop: 4,
+	},
+
+	textDate: {
+		fontSize: 16,
+		color: "#ffffff",
+	},
+
+	textAuthor: {
+		fontSize: 16,
+		color: "#ffffff",
+		marginBottom: 20,
 	},
 
 	difficulty: {
