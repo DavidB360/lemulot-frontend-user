@@ -15,9 +15,8 @@ import {
 } from "../reducers/user";
 
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import { faHeartCirclePlus } from "@fortawesome/free-solid-svg-icons";
+// import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+// import { faHeartCirclePlus } from "@fortawesome/free-solid-svg-icons";
 
 export default function LeconScreen({ navigation }: any) {
 	const dispatch = useDispatch();
@@ -68,6 +67,12 @@ export default function LeconScreen({ navigation }: any) {
 							style={styles.iconHeart}
 						/>
 						<Text style={styles.textBtnFavoris}>!!!</Text>
+						{/* <FontAwesomeIcon
+							icon={faHeartCirclePlus}
+							style={styles.iconHeart}
+							size={40}
+						/>
+						<Text style={styles.textBtnFavoris}>Ajouter</Text> */}
 					</View>
 				</TouchableOpacity>
 			</View>
