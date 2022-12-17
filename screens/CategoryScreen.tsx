@@ -92,7 +92,7 @@ export default function CategoryScreen({ navigation }: any) {
 						navigation.navigate("Research");
 					}}
 				>
-					<Text style={styles.textIcon}>Toutes</Text>
+					<Text style={styles.textIcon}>Tout</Text>
 					<View style={styles.icon}>
 						<FontAwesomeIcon
 							icon={faEllipsis}

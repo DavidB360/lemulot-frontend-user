@@ -107,7 +107,7 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 		},
 	];
 
-	// useEffect qui ne s'applique qu'au chargment de la page pour ne pas lancer le setter de SelectedTutorials à l'infini
+	// useEffect qui ne s'applique qu'au chargement de la page pour ne pas lancer le setter de SelectedTutorials à l'infini
 	// la création de ce useEffect et du useState selectedTutorials permettent de traiter le cas où category === null
 	// mais c'est une méthode un peu lourde qui doit pouvoir être optimisée
 	useEffect(() => {
@@ -204,7 +204,18 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 					<Text style={styles.textBtnRetour}>Retour</Text>
 				</TouchableOpacity>
 
-				<View>
+				<View style={styles.titlesContainer}>
+
+					{/* Affichage des titres en fonction des reducers device et category */}
+					<Text style={styles.title}>
+						{ device === 'computer' && 'Ordinateur'}
+						{ device === 'mobile' && 'Téléphone'}
+						{ device === 'tablet' && 'Tablette'}
+					</Text>
+					
+					{ category === 'system' && <Text style={styles.title}>Système</Text>}
+					{ category === 'internet' && <Text style={styles.title}>Internet</Text>}
+					{ category === 'software' && <Text style={styles.title}>Logiciel</Text>}
 					
 				</View>
 
@@ -284,6 +295,20 @@ const styles = StyleSheet.create({
 		width: "100%",
 		marginBottom: 30,
 		marginTop: 50,
+	},
+
+	titlesContainer : {
+		flexDirection: "column",
+		justifyContent: "center",
+		alignItems: "center",
+	},
+
+	title: {
+		fontSize: 25,
+		color: "#191970",
+		textShadowColor: "#696969",
+		textShadowOffset: { width: 0, height: 3 },
+		textShadowRadius: 5,
 	},
 
 	btnAide: {
