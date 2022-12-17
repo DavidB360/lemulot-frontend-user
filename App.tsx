@@ -2,29 +2,8 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-// Pour fonction TabNavigation à laisser dans App.tsx
-// import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-// import FontAwesome from "react-native-vector-icons/FontAwesome";
-
-// A couper/coler dans ficher Page Utilisateur/Demande Aide
-// import { NavigationProp, ParamListBase } from "@react-navigation/native";
-
-// type TypeScreenProps = {
-// 	navigation: NavigationProp<ParamListBase>;
-// };
-
-// export default function TypeScreen({ navigation }: "à remplir"ScreenProps) {
-// 	return (
-
-{
-	/* <TouchableOpacity
-				onPress={() =>
-					navigation.navigate("TabNavigator", {
-						screen: "à remplir",
-					})
-				}
-			></TouchableOpacity> */
-}
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 import IntroScreen from "./screens/IntroScreen";
 import HomeScreen from "./screens/HomeScreen";
@@ -33,9 +12,14 @@ import CategoryScreen from "./screens/CategoryScreen";
 import ResearchScreen from "./screens/ResearchScreen";
 import TutoScreen from "./screens/TutoScreen";
 import DicoScreen from "./screens/DicoScreen";
+
 import ConnectionScreen from "./screens/ConnectionScreen";
 import SignInScreen from "./screens/SignInScreen";
 import SignUpScreen from "./screens/SignUpScreen";
+
+import UserSettingScreen from "./screens/UserSettingScreen";
+import UserFavoritScreen from "./screens/UserFavoritScreen";
+import UserHelpScreen from "./screens/UserHelpScreen";
 
 import { Provider } from "react-redux";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
@@ -46,51 +30,50 @@ import user from "./reducers/user";
 import device from "./reducers/device";
 import category from "./reducers/category";
 
-const reducers = combineReducers({ user, device, category })
-const persistConfig = { key: "lemulot", storage: AsyncStorage }
+const reducers = combineReducers({ user, device, category });
+const persistConfig = { key: "lemulot", storage: AsyncStorage };
 
 const store = configureStore({
 	reducer: persistReducer(persistConfig, reducers),
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware({ serializableCheck: false }),
-})
+});
 
-const persistor = persistStore(store)
+const persistor = persistStore(store);
 
 const Stack = createNativeStackNavigator();
-// const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator();
 
-// const TabNavigator = () => {
-// 	return (
-// 		<Tab.Navigator
-// 			screenOptions={({ route }) => ({
-// 				tabBarIcon: ({ color, size }) => {
-// 					let iconName: string = "";
+const TabNavigator = () => {
+	return (
+		<Tab.Navigator
+			screenOptions={({ route }) => ({
+				tabBarIcon: ({ color, size }) => {
+					let iconName: string = "";
 
-// 					if (route.name === "à remplir") {
-// 						iconName = "à remplir";
-// 					} else if (route.name === "à remplir") {
-// 						iconName = "à remplir";
-// 					}
+					if (route.name === "Demandes") {
+						iconName = "question-circle";
+					} else if (route.name === "Favoris") {
+						iconName = "heart";
+					} else if (route.name === "Paramètre") {
+						iconName = "cogs";
+					}
 
-// 					return (
-// 						<FontAwesome
-// 							name={iconName}
-// 							size={size}
-// 							color={color}
-// 						/>
-// 					);
-// 				},
-// 				tabBarActiveTintColor: "#e8be4b",
-// 				tabBarInactiveTintColor: "#b2b2b2",
-// 				headerShown: false,
-// 			})}
-// 		>
-// 			<Tab.Screen name="à remplir" component={à remplir} />
-// 			<Tab.Screen name="à remplir" component={à remplir} />
-// 		</Tab.Navigator>
-// 	);
-// };
+					return (
+						<FontAwesome name={iconName} size={30} color={color} />
+					);
+				},
+				tabBarActiveTintColor: "#778ed4",
+				tabBarInactiveTintColor: "#b2b2b2",
+				headerShown: false,
+			})}
+		>
+			<Tab.Screen name="Demandes" component={UserHelpScreen} />
+			<Tab.Screen name="Favoris" component={UserFavoritScreen} />
+			<Tab.Screen name="Paramètre" component={UserSettingScreen} />
+		</Tab.Navigator>
+	);
+};
 
 export default function App() {
 	return (
@@ -117,14 +100,13 @@ export default function App() {
 						/>
 						<Stack.Screen name="Dico" component={DicoScreen} />
 						<Stack.Screen name="Tuto" component={TutoScreen} />
-						{/* Pour fonction TabNavigation */}
-						{/* <Stack.Screen
+						<Stack.Screen
 							name="TabNavigator"
 							component={TabNavigator}
-						/> */}
+						/>
 					</Stack.Navigator>
 				</NavigationContainer>
 			</PersistGate>
 		</Provider>
-	)
+	);
 }
