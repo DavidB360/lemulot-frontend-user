@@ -274,9 +274,6 @@ const styles = StyleSheet.create({
 		paddingRight: 5,
 		marginBottom: -13,
 		color: "#ffffff",
-		// textShadowColor: "#000000",
-		// textShadowOffset: { width: 0, height: 2 },
-		// textShadowRadius: 5,
 	},
 
 	textDelete: {

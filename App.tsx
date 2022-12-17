@@ -57,6 +57,8 @@ const TabNavigator = () => {
 						iconName = "heart";
 					} else if (route.name === "Paramètre") {
 						iconName = "cogs";
+					} else if (route.name === "Dictionnaire") {
+						iconName = "book";
 					}
 
 					return (
@@ -70,6 +72,7 @@ const TabNavigator = () => {
 		>
 			<Tab.Screen name="Demandes" component={UserHelpScreen} />
 			<Tab.Screen name="Favoris" component={UserFavoritScreen} />
+			<Tab.Screen name="Dictionnaire" component={DicoScreen} />
 			<Tab.Screen name="Paramètre" component={UserSettingScreen} />
 		</Tab.Navigator>
 	);

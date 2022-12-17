@@ -292,7 +292,7 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 					style={styles.btnHelrequest}
 					onPress={() =>
 						navigation.navigate("TabNavigator", {
-							screen: "UserSetting",
+							screen: "UserHelp",
 						})
 					}
 				>

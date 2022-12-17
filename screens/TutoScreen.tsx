@@ -112,7 +112,7 @@ export default function TutoScreen({ navigation }: TutoScreenProps) {
 					style={styles.btnHelrequest}
 					onPress={() =>
 						navigation.navigate("TabNavigator", {
-							screen: "UserSetting",
+							screen: "UserHelp",
 						})
 					}
 				>
