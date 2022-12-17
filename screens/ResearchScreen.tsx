@@ -6,20 +6,26 @@ import {
 	TextInput,
 	ScrollView,
 } from "react-native";
+import { NavigationProp, ParamListBase } from "@react-navigation/native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { useSelector } from "react-redux";
 import { DeviceState } from "../reducers/device";
 import { CategoryState } from "../reducers/category";
 import React, { useState } from "react";
 
-export default function ResearchScreen({ navigation }: any) {
+type ResearchScreenProps = {
+	navigation: NavigationProp<ParamListBase>;
+};
+
+export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 	// const [tutorial, setTutorial] = useState("");
-	const device = useSelector(
-		(state: { device: DeviceState }) => state.device.value
-	);
-	const category = useSelector(
-		(state: { category: CategoryState }) => state.category.value
-	);
+
+	// const device = useSelector(
+	// 	(state: { device: DeviceState }) => state.device.value
+	// );
+	// const category = useSelector(
+	// 	(state: { category: CategoryState }) => state.category.value
+	// );
 
 	// un tableau de tutos à charger pour mon Daminou :
 	const tutorials = [
@@ -284,7 +290,11 @@ export default function ResearchScreen({ navigation }: any) {
 				</TouchableOpacity>
 				<TouchableOpacity
 					style={styles.btnHelrequest}
-					// onPress={() => navigation.navigate("HelpRequest")}
+					onPress={() =>
+						navigation.navigate("TabNavigator", {
+							screen: "UserSetting",
+						})
+					}
 				>
 					<Text style={styles.textBtnHelrequest}>
 						Demander de l'aide

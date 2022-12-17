@@ -6,6 +6,7 @@ import {
 	ScrollView,
 } from "react-native";
 
+import { NavigationProp, ParamListBase } from "@react-navigation/native";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -15,13 +16,14 @@ import {
 } from "../reducers/user";
 
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-// import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-// import { faHeartCirclePlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faHeartCirclePlus } from "@fortawesome/free-solid-svg-icons";
 
-export default function LeconScreen({ navigation }: any) {
-	const dispatch = useDispatch();
-	const user = useSelector((state: { user: UserState }) => state.user.value);
+type TutoScreenProps = {
+	navigation: NavigationProp<ParamListBase>;
+};
 
+export default function TutoScreen({ navigation }: TutoScreenProps) {
 	return (
 		<View style={styles.container}>
 			<View style={styles.btnTop}>
@@ -69,10 +71,9 @@ export default function LeconScreen({ navigation }: any) {
 						<Text style={styles.textBtnFavoris}>!!!</Text>
 						{/* <FontAwesomeIcon
 							icon={faHeartCirclePlus}
-							style={styles.iconHeart}
 							size={40}
-						/>
-						<Text style={styles.textBtnFavoris}>Ajouter</Text> */}
+							style={styles.iconHeart}
+						/> */}
 					</View>
 				</TouchableOpacity>
 			</View>
@@ -109,7 +110,11 @@ export default function LeconScreen({ navigation }: any) {
 			<View style={styles.btnBottom}>
 				<TouchableOpacity
 					style={styles.btnHelrequest}
-					// onPress={() => navigation.navigate("HelpRequest")}
+					onPress={() =>
+						navigation.navigate("TabNavigator", {
+							screen: "UserSetting",
+						})
+					}
 				>
 					<Text style={styles.textBtnHelrequest}>
 						Demander de l'aide
