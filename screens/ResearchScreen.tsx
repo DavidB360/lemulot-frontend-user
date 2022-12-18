@@ -13,6 +13,7 @@ import { DeviceState } from "../reducers/device";
 import { CategoryState } from "../reducers/category";
 import React, { useState, useEffect } from "react";
 import { updateTuto } from "../reducers/tuto";
+import {BACKEND_URL} from "@env"
 
 type ResearchScreenProps = {
 	navigation: NavigationProp<ParamListBase>;
@@ -36,6 +37,9 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 	// intitialisation d'un useState qui va stocker les tutoriels à afficher en fonction
 	// des reducers device et category
 	const [selectedTutorials, setSelectedTutorials] = useState<any>([]);
+
+	// initialisation d'un useState pour gérer la recherche avec une regex
+	const [regexSearch, setRegexSearch] = useState('');
 
 	// tableau de tutoriels pour test
 	const tutorials = [
@@ -108,78 +112,94 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 	];
 
 	// useEffect qui ne s'applique qu'au chargement de la page pour ne pas lancer le setter de SelectedTutorials à l'infini
-	// la création de ce useEffect et du useState selectedTutorials permettent de traiter le cas où category === null
-	// mais c'est une méthode un peu lourde qui doit pouvoir être optimisée
 	useEffect(() => {
-		if (category !== null) { 
-			setSelectedTutorials(tutorials.filter(tuto => tuto.device === device && tuto.category === category));
-		} else {
-			setSelectedTutorials(tutorials.filter(tuto => tuto.device === device));
-		}
+		// Code pour travailler avec le tableau de test :
+		// if (category !== null) { 
+		// 	setSelectedTutorials(tutorials.filter(tuto => tuto.device === device && tuto.category === category));
+		// } else {
+		// 	setSelectedTutorials(tutorials.filter(tuto => tuto.device === device));
+		// }
+
+		// Code pour travailler avec la base de données :
+		const urlEnd : string = category!==null ? '/'+category : ''; // si category n'est pas null on l'ajoute en params à la route
+		// console.log(BACKEND_URL + "tutorials/filter/" + device + urlEnd);
+		fetch(BACKEND_URL + "tutorials/filter/" + device + urlEnd)
+			.then((response) => response.json())
+			.then((data) => {
+				if (data.result === true) {
+					// console.log(data.tutorials);
+					setSelectedTutorials(data.tutorials);
+				}
+			});
+
 	}, []);
 
-	// console.log(selectedTutorials);
-
 	// automatisation de l'affichage des tutoriels : on crée le contenu à partir du tableau de tutoriels avec un "map"
-	const displayedTutorials = selectedTutorials.map((tutorial: any, i: any) => { return (
-		<TouchableOpacity key={i}
-			onPress={() => {dispatch(updateTuto(tutorial._id)); navigation.navigate("Tuto");}}
-		>
-			<View style={styles.tuto}>
-				<View style={styles.tutoText}>
-					<Text style={styles.textTitle}>
-						Titre : {tutorial.title}
-					</Text>
-					<Text style={styles.textDate}>
-						Date de création : {tutorial.creationDate}
-					</Text>
-					<Text style={styles.textAuthor}>
-						Auteur : {tutorial.author}
-					</Text>
-				</View>
-
-				{ (tutorial.difficulty === 'easy') &&
-				<View style={styles.difficulty}>
-					<FontAwesome
-						name="thermometer-empty"
-						size={40}
-						color={"#5db194"}
-					/>
-					<Text style={styles.textDifficulty}>
-						Facile
-					</Text>
-				</View>
-				}
-
-				{ (tutorial.difficulty === 'intermediate') &&
-				<View style={styles.difficulty}>
-					<FontAwesome
-						name="thermometer-half"
-						size={40}
-						color={"#ffd700"}
-					/>
-					<Text style={styles.textDifficulty}>
-						Moyen
-					</Text>
-				</View>
-				}
-
-				{ (tutorial.difficulty === 'advanced') &&
-				<View style={styles.difficulty}>
-					<FontAwesome
-						name="thermometer-full"
-						size={40}
-						color={"#ff4500"}
-					/>
-					<Text style={styles.textDifficulty}>
-						Avancé
-					</Text>	
-				</View>
-				}
-								
-			</View>
-		</TouchableOpacity>
-	)});
+	const displayedTutorials = selectedTutorials.map((tutorial: any, i: any) => {
+		// préparation d'une regex pour permettre la recherche par mot clé dans le titre des tutoriels
+		const pattern = new RegExp(regexSearch, 'i');
+		if (pattern.test(tutorial.title)) {
+			return (
+				<TouchableOpacity key={i}
+					onPress={() => {dispatch(updateTuto(tutorial._id)); navigation.navigate("Tuto");}}
+				>
+					<View style={styles.tuto}>
+						<View style={styles.tutoText}>
+							<Text style={styles.textTitle}>
+								Titre : {tutorial.title}
+							</Text>
+							<Text style={styles.textDate}>
+								Date de création : {tutorial.creationDate}
+							</Text>
+							<Text style={styles.textAuthor}>
+								Auteur : {tutorial.author}
+							</Text>
+						</View>
+		
+						{ (tutorial.difficulty === 'easy') &&
+						<View style={styles.difficulty}>
+							<FontAwesome
+								name="thermometer-empty"
+								size={40}
+								color={"#5db194"}
+							/>
+							<Text style={styles.textDifficulty}>
+								Facile
+							</Text>
+						</View>
+						}
+		
+						{ (tutorial.difficulty === 'intermediate') &&
+						<View style={styles.difficulty}>
+							<FontAwesome
+								name="thermometer-half"
+								size={40}
+								color={"#ffd700"}
+							/>
+							<Text style={styles.textDifficulty}>
+								Moyen
+							</Text>
+						</View>
+						}
+		
+						{ (tutorial.difficulty === 'advanced') &&
+						<View style={styles.difficulty}>
+							<FontAwesome
+								name="thermometer-full"
+								size={40}
+								color={"#ff4500"}
+							/>
+							<Text style={styles.textDifficulty}>
+								Avancé
+							</Text>	
+						</View>
+						}
+										
+					</View>
+				</TouchableOpacity>
+			)}
+		});
+		
 
 	//	  ()_|)
 	//	   |oo|	   |			|\  /|
@@ -232,6 +252,7 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 
 				<TextInput
 					style={styles.input}
+					// on envoie le texte tapé dans le useState tutorialSearch à chaque changement
 					onChangeText={(value) => setTutorialSearch(value)}
 					value={tutorialSearch}
 					placeholder="Recherche..."
@@ -239,7 +260,8 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 
 				<TouchableOpacity
 					style={styles.btnResearch}
-					onPress={() => navigation.navigate("Tuto")}
+					// on affecte tutorialSearch au useState regexSearch au clic sur le bouton loupe
+					onPress={() => setRegexSearch(tutorialSearch)}
 				>
 					<FontAwesome
 						name="search"
