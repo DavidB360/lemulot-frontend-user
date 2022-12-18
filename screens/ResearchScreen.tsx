@@ -138,6 +138,9 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 	const displayedTutorials = selectedTutorials.map((tutorial: any, i: any) => {
 		// préparation d'une regex pour permettre la recherche par mot clé dans le titre des tutoriels
 		const pattern = new RegExp(regexSearch, 'i');
+		// on charge la date dans un objet Date pour pouvoir formater l'affichage de la date à notre façon
+		const date = new Date(tutorial.creationDate);
+
 		if (pattern.test(tutorial.title)) {
 			return (
 				<TouchableOpacity key={i}
@@ -149,7 +152,7 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 								Titre : {tutorial.title}
 							</Text>
 							<Text style={styles.textDate}>
-								Date de création : {tutorial.creationDate}
+								Date de création : {date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear()}
 							</Text>
 							<Text style={styles.textAuthor}>
 								Auteur : {tutorial.author}
