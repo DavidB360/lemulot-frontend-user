@@ -7,23 +7,42 @@ import {
 } from "react-native";
 
 import { NavigationProp, ParamListBase } from "@react-navigation/native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
 	addToFavoriteLessons,
 	removeFromFavoriteLessons,
 	UserState,
 } from "../reducers/user";
-
+import { TutoState } from "../reducers/tuto";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faHeartCirclePlus } from "@fortawesome/free-solid-svg-icons";
+import { BACKEND_URL } from "@env";
 
 type TutoScreenProps = {
 	navigation: NavigationProp<ParamListBase>;
 };
 
 export default function TutoScreen({ navigation }: TutoScreenProps) {
+
+	// on charge le reducer tuto pour connaître l'id du tutoriel à afficher
+	const tuto = useSelector(
+		(state: { tuto: TutoState }) => state.tuto.value // ne fonctionne aps ?!?
+	);
+
+	useEffect(() => {
+		// on récupère le tutoriel par son id dans la base de données
+		fetch(BACKEND_URL + "tutorials/tutoId/" + tuto)
+			.then((response) => response.json())
+			.then((data) => {
+				if (data.result === true) {
+					console.log(data.tutorial);
+				}
+			});
+	}, []);
+
+
 	return (
 		<View style={styles.container}>
 			<View style={styles.btnTop}>

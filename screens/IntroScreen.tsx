@@ -1,13 +1,35 @@
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 
 export default function IntroScreen({ navigation }: any) {
 	return (
 		<View style={styles.container}>
 			<View>
-				<Text style={styles.title}>Bienvenue sur le Mulot</Text>
+				<Text style={styles.title}>Bienvenue chez Le Mulot</Text>
+			</View>
+			<View style={styles.textcontent}>
+				<Text style={[styles.question, styles.yellow]}>Où ?</Text>
+				<Text style={[styles.question, styles.green]}>Comment ??</Text>
+				<Text style={[styles.question, styles.blue]}>Pourquoi ???</Text>
 			</View>
 			<View style={styles.textcontent}>
 				<Text style={styles.text}>
+					Des problèmes en informatique ?
+				</Text>
+				<Text style={styles.text}>
+					L'équipe des Mulotins vous assiste !
+				</Text>
+
+				{/* <Text style={styles.text}>
+					L'application à la petite souris qui va t'aider à résoudre tous tes soucis avec les outils numériques.
+				</Text>
+				<Text style={styles.text}>
+					Consulte nos leçons.
+				</Text>
+				<Text style={styles.text}>
+					Notre équipe de mulotins est à ton écoute pour te guider pas à pas.
+				</Text> */}
+
+				{/* <Text style={styles.text}>
 					Si tu en as marre de galérer et de tout le temps demander de
 					l’aide à tes enfants ou petit enfants.
 				</Text>
@@ -20,8 +42,12 @@ export default function IntroScreen({ navigation }: any) {
 					Tu trouveras ici des leçons et toute l’aide nécessaire pour
 					résoudre tes difficultés et faire de toi un vrai pro de
 					l’informatique.
-				</Text>
+				</Text> */}
 			</View>
+			<Image
+					style={styles.img}
+					source={require("../assets/double_mulot.png")}
+				/>
 			<TouchableOpacity
 				style={styles.btn}
 				onPress={() => navigation.navigate("Home")}
@@ -36,7 +62,7 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		flexDirection: "column",
-		justifyContent: "space-around",
+		justifyContent: "space-between",
 		alignItems: "center",
 	},
 
@@ -46,18 +72,47 @@ const styles = StyleSheet.create({
 		textShadowColor: "#696969",
 		textShadowOffset: { width: 0, height: 3 },
 		textShadowRadius: 5,
+		marginTop: 60,
 	},
 
 	textcontent: {
-		padding: 20,
+		margin: 1,
+	},
+
+	question: {
+		fontSize: 30,
+		textAlign: "center",
+		fontWeight: "bold",
+		textShadowColor: "#000",
+		textShadowOffset: { width: 0, height: 3 },
+		textShadowRadius: 5,
+		marginBottom: 10,
 	},
 
 	text: {
 		fontSize: 22,
-		textAlign: "left",
+		textAlign: "center",
+	},
+
+	blue: {
+		color: "#778ed4",
+	},
+
+	green: {
+		color: "#5db194",
+	},
+
+	yellow: {
+		color: "#fffb00",
+	},
+
+	img: {
+		width: "70%",
+		height: "25%",
 	},
 
 	btn: {
+		marginBottom: 40,
 		alignItems: "center",
 		justifyContent: "center",
 		backgroundColor: "#5db194",

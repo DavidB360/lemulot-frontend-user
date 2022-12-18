@@ -13,7 +13,7 @@ import { DeviceState } from "../reducers/device";
 import { CategoryState } from "../reducers/category";
 import React, { useState, useEffect } from "react";
 import { updateTuto } from "../reducers/tuto";
-import {BACKEND_URL} from "@env"
+import { BACKEND_URL } from "@env";
 
 type ResearchScreenProps = {
 	navigation: NavigationProp<ParamListBase>;
@@ -131,7 +131,6 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 					setSelectedTutorials(data.tutorials);
 				}
 			});
-
 	}, []);
 
 	// automatisation de l'affichage des tutoriels : on crée le contenu à partir du tableau de tutoriels avec un "map"
@@ -144,7 +143,7 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 		if (pattern.test(tutorial.title)) {
 			return (
 				<TouchableOpacity key={i}
-					onPress={() => {dispatch(updateTuto(tutorial._id)); navigation.navigate("Tuto");}}
+					onPress={() => {console.log(tutorial._id); dispatch(updateTuto(tutorial._id)); navigation.navigate("Tuto");}}
 				>
 					<View style={styles.tuto}>
 						<View style={styles.tutoText}>

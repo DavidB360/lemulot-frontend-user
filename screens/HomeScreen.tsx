@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
 		justifyContent: "flex-end",
 		alignItems: "center",
 		width: "100%",
-		marginBottom: 30,
+		marginBottom: 10,
 		marginTop: 50,
 	},
 
@@ -90,7 +90,8 @@ const styles = StyleSheet.create({
 		borderRadius: 5,
 		alignItems: "center",
 		justifyContent: "center",
-		backgroundColor: "#5db194",
+		// backgroundColor: "#5db194",
+		backgroundColor: "#778ed4",
 		shadowColor: "#000000",
 		shadowOffset: {
 			width: -10,
@@ -113,7 +114,7 @@ const styles = StyleSheet.create({
 	},
 
 	imgBtn: {
-		width: 205,
-		height: 200,
+		width: 245,
+		height: 240,
 	},
 });
