@@ -127,7 +127,7 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 			.then((response) => response.json())
 			.then((data) => {
 				if (data.result === true) {
-					// console.log(data.tutorials);
+					console.log(data.tutorials);
 					setSelectedTutorials(data.tutorials);
 				}
 			});

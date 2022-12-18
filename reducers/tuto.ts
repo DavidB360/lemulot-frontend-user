@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Types } from 'mongoose';
 
 export type TutoState = {
-	value: string | null;
+	value: Types.ObjectId | null;
 };
 
 const initialState: TutoState = {
@@ -12,7 +13,7 @@ export const tutoSlice = createSlice({
 	name: "tuto",
 	initialState,
 	reducers: {
-		updateTuto: (state, action: PayloadAction<string>) => {
+		updateTuto: (state: TutoState, action: PayloadAction<Types.ObjectId>) => {
 			state.value = action.payload;
 		},
 	},

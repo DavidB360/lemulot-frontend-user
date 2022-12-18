@@ -12,7 +12,7 @@ export const deviceSlice = createSlice({
 	name: "device",
 	initialState,
 	reducers: {
-		updateDevice: (state, action: PayloadAction<string>) => {
+		updateDevice: (state: DeviceState, action: PayloadAction<string>) => {
 			state.value = action.payload;
 		},
 	},

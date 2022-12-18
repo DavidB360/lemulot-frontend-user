@@ -12,7 +12,7 @@ export const categorySlice = createSlice({
 	name: "category",
 	initialState,
 	reducers: {
-		updateCategory: (state, action: PayloadAction<string | null>) => {
+		updateCategory: (state: CategoryState, action: PayloadAction<string | null>) => {
 			state.value = action.payload;
 		},
 	},

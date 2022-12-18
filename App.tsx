@@ -29,8 +29,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import user from "./reducers/user";
 import device from "./reducers/device";
 import category from "./reducers/category";
+import tuto from "./reducers/tuto";
 
-const reducers = combineReducers({ user, device, category });
+const reducers = combineReducers({ user, device, category, tuto });
 const persistConfig = { key: "lemulot", storage: AsyncStorage };
 
 const store = configureStore({

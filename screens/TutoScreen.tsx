@@ -9,11 +9,7 @@ import {
 import { NavigationProp, ParamListBase } from "@react-navigation/native";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-	addToFavoriteLessons,
-	removeFromFavoriteLessons,
-	UserState,
-} from "../reducers/user";
+import { addToFavoriteLessons, removeFromFavoriteLessons, UserState } from "../reducers/user";
 import { TutoState } from "../reducers/tuto";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
