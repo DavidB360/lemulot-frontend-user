@@ -42,7 +42,11 @@ export default function SignIn({ navigation }: any) {
 								favoriteLessons: data.favoriteLessons,
 							})
 						)
-						navigation.navigate("Connection")
+						useEffect(() => {
+							if (data.token) {
+								navigation.navigate("Connection")
+							}
+						}, [])
 					} else {
 						setEmailError(true)
 					}
@@ -60,7 +64,7 @@ export default function SignIn({ navigation }: any) {
 			<View style={styles.btnTop}>
 				<TouchableOpacity
 					style={styles.btnRetour}
-					onPress={() => navigation.navigate("Home")}
+					onPress={() => navigation.navigate("Connection")}
 				>
 					<FontAwesome
 						name="long-arrow-left"
@@ -99,20 +103,20 @@ export default function SignIn({ navigation }: any) {
 				{emailError && (
 					<Text style={styles.error}>Email ou mot de passe incorrect.</Text>
 				)}
-				<View style={styles.btnBottom}>
-					<TouchableOpacity
-						style={styles.btnPassword}
-						onPress={() => navigation.navigate("Dico")}
-					>
-						<Text style={styles.textBtnPassword}>Mot de passe oublie</Text>
-					</TouchableOpacity>
-					<TouchableOpacity
-						style={styles.btnConnection}
-						// onPress={() => navigation.navigate("HelpRequest")}
-					>
-						<Text style={styles.textBtnConnection}>Connexion</Text>
-					</TouchableOpacity>
-				</View>
+			</View>
+			<View style={styles.btnBottom}>
+				<TouchableOpacity
+					style={styles.btnPassword}
+					onPress={() => navigation.navigate("Dico")}
+				>
+					<Text style={styles.textBtnPassword}>Mot de passe oublie</Text>
+				</TouchableOpacity>
+				<TouchableOpacity
+					style={styles.btnConnection}
+					//onPress={() => handleConnection()}
+				>
+					<Text style={styles.textBtnConnection}>Connexion</Text>
+				</TouchableOpacity>
 			</View>
 		</KeyboardAvoidingView>
 	)
@@ -126,16 +130,22 @@ const styles = StyleSheet.create({
 		justifyContent: "flex-start",
 		backgroundColor: "#ffffff",
 	},
-	background: {
-		width: "100%",
-		height: "100%",
-	},
 	title: {
+		marginTop: 30,
 		fontSize: 40,
 		marginBottom: 20,
+		shadowColor: "#000",
+		shadowOffset: {
+			width: 0,
+			height: 12,
+		},
+		shadowOpacity: 0.7,
+		shadowRadius: 16.0,
+		elevation: 24,
 	},
 	inputContainer: {
-		margin: 20,
+		marginTop: 30,
+		margin: 15,
 		alignItems: "center",
 		justifyContent: "center",
 	},
@@ -216,12 +226,6 @@ const styles = StyleSheet.create({
 		textShadowOffset: { width: 0, height: 2 },
 		textShadowRadius: 5,
 	},
-	btnBottom: {
-		flexDirection: "column",
-		justifyContent: "center",
-		alignItems: "center",
-		width: "100%",
-	},
 
 	iconContent: {
 		marginTop: 20,
@@ -256,9 +260,15 @@ const styles = StyleSheet.create({
 		textShadowOffset: { width: 0, height: 2 },
 		textShadowRadius: 5,
 	},
+	btnBottom: {
+		flexDirection: "column",
+		justifyContent: "center",
+		alignItems: "center",
+		width: "100%",
+	},
 
 	btnPassword: {
-		marginTop: 20,
+		marginTop: 50,
 		marginBottom: 10,
 		backgroundColor: "#778ed4",
 		width: "90%",

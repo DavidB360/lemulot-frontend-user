@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
 		justifyContent: "flex-start",
 		alignItems: "center",
 		width: "40%",
-		height: "30%",
+		height: "27%",
 		borderColor: "#a9a9a9",
 		borderBottomWidth: 6,
 		borderLeftWidth: 4,
@@ -198,9 +198,5 @@ const styles = StyleSheet.create({
 		borderTopWidth: 1,
 		borderColor: "#a9a9a9",
 		color: "#778ed4",
-	},
-	imgBtn: {
-		width: 205,
-		height: 200,
 	},
 })
