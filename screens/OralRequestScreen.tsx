@@ -1,14 +1,33 @@
-import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
+import {
+	View,
+	Text,
+	TouchableOpacity,
+	StyleSheet,
+	TextInput,
+	ScrollView,
+} from "react-native";
+import { NavigationProp, ParamListBase } from "@react-navigation/native";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 
-export default function HomeScreen({ navigation }: any) {
+type OralRequestScreenProps = {
+	navigation: NavigationProp<ParamListBase>;
+};
+
+export default function OralRequestScreen({
+	navigation,
+}: OralRequestScreenProps) {
 	return (
 		<View style={styles.container}>
 			<View style={styles.btnTop}>
 				<TouchableOpacity
 					style={styles.btnUsers}
-					onPress={() => navigation.navigate("Connection")}
+					onPress={() =>
+						navigation.navigate("TabNavigator", {
+							screen: "Paramètre",
+						})
+					}
 				>
 					<FontAwesomeIcon
 						icon={faUser}
@@ -23,26 +42,6 @@ export default function HomeScreen({ navigation }: any) {
 					<Text style={styles.textBtnAide}>?</Text>
 				</TouchableOpacity>
 			</View>
-			<TouchableOpacity
-				style={styles.btn}
-				onPress={() => navigation.navigate("Device")}
-			>
-				<Text style={styles.textBtn}>Les Leçons du Mulot</Text>
-				<Image
-					style={styles.imgBtn}
-					source={require("../assets/mulot_professeur.jpg")}
-				/>
-			</TouchableOpacity>
-			<TouchableOpacity
-				style={styles.btn}
-				onPress={() => navigation.navigate("Connection")}
-			>
-				<Text style={styles.textBtn}>Demande d'aide</Text>
-				<Image
-					style={styles.imgBtn}
-					source={require("../assets/mulot_assistant.jpg")}
-				/>
-			</TouchableOpacity>
 		</View>
 	);
 }
@@ -118,41 +117,5 @@ const styles = StyleSheet.create({
 		color: "#000000",
 		fontSize: 50,
 		opacity: 0.6,
-	},
-
-	btn: {
-		margin: 20,
-		borderColor: "#a9a9a9",
-		borderBottomWidth: 4,
-		borderLeftWidth: 2,
-		borderRightWidth: 2,
-		borderRadius: 5,
-		alignItems: "center",
-		justifyContent: "center",
-		backgroundColor: "#778ed4",
-		shadowColor: "#000000",
-		shadowOffset: {
-			width: -10,
-			height: 12,
-		},
-		shadowOpacity: 0.58,
-		shadowRadius: 16.0,
-
-		elevation: 25,
-	},
-
-	textBtn: {
-		fontSize: 22,
-		color: "#ffffff",
-		textShadowColor: "#000000",
-		textShadowOffset: { width: 0, height: 2 },
-		textShadowRadius: 5,
-		borderBottomWidth: 1,
-		borderColor: "#a9a9a9",
-	},
-
-	imgBtn: {
-		width: 245,
-		height: 240,
 	},
 });

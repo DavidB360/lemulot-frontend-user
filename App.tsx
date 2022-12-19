@@ -21,6 +21,9 @@ import UserSettingScreen from "./screens/UserSettingScreen";
 import UserFavoritScreen from "./screens/UserFavoritScreen";
 import UserHelpScreen from "./screens/UserHelpScreen";
 
+import WrittenRequestScreen from "./screens/WrittenRequestScreen";
+import OralRequestScreen from "./screens/OralRequestScreen";
+
 import { Provider } from "react-redux";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
@@ -49,7 +52,7 @@ const TabNavigator = () => {
 	return (
 		<Tab.Navigator
 			screenOptions={({ route }) => ({
-				tabBarIcon: ({ color, size }) => {
+				tabBarIcon: ({ color }) => {
 					let iconName: string = "";
 
 					if (route.name === "Demandes") {
@@ -75,6 +78,34 @@ const TabNavigator = () => {
 			<Tab.Screen name="Favoris" component={UserFavoritScreen} />
 			<Tab.Screen name="Dictionnaire" component={DicoScreen} />
 			<Tab.Screen name="Paramètre" component={UserSettingScreen} />
+		</Tab.Navigator>
+	);
+};
+
+const TabNavigator2 = () => {
+	return (
+		<Tab.Navigator
+			screenOptions={({ route }) => ({
+				tabBarIcon: ({ color }) => {
+					let iconName: string = "";
+
+					if (route.name === "Orale") {
+						iconName = "microphone";
+					} else if (route.name === "Ecrite") {
+						iconName = "pencil";
+					}
+
+					return (
+						<FontAwesome name={iconName} size={35} color={color} />
+					);
+				},
+				tabBarActiveTintColor: "#778ed4",
+				tabBarInactiveTintColor: "#b2b2b2",
+				headerShown: false,
+			})}
+		>
+			<Tab.Screen name="Orale" component={OralRequestScreen} />
+			<Tab.Screen name="Ecrite" component={WrittenRequestScreen} />
 		</Tab.Navigator>
 	);
 };
@@ -107,6 +138,10 @@ export default function App() {
 						<Stack.Screen
 							name="TabNavigator"
 							component={TabNavigator}
+						/>
+						<Stack.Screen
+							name="TabNavigator2"
+							component={TabNavigator2}
 						/>
 					</Stack.Navigator>
 				</NavigationContainer>

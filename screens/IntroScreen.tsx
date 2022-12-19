@@ -12,9 +12,7 @@ export default function IntroScreen({ navigation }: any) {
 				<Text style={[styles.question, styles.blue]}>Pourquoi ???</Text>
 			</View>
 			<View style={styles.textcontent}>
-				<Text style={styles.text}>
-					Des problèmes en informatique ?
-				</Text>
+				<Text style={styles.text}>Des problèmes en informatique ?</Text>
 				<Text style={styles.text}>
 					L'équipe des Mulotins vous assiste !
 				</Text>
@@ -45,9 +43,9 @@ export default function IntroScreen({ navigation }: any) {
 				</Text> */}
 			</View>
 			<Image
-					style={styles.img}
-					source={require("../assets/double_mulot.png")}
-				/>
+				style={styles.img}
+				source={require("../assets/double_mulot.png")}
+			/>
 			<TouchableOpacity
 				style={styles.btn}
 				onPress={() => navigation.navigate("Home")}
@@ -64,6 +62,7 @@ const styles = StyleSheet.create({
 		flexDirection: "column",
 		justifyContent: "space-between",
 		alignItems: "center",
+		backgroundColor: "#ffffff",
 	},
 
 	title: {

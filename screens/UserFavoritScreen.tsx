@@ -7,24 +7,34 @@ import {
 	ScrollView,
 	TextInput,
 } from "react-native";
+import { NavigationProp, ParamListBase } from "@react-navigation/native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 
-export default function UserFavoritScreen({ navigation }: any) {
+type UserFavoritScreenProps = {
+	navigation: NavigationProp<ParamListBase>;
+};
+
+export default function UserFavoritScreen({
+	navigation,
+}: UserFavoritScreenProps) {
 	return (
 		<View style={styles.container}>
 			<View style={styles.btnTop}>
 				<TouchableOpacity
-					style={styles.btnDelete}
-					// onPress={() => navigation.navigate("Category")}
+					style={styles.btnUsers}
+					onPress={() =>
+						navigation.navigate("TabNavigator", {
+							screen: "Paramètre",
+						})
+					}
 				>
 					<FontAwesomeIcon
-						icon={faXmark}
+						icon={faUser}
 						size={50}
-						style={styles.iconDelete}
+						style={styles.iconUsers}
 					/>
-					<Text style={styles.textDelete}>Supprimer</Text>
 				</TouchableOpacity>
 				<TouchableOpacity
 					style={styles.btnAide}
@@ -222,11 +232,7 @@ export default function UserFavoritScreen({ navigation }: any) {
 			<View style={styles.lesson}>
 				<TouchableOpacity
 					style={styles.btnLesson}
-					onPress={() =>
-						navigation.navigate("TabNavigator", {
-							screen: "UserSetting",
-						})
-					}
+					onPress={() => navigation.navigate("Home")}
 				>
 					<Text style={styles.textBtnLesson}>
 						Les leçons du Mulot
@@ -253,6 +259,33 @@ const styles = StyleSheet.create({
 		width: "100%",
 		marginBottom: 20,
 		marginTop: 50,
+	},
+
+	btnUsers: {
+		flexDirection: "column",
+		alignItems: "center",
+		justifyContent: "center",
+		marginLeft: 20,
+		backgroundColor: "#fff",
+		width: 80,
+		height: 80,
+		borderRadius: 40,
+		borderColor: "#808080",
+		borderBottomWidth: 4,
+		borderLeftWidth: 2,
+		borderRightWidth: 2,
+		shadowOffset: {
+			width: -10,
+			height: 12,
+		},
+		shadowOpacity: 0.58,
+		shadowRadius: 16.0,
+
+		elevation: 25,
+	},
+
+	iconUsers: {
+		color: "#5db194",
 	},
 
 	btnAide: {
@@ -283,44 +316,6 @@ const styles = StyleSheet.create({
 		opacity: 0.6,
 	},
 
-	btnDelete: {
-		flexDirection: "column",
-		alignItems: "center",
-		justifyContent: "center",
-		marginLeft: 20,
-		backgroundColor: "#ff4500",
-		width: 80,
-		height: 80,
-		borderRadius: 40,
-		borderColor: "#808080",
-		borderBottomWidth: 4,
-		borderLeftWidth: 2,
-		borderRightWidth: 2,
-		shadowOffset: {
-			width: -10,
-			height: 12,
-		},
-		shadowOpacity: 0.58,
-		shadowRadius: 16.0,
-
-		elevation: 25,
-	},
-
-	iconDelete: {
-		paddingRight: 5,
-		marginBottom: -13,
-		color: "#ffffff",
-	},
-
-	textDelete: {
-		paddingBottom: 5,
-		color: "#ffffff",
-		fontSize: 14,
-		textShadowColor: "#000000",
-		textShadowOffset: { width: 0, height: 2 },
-		textShadowRadius: 5,
-	},
-
 	textContainer: {
 		justifyContent: "center",
 		alignItems: "center",
@@ -330,7 +325,7 @@ const styles = StyleSheet.create({
 		borderColor: "#808080",
 		borderRadius: 10,
 		borderTopWidth: 1,
-		borderBottomWidth: 4,
+		borderBottomWidth: 2,
 		borderLeftWidth: 2,
 		borderRightWidth: 2,
 	},
@@ -482,7 +477,7 @@ const styles = StyleSheet.create({
 
 	btnLesson: {
 		marginTop: 10,
-		backgroundColor: "#5db194",
+		backgroundColor: "#778ed4",
 		width: "90%",
 		height: 60,
 		flexDirection: "row",

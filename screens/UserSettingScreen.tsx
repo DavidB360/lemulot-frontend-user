@@ -8,16 +8,6 @@ export default function UserSettingScreen({ navigation }: any) {
 		<View style={styles.container}>
 			<View style={styles.btnTop}>
 				<TouchableOpacity
-					style={styles.btnUsers}
-					// onPress={() => navigation.navigate("Category")}
-				>
-					<FontAwesomeIcon
-						icon={faUser}
-						size={50}
-						style={styles.iconUsers}
-					/>
-				</TouchableOpacity>
-				<TouchableOpacity
 					style={styles.btnAide}
 					// onPress={() => navigation.navigate("Type")}
 				>
@@ -30,7 +20,7 @@ export default function UserSettingScreen({ navigation }: any) {
 					// onPress={() => }
 				>
 					<Text style={styles.textBtnSetting}>
-						Changer mon avatar
+						Changer ma photo de profil
 					</Text>
 				</TouchableOpacity>
 				<View style={styles.user}>
@@ -57,7 +47,7 @@ export default function UserSettingScreen({ navigation }: any) {
 					</Text>
 				</TouchableOpacity>
 				<TouchableOpacity
-					style={styles.btnSetting}
+					style={styles.btnLogout}
 					// onPress={() => }
 				>
 					<Text style={styles.textBtnSetting}>SE DECONNECTER</Text>
@@ -78,7 +68,7 @@ const styles = StyleSheet.create({
 
 	btnTop: {
 		flexDirection: "row",
-		justifyContent: "space-between",
+		justifyContent: "flex-end",
 		alignItems: "center",
 		width: "100%",
 		marginBottom: 20,
@@ -111,42 +101,6 @@ const styles = StyleSheet.create({
 		color: "#000000",
 		fontSize: 50,
 		opacity: 0.6,
-	},
-
-	btnUsers: {
-		flexDirection: "column",
-		alignItems: "center",
-		justifyContent: "center",
-		marginLeft: 20,
-		backgroundColor: "#fff",
-		width: 80,
-		height: 80,
-		borderRadius: 40,
-		borderColor: "#808080",
-		borderBottomWidth: 4,
-		borderLeftWidth: 2,
-		borderRightWidth: 2,
-		shadowOffset: {
-			width: -10,
-			height: 12,
-		},
-		shadowOpacity: 0.58,
-		shadowRadius: 16.0,
-
-		elevation: 25,
-	},
-
-	iconUsers: {
-		color: "#5db194",
-	},
-
-	textDelete: {
-		paddingBottom: 5,
-		color: "#ffffff",
-		fontSize: 14,
-		textShadowColor: "#000000",
-		textShadowOffset: { width: 0, height: 2 },
-		textShadowRadius: 5,
 	},
 
 	btnContainer: {
@@ -211,5 +165,27 @@ const styles = StyleSheet.create({
 
 	iconUser: {
 		color: "#5db194",
+	},
+
+	btnLogout: {
+		backgroundColor: "#5db194",
+		width: "90%",
+		height: 60,
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "center",
+		borderRadius: 10,
+		borderColor: "#808080",
+		borderBottomWidth: 4,
+		borderLeftWidth: 2,
+		borderRightWidth: 2,
+		shadowOffset: {
+			width: -10,
+			height: 12,
+		},
+		shadowOpacity: 0.58,
+		shadowRadius: 16.0,
+
+		elevation: 25,
 	},
 });

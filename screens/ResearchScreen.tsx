@@ -21,11 +21,11 @@ type ResearchScreenProps = {
 
 export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 	const dispatch = useDispatch();
-	
+
 	// intitiation d'un useState pour l'input de recherche
 	const [tutorialSearch, setTutorialSearch] = useState("");
 
-	// on charge les reducers device et category pour connaître la navigation effectuée par 
+	// on charge les reducers device et category pour connaître la navigation effectuée par
 	// l'utilisateur sur les pages de menu précédentes
 	const device = useSelector(
 		(state: { device: DeviceState }) => state.device.value
@@ -39,11 +39,11 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 	const [selectedTutorials, setSelectedTutorials] = useState<any>([]);
 
 	// initialisation d'un useState pour gérer la recherche avec une regex
-	const [regexSearch, setRegexSearch] = useState('');
+	const [regexSearch, setRegexSearch] = useState("");
 
 	// tableau de tutoriels pour test
 	const tutorials = [
-		{	
+		{
 			_id: "1",
 			title: "Créer une adresse email",
 			author: "Professeur Mulot",
@@ -114,14 +114,14 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 	// useEffect qui ne s'applique qu'au chargement de la page pour ne pas lancer le setter de SelectedTutorials à l'infini
 	useEffect(() => {
 		// Code pour travailler avec le tableau de test :
-		// if (category !== null) { 
+		// if (category !== null) {
 		// 	setSelectedTutorials(tutorials.filter(tuto => tuto.device === device && tuto.category === category));
 		// } else {
 		// 	setSelectedTutorials(tutorials.filter(tuto => tuto.device === device));
 		// }
 
 		// Code pour travailler avec la base de données :
-		const urlEnd : string = category!==null ? '/'+category : ''; // si category n'est pas null on l'ajoute en params à la route
+		const urlEnd: string = category !== null ? "/" + category : ""; // si category n'est pas null on l'ajoute en params à la route
 		// console.log(BACKEND_URL + "tutorials/filter/" + device + urlEnd);
 		fetch(BACKEND_URL + "tutorials/filter/" + device + urlEnd)
 			.then((response) => response.json())
@@ -134,74 +134,84 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 	}, []);
 
 	// automatisation de l'affichage des tutoriels : on crée le contenu à partir du tableau de tutoriels avec un "map"
-	const displayedTutorials = selectedTutorials.map((tutorial: any, i: any) => {
-		// préparation d'une regex pour permettre la recherche par mot clé dans le titre des tutoriels
-		const pattern = new RegExp(regexSearch, 'i');
-		// on charge la date dans un objet Date pour pouvoir formater l'affichage de la date à notre façon
-		const date = new Date(tutorial.creationDate);
+	const displayedTutorials = selectedTutorials.map(
+		(tutorial: any, i: any) => {
+			// préparation d'une regex pour permettre la recherche par mot clé dans le titre des tutoriels
+			const pattern = new RegExp(regexSearch, "i");
+			// on charge la date dans un objet Date pour pouvoir formater l'affichage de la date à notre façon
+			const date = new Date(tutorial.creationDate);
 
-		if (pattern.test(tutorial.title)) {
-			return (
-				<TouchableOpacity key={i}
-					onPress={() => {dispatch(updateTuto(tutorial._id)); navigation.navigate("Tuto");}}
-				>
-					<View style={styles.tuto}>
-						<View style={styles.tutoText}>
-							<Text style={styles.textTitle}>
-								Titre : {tutorial.title}
-							</Text>
-							<Text style={styles.textDate}>
-								Date de création : {date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear()}
-							</Text>
-							<Text style={styles.textAuthor}>
-								Auteur : {tutorial.author}
-							</Text>
+			if (pattern.test(tutorial.title)) {
+				return (
+					<TouchableOpacity
+						key={i}
+						onPress={() => {
+							dispatch(updateTuto(tutorial._id));
+							navigation.navigate("Tuto");
+						}}
+					>
+						<View style={styles.tuto}>
+							<View style={styles.tutoText}>
+								<Text style={styles.textTitle}>
+									Titre : {tutorial.title}
+								</Text>
+								<Text style={styles.textDate}>
+									Date de création :{" "}
+									{date.getDate() +
+										"/" +
+										(date.getMonth() + 1) +
+										"/" +
+										date.getFullYear()}
+								</Text>
+								<Text style={styles.textAuthor}>
+									Auteur : {tutorial.author}
+								</Text>
+							</View>
+
+							{tutorial.difficulty === "easy" && (
+								<View style={styles.difficulty}>
+									<FontAwesome
+										name="thermometer-empty"
+										size={40}
+										color={"#5db194"}
+									/>
+									<Text style={styles.textDifficulty}>
+										Facile
+									</Text>
+								</View>
+							)}
+
+							{tutorial.difficulty === "intermediate" && (
+								<View style={styles.difficulty}>
+									<FontAwesome
+										name="thermometer-half"
+										size={40}
+										color={"#ffd700"}
+									/>
+									<Text style={styles.textDifficulty}>
+										Moyen
+									</Text>
+								</View>
+							)}
+
+							{tutorial.difficulty === "advanced" && (
+								<View style={styles.difficulty}>
+									<FontAwesome
+										name="thermometer-full"
+										size={40}
+										color={"#ff4500"}
+									/>
+									<Text style={styles.textDifficulty}>
+										Avancé
+									</Text>
+								</View>
+							)}
 						</View>
-		
-						{ (tutorial.difficulty === 'easy') &&
-						<View style={styles.difficulty}>
-							<FontAwesome
-								name="thermometer-empty"
-								size={40}
-								color={"#5db194"}
-							/>
-							<Text style={styles.textDifficulty}>
-								Facile
-							</Text>
-						</View>
-						}
-		
-						{ (tutorial.difficulty === 'intermediate') &&
-						<View style={styles.difficulty}>
-							<FontAwesome
-								name="thermometer-half"
-								size={40}
-								color={"#ffd700"}
-							/>
-							<Text style={styles.textDifficulty}>
-								Moyen
-							</Text>
-						</View>
-						}
-		
-						{ (tutorial.difficulty === 'advanced') &&
-						<View style={styles.difficulty}>
-							<FontAwesome
-								name="thermometer-full"
-								size={40}
-								color={"#ff4500"}
-							/>
-							<Text style={styles.textDifficulty}>
-								Avancé
-							</Text>	
-						</View>
-						}
-										
-					</View>
-				</TouchableOpacity>
-			)}
-		});
-		
+					</TouchableOpacity>
+				);
+			}
+		}
+	);
 
 	//	  ()_|)
 	//	   |oo|	   |			|\  /|
@@ -211,9 +221,7 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 
 	return (
 		<View style={styles.container}>
-
 			<View style={styles.btnTop}>
-
 				<TouchableOpacity
 					style={styles.btnRetour}
 					onPress={() => navigation.navigate("Category")}
@@ -227,18 +235,22 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 				</TouchableOpacity>
 
 				<View style={styles.titlesContainer}>
-
 					{/* Affichage des titres en fonction des reducers device et category */}
 					<Text style={styles.title}>
-						{ device === 'computer' && 'Ordinateur'}
-						{ device === 'mobile' && 'Téléphone'}
-						{ device === 'tablet' && 'Tablette'}
+						{device === "computer" && "Ordinateur"}
+						{device === "mobile" && "Téléphone"}
+						{device === "tablet" && "Tablette"}
 					</Text>
-					
-					{ category === 'system' && <Text style={styles.title}>Système</Text>}
-					{ category === 'internet' && <Text style={styles.title}>Internet</Text>}
-					{ category === 'software' && <Text style={styles.title}>Logiciel</Text>}
-					
+
+					{category === "system" && (
+						<Text style={styles.title}>Système</Text>
+					)}
+					{category === "internet" && (
+						<Text style={styles.title}>Internet</Text>
+					)}
+					{category === "software" && (
+						<Text style={styles.title}>Logiciel</Text>
+					)}
 				</View>
 
 				<TouchableOpacity
@@ -247,11 +259,9 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 				>
 					<Text style={styles.textBtnAide}>?</Text>
 				</TouchableOpacity>
-
 			</View>
 
 			<View style={styles.researchContainer}>
-
 				<TextInput
 					style={styles.input}
 					// on envoie le texte tapé dans le useState tutorialSearch à chaque changement
@@ -271,13 +281,10 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 						style={styles.iconResearch}
 					/>
 				</TouchableOpacity>
-
 			</View>
 
 			<View style={styles.resultResearch}>
-				<ScrollView>
-					{displayedTutorials}
-				</ScrollView>
+				<ScrollView>{displayedTutorials}</ScrollView>
 			</View>
 			<View style={styles.btnBottom}>
 				<TouchableOpacity
@@ -289,8 +296,8 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 				<TouchableOpacity
 					style={styles.btnHelrequest}
 					onPress={() =>
-						navigation.navigate("TabNavigator", {
-							screen: "UserHelp",
+						navigation.navigate("TabNavigator2", {
+							screen: "Ecrite",
 						})
 					}
 				>
@@ -321,7 +328,7 @@ const styles = StyleSheet.create({
 		marginTop: 50,
 	},
 
-	titlesContainer : {
+	titlesContainer: {
 		flexDirection: "column",
 		justifyContent: "center",
 		alignItems: "center",

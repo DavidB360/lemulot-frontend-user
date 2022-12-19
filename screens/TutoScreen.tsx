@@ -9,10 +9,10 @@ import {
 import { NavigationProp, ParamListBase } from "@react-navigation/native";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { 
-	addToFavoriteLessons, 
-	removeFromFavoriteLessons, 
-	UserState 
+import {
+	addToFavoriteLessons,
+	removeFromFavoriteLessons,
+	UserState,
 } from "../reducers/user";
 import { TutoState } from "../reducers/tuto";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
@@ -28,17 +28,15 @@ export default function TutoScreen({ navigation }: TutoScreenProps) {
 	const dispatch = useDispatch();
 
 	// on charge le reducer tuto pour connaître l'id du tutoriel à afficher
-	const tuto = useSelector(
-		(state: { tuto: TutoState }) => state.tuto.value
-	);
+	const tuto = useSelector((state: { tuto: TutoState }) => state.tuto.value);
 
 	// on crée une useState pour stocker l'objet tutoriel récupéré dans la base de données à partir de son id
 	const [tutorialToDisplay, setTutorialToDisplay] = useState({
-		title: '',
-		creationDate: '',
-		author: '',
-		content: 'leçon en chargement...',
-		_id: '',
+		title: "",
+		creationDate: "",
+		author: "",
+		content: "leçon en chargement...",
+		_id: "",
 	});
 
 	useEffect(() => {
@@ -83,7 +81,8 @@ export default function TutoScreen({ navigation }: TutoScreenProps) {
 						Titre : {tutorialToDisplay.title}
 					</Text>
 					<Text style={styles.textResult}>
-						Date de création : {dateCrea.getDate()}/{dateCrea.getMonth()+1}/{dateCrea.getFullYear()}
+						Date de création : {dateCrea.getDate()}/
+						{dateCrea.getMonth() + 1}/{dateCrea.getFullYear()}
 					</Text>
 					<Text style={styles.textResult}>
 						Auteur: {tutorialToDisplay.author}
@@ -96,13 +95,11 @@ export default function TutoScreen({ navigation }: TutoScreenProps) {
 					}}
 				>
 					<View style={styles.icon}>
-						<Text style={styles.textBtnFavoris}>J'</Text>
 						<FontAwesome
 							name="heart"
 							size={40}
 							style={styles.iconHeart}
 						/>
-						<Text style={styles.textBtnFavoris}>!!!</Text>
 						{/* <FontAwesomeIcon
 							icon={faHeartCirclePlus}
 							size={40}
@@ -111,13 +108,11 @@ export default function TutoScreen({ navigation }: TutoScreenProps) {
 					</View>
 				</TouchableOpacity>
 			</View>
-
 			<View style={styles.tuto}>
 				<ScrollView>
-					<Text>{tutorialToDisplay.content}</Text>	
+					<Text>{tutorialToDisplay.content}</Text>
 				</ScrollView>
 			</View>
-
 			<View style={styles.btnBottom}>
 				<TouchableOpacity
 					style={styles.btnHelrequest}
@@ -230,11 +225,11 @@ const styles = StyleSheet.create({
 		width: "90%",
 		height: "15%",
 		borderColor: "#a9a9a9",
-		backgroundColor: "#778ed4",
+		backgroundColor: "#dcdcdc",
 		borderTopWidth: 1,
-		borderBottomWidth: 6,
-		borderLeftWidth: 4,
-		borderRightWidth: 4,
+		borderBottomWidth: 2,
+		borderLeftWidth: 2,
+		borderRightWidth: 2,
 		borderRadius: 5,
 	},
 
@@ -242,13 +237,13 @@ const styles = StyleSheet.create({
 		marginTop: 5,
 		marginLeft: 5,
 		width: "70%",
+		height: "100%",
 	},
 
 	textResult: {
 		paddingBottom: 5,
 		fontSize: 18,
-		color: "#ffffff",
-		textShadowColor: "#000000",
+		textShadowColor: "#fff",
 		textShadowOffset: { width: 0, height: 2 },
 		textShadowRadius: 5,
 	},
@@ -260,19 +255,11 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		justifyContent: "center",
 		borderRadius: 40,
-		borderColor: "#0000ff",
-		// backgroundColor: "#ffd700",
+		borderColor: "#000",
+		backgroundColor: "#fff",
 		borderBottomWidth: 4,
 		borderLeftWidth: 2,
 		borderRightWidth: 2,
-		shadowOffset: {
-			width: -10,
-			height: 12,
-		},
-		shadowOpacity: 0.58,
-		shadowRadius: 16.0,
-
-		// elevation: 15,
 	},
 
 	icon: {
@@ -290,15 +277,6 @@ const styles = StyleSheet.create({
 		textShadowRadius: 3,
 	},
 
-	textBtnFavoris: {
-		paddingBottom: 5,
-		color: "#ffffff",
-		fontSize: 15,
-		textShadowColor: "#000000",
-		textShadowOffset: { width: 0, height: 2 },
-		textShadowRadius: 5,
-	},
-
 	tuto: {
 		marginTop: 20,
 		flexDirection: "column",
@@ -307,6 +285,8 @@ const styles = StyleSheet.create({
 		width: "90%",
 		height: "50%",
 		borderWidth: 1,
+		borderColor: "#a9a9a9",
+		borderRadius: 5,
 	},
 
 	textTuto: {
