@@ -202,7 +202,7 @@ export default function UserHelpScreen({ navigation }: UserHelpScreenProps) {
 				<TouchableOpacity
 					style={styles.btnHelrequest}
 					onPress={() =>
-						navigation.navigate("TabNavigator", {
+						navigation.navigate("TabNavigator2", {
 							screen: "Ecrite",
 						})
 					}

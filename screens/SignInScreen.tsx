@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react";
 import {
 	KeyboardAvoidingView,
 	Platform,
@@ -7,46 +7,44 @@ import {
 	TextInput,
 	TouchableOpacity,
 	View,
-} from "react-native"
-import FontAwesome from "react-native-vector-icons/FontAwesome"
-import { useDispatch, useSelector } from "react-redux"
-import { login, UserState } from "../reducers/user"
-import {BACKEND_URL} from "@env"
+} from "react-native";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { useDispatch, useSelector } from "react-redux";
+import { login, UserState } from "../reducers/user";
+import { BACKEND_URL } from "@env";
 
 const EMAIL_REGEX: RegExp =
-	/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+	/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 export default function SignIn({ navigation }: any) {
-	const dispatch = useDispatch()
+	const dispatch = useDispatch();
 
-	const [email, setEmail] = useState("")
-	const [emailError, setEmailError] = useState(false)
-	const [password, setPassword] = useState("")
+	const [email, setEmail] = useState("");
+	const [emailError, setEmailError] = useState(false);
+	const [password, setPassword] = useState("");
 
-	const user = useSelector(
-		(state: { user: UserState }) => state.user.value
-	);
+	const user = useSelector((state: { user: UserState }) => state.user.value);
 
 	useEffect(() => {
 		if (user.token) {
 			navigation.navigate("TabNavigator", {
 				screen: "Demandes",
-			})
+			});
 		}
-	}, [])
+	}, []);
 
 	const handleConnection = () => {
 		// console.log(BACKEND_URL)
 		if (EMAIL_REGEX.test(email)) {
 			// fetch("http://10.33.210.227:3000/users/signin", {
-			fetch(BACKEND_URL+"users/signin", {
+			fetch(BACKEND_URL + "users/signin", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({ email: email, password: password }),
 			})
 				.then((response) => response.json())
 				.then((data) => {
-					console.log(data)
+					console.log(data);
 					if (data.result) {
 						dispatch(
 							login({
@@ -55,18 +53,18 @@ export default function SignIn({ navigation }: any) {
 								lastName: data.lastName,
 								favoriteLessons: data.favoriteLessons,
 							})
-						)
+						);
 						navigation.navigate("TabNavigator", {
 							screen: "Demandes",
-						})
+						});
 					} else {
-						setEmailError(true)
+						setEmailError(true);
 					}
-				})
+				});
 		} else {
-			setEmailError(true)
+			setEmailError(true);
 		}
-	}
+	};
 
 	return (
 		<KeyboardAvoidingView
@@ -113,7 +111,9 @@ export default function SignIn({ navigation }: any) {
 					style={styles.input}
 				/>
 				{emailError && (
-					<Text style={styles.error}>Email ou mot de passe incorrect.</Text>
+					<Text style={styles.error}>
+						Email ou mot de passe incorrect.
+					</Text>
 				)}
 			</View>
 			<View style={styles.btnBottom}>
@@ -121,7 +121,9 @@ export default function SignIn({ navigation }: any) {
 					style={styles.btnPassword}
 					onPress={() => navigation.navigate("Dico")}
 				>
-					<Text style={styles.textBtnPassword}>Mot de passe oublie</Text>
+					<Text style={styles.textBtnPassword}>
+						Mot de passe oublie
+					</Text>
 				</TouchableOpacity>
 				<TouchableOpacity
 					style={styles.btnConnection}
@@ -131,7 +133,7 @@ export default function SignIn({ navigation }: any) {
 				</TouchableOpacity>
 			</View>
 		</KeyboardAvoidingView>
-	)
+	);
 }
 
 const styles = StyleSheet.create({
@@ -337,4 +339,4 @@ const styles = StyleSheet.create({
 		fontSize: 22,
 		color: "#000000",
 	},
-})
+});

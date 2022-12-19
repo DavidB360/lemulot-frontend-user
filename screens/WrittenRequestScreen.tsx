@@ -4,7 +4,6 @@ import {
 	TouchableOpacity,
 	StyleSheet,
 	TextInput,
-	ScrollView,
 } from "react-native";
 import { NavigationProp, ParamListBase } from "@react-navigation/native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
@@ -35,12 +34,25 @@ export default function WrittenRequestScreen({
 						style={styles.iconUsers}
 					/>
 				</TouchableOpacity>
+				<Text style={styles.title}>Demande d'aide</Text>
 				<TouchableOpacity
 					style={styles.btnAide}
 					// onPress={() => navigation.navigate("Type")}
 				>
 					<Text style={styles.textBtnAide}>?</Text>
 				</TouchableOpacity>
+			</View>
+			<View style={styles.request}>
+				<Text style={styles.textRequest}>Faire une demande écrite</Text>
+				<TextInput
+					style={styles.inputRequest}
+					//onChangeText={(e) => setTutorial(e.target.value)}
+					//value={tutorial}
+					placeholder="Recherche..."
+					placeholderTextColor="#808080"
+					// maxLength={280}
+					multiline={true}
+				/>
 			</View>
 		</View>
 	);
@@ -91,6 +103,14 @@ const styles = StyleSheet.create({
 		color: "#5db194",
 	},
 
+	title: {
+		fontSize: 25,
+		color: "#191970",
+		textShadowColor: "#696969",
+		textShadowOffset: { width: 0, height: 2 },
+		textShadowRadius: 5,
+	},
+
 	btnAide: {
 		marginRight: 20,
 		backgroundColor: "#fffb00",
@@ -117,5 +137,45 @@ const styles = StyleSheet.create({
 		color: "#000000",
 		fontSize: 50,
 		opacity: 0.6,
+	},
+
+	request: {
+		flexDirection: "column",
+		justifyContent: "flex-start",
+		width: "95%",
+		height: "40%",
+	},
+
+	textRequest: {
+		marginLeft: 10,
+		marginBottom: 20,
+		fontSize: 22,
+		textShadowColor: "#808080",
+		textShadowOffset: { width: 0, height: 2 },
+		textShadowRadius: 5,
+	},
+
+	inputRequest: {
+		marginLeft: 10,
+		paddingLeft: 5,
+		width: "95%",
+		height: "80%",
+		textAlign: "center",
+		fontSize: 22,
+		fontWeight: "bold",
+		backgroundColor: "#ffffff",
+		borderColor: "#808080",
+		borderRadius: 6,
+		borderBottomWidth: 4,
+		borderLeftWidth: 2,
+		borderRightWidth: 2,
+		shadowOffset: {
+			width: -10,
+			height: 12,
+		},
+		shadowOpacity: 0.58,
+		shadowRadius: 16.0,
+
+		elevation: 25,
 	},
 });
