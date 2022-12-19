@@ -48,18 +48,7 @@ export default function SignUp({ navigation }: any) {
 				.then((response) => response.json())
 				.then((data) => {
 					if (data.result) {
-						dispatch(
-							login({
-								token: data.token,
-								firstName: data.firstName,
-								lastName: data.lastName,
-							})
-						)
-						useEffect(() => {
-							if (data.token) {
-								navigation.navigate("Connection")
-							}
-						}, [])
+						navigation.navigate("SignIn")
 					} else {
 						setEmailError(true)
 					}

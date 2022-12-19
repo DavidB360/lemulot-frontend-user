@@ -9,7 +9,7 @@ import {
 	View,
 } from "react-native"
 import FontAwesome from "react-native-vector-icons/FontAwesome"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { login, UserState } from "../reducers/user"
 import {BACKEND_URL} from "@env"
 
@@ -22,6 +22,18 @@ export default function SignIn({ navigation }: any) {
 	const [email, setEmail] = useState("")
 	const [emailError, setEmailError] = useState(false)
 	const [password, setPassword] = useState("")
+
+	const user = useSelector(
+		(state: { user: UserState }) => state.user.value
+	);
+
+	useEffect(() => {
+		if (user.token) {
+			navigation.navigate("TabNavigator", {
+				screen: "Demandes",
+			})
+		}
+	}, [])
 
 	const handleConnection = () => {
 		// console.log(BACKEND_URL)
@@ -44,11 +56,9 @@ export default function SignIn({ navigation }: any) {
 								favoriteLessons: data.favoriteLessons,
 							})
 						)
-						useEffect(() => {
-							if (data.token) {
-								navigation.navigate("Connection")
-							}
-						}, [])
+						navigation.navigate("TabNavigator", {
+							screen: "Demandes",
+						})
 					} else {
 						setEmailError(true)
 					}
@@ -115,7 +125,7 @@ export default function SignIn({ navigation }: any) {
 				</TouchableOpacity>
 				<TouchableOpacity
 					style={styles.btnConnection}
-					//onPress={() => handleConnection()}
+					onPress={() => handleConnection()}
 				>
 					<Text style={styles.textBtnConnection}>Connexion</Text>
 				</TouchableOpacity>

@@ -2,8 +2,12 @@ import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { useDispatch } from "react-redux";
+import { logout } from "../reducers/user";
 
 export default function UserSettingScreen({ navigation }: any) {
+	const dispatch = useDispatch();
+
 	return (
 		<View style={styles.container}>
 			<View style={styles.btnTop}>
@@ -58,7 +62,10 @@ export default function UserSettingScreen({ navigation }: any) {
 				</TouchableOpacity>
 				<TouchableOpacity
 					style={styles.btnSetting}
-					// onPress={() => }
+					onPress={() => {
+						dispatch(logout());
+						navigation.navigate("Home");
+					}}
 				>
 					<Text style={styles.textBtnSetting}>SE DECONNECTER</Text>
 				</TouchableOpacity>

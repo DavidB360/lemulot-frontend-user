@@ -36,9 +36,15 @@ export const userSlice = createSlice({
 				(data) => data !== action.payload
 			);
 		},
+		logout: (state) => {
+			state.value.token = null;
+			state.value.firstName = null;
+			state.value.lastName = null;
+			state.value.favoriteLessons = [];
+		},
 	},
 });
 
-export const { login, addToFavoriteLessons, removeFromFavoriteLessons } =
+export const { login, addToFavoriteLessons, removeFromFavoriteLessons, logout } =
 	userSlice.actions;
 export default userSlice.reducer;

@@ -1,9 +1,24 @@
 import { View, Text, TouchableOpacity, StyleSheet, Button, Image } from "react-native"
+import React, { useEffect } from "react"
 import FontAwesome from "react-native-vector-icons/FontAwesome"
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
 import { faUser, faPenNib } from "@fortawesome/free-solid-svg-icons"
+import { useSelector } from "react-redux"
+import { UserState } from "../reducers/user"
 
 export default function ConnectionScreen({ navigation }: any) {
+	const user = useSelector(
+		(state: { user: UserState }) => state.user.value
+	);
+
+	useEffect(() => {
+		if (user.token) {
+			navigation.navigate("TabNavigator", {
+				screen: "Demandes",
+			})
+		}
+	}, [])
+
 	return (
 		<View style={styles.container}>
 			<View style={styles.btnTop}>
