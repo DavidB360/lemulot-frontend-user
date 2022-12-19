@@ -1,17 +1,17 @@
-import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native"
+import FontAwesome from "react-native-vector-icons/FontAwesome"
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
 import {
 	faEllipsis,
 	faWindowRestore,
 	faGear,
 	faGlobe,
-} from "@fortawesome/free-solid-svg-icons";
-import { useDispatch } from "react-redux";
-import { updateCategory } from "../reducers/category";
+} from "@fortawesome/free-solid-svg-icons"
+import { useDispatch } from "react-redux"
+import { updateCategory } from "../reducers/category"
 
 export default function CategoryScreen({ navigation }: any) {
-	const dispatch = useDispatch();
+	const dispatch = useDispatch()
 	return (
 		<View style={styles.container}>
 			<View style={styles.btnTop}>
@@ -40,8 +40,8 @@ export default function CategoryScreen({ navigation }: any) {
 				<TouchableOpacity
 					style={styles.iconContent}
 					onPress={() => {
-						dispatch(updateCategory("system"));
-						navigation.navigate("Research");
+						dispatch(updateCategory("system"))
+						navigation.navigate("Research")
 					}}
 				>
 					<Text style={styles.textIcon}>Système</Text>
@@ -56,8 +56,8 @@ export default function CategoryScreen({ navigation }: any) {
 				<TouchableOpacity
 					style={styles.iconContent}
 					onPress={() => {
-						dispatch(updateCategory("internet"));
-						navigation.navigate("Research");
+						dispatch(updateCategory("internet"))
+						navigation.navigate("Research")
 					}}
 				>
 					<Text style={styles.textIcon}>Internet</Text>
@@ -72,8 +72,8 @@ export default function CategoryScreen({ navigation }: any) {
 				<TouchableOpacity
 					style={styles.iconContent}
 					onPress={() => {
-						dispatch(updateCategory("software"));
-						navigation.navigate("Research");
+						dispatch(updateCategory("software"))
+						navigation.navigate("Research")
 					}}
 				>
 					<Text style={styles.textIcon}>Logiciel</Text>
@@ -88,8 +88,8 @@ export default function CategoryScreen({ navigation }: any) {
 				<TouchableOpacity
 					style={styles.iconContent}
 					onPress={() => {
-						dispatch(updateCategory(null));
-						navigation.navigate("Research");
+						dispatch(updateCategory(null))
+						navigation.navigate("Research")
 					}}
 				>
 					<Text style={styles.textIcon}>Tout</Text>
@@ -103,7 +103,7 @@ export default function CategoryScreen({ navigation }: any) {
 				</TouchableOpacity>
 			</View>
 		</View>
-	);
+	)
 }
 
 const styles = StyleSheet.create({
@@ -257,4 +257,4 @@ const styles = StyleSheet.create({
 		borderColor: "#a9a9a9",
 		color: "#778ed4",
 	},
-});
+})
