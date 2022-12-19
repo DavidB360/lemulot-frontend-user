@@ -53,7 +53,7 @@ const TabNavigator = () => {
 					let iconName: string = "";
 
 					if (route.name === "Demandes") {
-						iconName = "question-circle";
+						iconName = "life-ring";
 					} else if (route.name === "Favoris") {
 						iconName = "heart";
 					} else if (route.name === "Paramètre") {
@@ -63,7 +63,7 @@ const TabNavigator = () => {
 					}
 
 					return (
-						<FontAwesome name={iconName} size={30} color={color} />
+						<FontAwesome name={iconName} size={35} color={color} />
 					);
 				},
 				tabBarActiveTintColor: "#778ed4",
