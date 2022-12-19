@@ -14,6 +14,7 @@ import { CategoryState } from "../reducers/category";
 import React, { useState, useEffect } from "react";
 import { updateTuto } from "../reducers/tuto";
 import { BACKEND_URL } from "@env";
+import { updatePrevPage } from "../reducers/prevPage";
 
 type ResearchScreenProps = {
 	navigation: NavigationProp<ParamListBase>;
@@ -147,6 +148,7 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 						key={i}
 						onPress={() => {
 							dispatch(updateTuto(tutorial._id));
+							dispatch(updatePrevPage("Research"));
 							navigation.navigate("Tuto");
 						}}
 					>
@@ -167,7 +169,8 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 									Auteur : {tutorial.author}
 								</Text>
 							</View>
-
+							
+							{/* Affichage des icones "difficulté" fonction du paramètre difficulty */}
 							{tutorial.difficulty === "easy" && (
 								<View style={styles.difficulty}>
 									<FontAwesome

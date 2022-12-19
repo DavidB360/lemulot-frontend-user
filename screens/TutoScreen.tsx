@@ -15,6 +15,7 @@ import {
 	UserState,
 } from "../reducers/user";
 import { TutoState } from "../reducers/tuto";
+import { PrevPageState } from "../reducers/prevPage";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faHeartCirclePlus } from "@fortawesome/free-solid-svg-icons";
@@ -29,6 +30,9 @@ export default function TutoScreen({ navigation }: TutoScreenProps) {
 
 	// on charge le reducer tuto pour connaître l'id du tutoriel à afficher
 	const tuto = useSelector((state: { tuto: TutoState }) => state.tuto.value);
+
+	// on charge le reducer prevPage pour indiquer la page précédente au bouton retour
+	const prevPage = useSelector((state: {prevPage: PrevPageState }) => state.prevPage.value);
 
 	// on crée une useState pour stocker l'objet tutoriel récupéré dans la base de données à partir de son id
 	const [tutorialToDisplay, setTutorialToDisplay] = useState({
@@ -46,7 +50,7 @@ export default function TutoScreen({ navigation }: TutoScreenProps) {
 			.then((data) => {
 				if (data.result === true) {
 					// console.log(data.tutorial);
-					setTutorialToDisplay(data.tutorial[0]);
+					setTutorialToDisplay(data.tutorial);
 				}
 			});
 	}, []);
@@ -58,7 +62,7 @@ export default function TutoScreen({ navigation }: TutoScreenProps) {
 			<View style={styles.btnTop}>
 				<TouchableOpacity
 					style={styles.btnRetour}
-					onPress={() => navigation.navigate("Research")}
+					onPress={() => navigation.navigate(prevPage)}
 				>
 					<FontAwesome
 						name="long-arrow-left"

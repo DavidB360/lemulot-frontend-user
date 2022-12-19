@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export type PrevPageState = {
-	value: string | null;
+	value: string;
 };
 
 const initialState: PrevPageState = {
-	value: null,
+	value: '',
 };
 
 export const prevPageSlice = createSlice({
