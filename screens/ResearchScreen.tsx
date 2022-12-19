@@ -127,7 +127,7 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 			.then((response) => response.json())
 			.then((data) => {
 				if (data.result === true) {
-					console.log(data.tutorials);
+					// console.log(data.tutorials);
 					setSelectedTutorials(data.tutorials);
 				}
 			});
@@ -143,7 +143,7 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 		if (pattern.test(tutorial.title)) {
 			return (
 				<TouchableOpacity key={i}
-					onPress={() => {console.log(tutorial._id); dispatch(updateTuto(tutorial._id)); navigation.navigate("Tuto");}}
+					onPress={() => {dispatch(updateTuto(tutorial._id)); navigation.navigate("Tuto");}}
 				>
 					<View style={styles.tuto}>
 						<View style={styles.tutoText}>

@@ -9,7 +9,11 @@ import {
 import { NavigationProp, ParamListBase } from "@react-navigation/native";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addToFavoriteLessons, removeFromFavoriteLessons, UserState } from "../reducers/user";
+import { 
+	addToFavoriteLessons, 
+	removeFromFavoriteLessons, 
+	UserState 
+} from "../reducers/user";
 import { TutoState } from "../reducers/tuto";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -21,11 +25,21 @@ type TutoScreenProps = {
 };
 
 export default function TutoScreen({ navigation }: TutoScreenProps) {
+	const dispatch = useDispatch();
 
 	// on charge le reducer tuto pour connaître l'id du tutoriel à afficher
 	const tuto = useSelector(
-		(state: { tuto: TutoState }) => state.tuto.value // ne fonctionne aps ?!?
+		(state: { tuto: TutoState }) => state.tuto.value
 	);
+
+	// on crée une useState pour stocker l'objet tutoriel récupéré dans la base de données à partir de son id
+	const [tutorialToDisplay, setTutorialToDisplay] = useState({
+		title: '',
+		creationDate: '',
+		author: '',
+		content: 'leçon en chargement...',
+		_id: '',
+	});
 
 	useEffect(() => {
 		// on récupère le tutoriel par son id dans la base de données
@@ -33,11 +47,13 @@ export default function TutoScreen({ navigation }: TutoScreenProps) {
 			.then((response) => response.json())
 			.then((data) => {
 				if (data.result === true) {
-					console.log(data.tutorial);
+					// console.log(data.tutorial);
+					setTutorialToDisplay(data.tutorial[0]);
 				}
 			});
 	}, []);
 
+	const dateCrea = new Date(tutorialToDisplay.creationDate);
 
 	return (
 		<View style={styles.container}>
@@ -60,21 +76,24 @@ export default function TutoScreen({ navigation }: TutoScreenProps) {
 					<Text style={styles.textBtnAide}>?</Text>
 				</TouchableOpacity>
 			</View>
+
 			<View style={styles.titleTuto}>
 				<View style={styles.tutoText}>
 					<Text style={styles.textResult}>
-						Title: "Envoyer une photo dans WhatsApp"
+						Titre : {tutorialToDisplay.title}
 					</Text>
 					<Text style={styles.textResult}>
-						CreationDate: "13-12-2022"
+						Date de création : {dateCrea.getDate()}/{dateCrea.getMonth()+1}/{dateCrea.getFullYear()}
 					</Text>
 					<Text style={styles.textResult}>
-						Author: "Mulot Influenceur"
+						Auteur: {tutorialToDisplay.author}
 					</Text>
 				</View>
 				<TouchableOpacity
 					style={styles.btnFavorite}
-					// onPress={() => }
+					onPress={() => {
+						// dispatch(addToFavoriteLessons(tutorialToDisplay._id));
+					}}
 				>
 					<View style={styles.icon}>
 						<Text style={styles.textBtnFavoris}>J'</Text>
@@ -92,36 +111,13 @@ export default function TutoScreen({ navigation }: TutoScreenProps) {
 					</View>
 				</TouchableOpacity>
 			</View>
+
 			<View style={styles.tuto}>
 				<ScrollView>
-					<Text style={styles.textTuto}>
-						Lorem ipsum dolor sit amet. A omnis cumque ea quae sint
-						ut distinctio doloribus aut error laborum. Ut amet
-						soluta qui quam consequatur qui mollitia quam ad facilis
-						harum.
-					</Text>
-					<Text style={styles.textTuto}>
-						Sit voluptates velit et maiores molestiae eum internos
-						fugit. Ex animi ratione et debitis repudiandae eum quis
-						dignissimos ut aliquam ratione. Et corrupti similique
-						eos omnis accusamus ad vero eius et quia aperiam sit
-						recusandae sunt sit explicabo velit aut perspiciatis
-						aperiam.
-					</Text>
-					<Text style={styles.textTuto}>
-						Ut amet nobis est omnis sunt ad blanditiis suscipit et
-						adipisci similique. Aut itaque molestiae qui enim
-						reprehenderit et molestiae iste aut laborum officia est
-						voluptas galisum ut voluptates ullam vel obcaecati
-						natus. Qui impedit deleniti aut quos ipsum ex voluptas
-						rerum sed inventore explicabo est tenetur expedita ut
-						laborum consequuntur aut totam aspernatur? Non ratione
-						rerum aut quas dolorum et facilis natus non commodi
-						repellendus in enim quas sit repellat aperiam a
-						explicabo velit.
-					</Text>
+					<Text>{tutorialToDisplay.content}</Text>	
 				</ScrollView>
 			</View>
+
 			<View style={styles.btnBottom}>
 				<TouchableOpacity
 					style={styles.btnHelrequest}
