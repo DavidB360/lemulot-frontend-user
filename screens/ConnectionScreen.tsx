@@ -7,9 +7,7 @@ import { useSelector } from "react-redux"
 import { UserState } from "../reducers/user"
 
 export default function ConnectionScreen({ navigation }: any) {
-	const user = useSelector(
-		(state: { user: UserState }) => state.user.value
-	);
+	const user = useSelector((state: { user: UserState }) => state.user.value)
 
 	useEffect(() => {
 		if (user.token) {
@@ -164,17 +162,17 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 		alignItems: "center",
 		height: "80%",
-		width: "100%",
+		width: "98%",
 		paddingBottom: 20,
 	},
 
 	iconContent: {
-		marginBottom: 20,
+		marginBottom: 50,
 		flexDirection: "column",
 		justifyContent: "flex-start",
 		alignItems: "center",
-		width: "40%",
-		height: "27%",
+		width: "62%",
+		height: "42%",
 		borderColor: "#a9a9a9",
 		borderBottomWidth: 6,
 		borderLeftWidth: 4,
@@ -209,7 +207,7 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		backgroundColor: "#fff",
 		width: "100%",
-		height: 145,
+		height: "89%",
 		borderTopWidth: 1,
 		borderColor: "#a9a9a9",
 		color: "#778ed4",
