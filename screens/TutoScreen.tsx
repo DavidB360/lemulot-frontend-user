@@ -100,18 +100,22 @@ export default function TutoScreen({ navigation }: TutoScreenProps) {
 		// console.log(obj.content);
 		if (obj.type === 'text') {
 			return (
-				<Text key={i} style={styles.textContent}>{obj.content}</Text>
+				<View key={i}><Text  style={styles.textContent}>{obj.content}</Text></View>
 			);
 		} else if (obj.type === 'image') {
 			console.log(obj.content);
 			return (
-				<View key={i} style={styles.imgContainer}>
+				<View style={styles.imgContainer}>
 					<Image 
+						key={i}
 						style={styles.img}
-						// source={require(obj.content)}
-						source={require('../assets/creation_compte_google.jpg')}
+						// source={require(obj.content)} // ne fonctionn pas
+						// source={require('../assets/creation_compte_google.jpg')} // fonctionne !?!
+						// on va chercher la photo stockée en ligne sur Cloudinary (url renseignée dans la base de données)
+						source={{uri: obj.content}}
 					/>
 				</View>
+					
 			);
 		}
 	});
@@ -175,7 +179,7 @@ export default function TutoScreen({ navigation }: TutoScreenProps) {
 			</View>
 
 			<View style={styles.tuto}>
-				<ScrollView>
+				<ScrollView contentContainerStyle={styles.scrollView}>
 					{tutorialContent}
 				</ScrollView>
 			</View>
@@ -421,13 +425,17 @@ const styles = StyleSheet.create({
 	},
 
 	imgContainer: {
-		width: "90%",
-		height: "10%",
+		width: "100%",
+		height: "100%",
 	},
 
 	img: {
 		marginBottom: 5,
-		width: 300,
-		height: 200,
+		width: "100%",
+		height: "100%",
+	},
+
+	scrollView: {
+		paddingBottom: 1000,
 	},
 });
