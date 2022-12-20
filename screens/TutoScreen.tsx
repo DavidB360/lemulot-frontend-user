@@ -105,9 +105,8 @@ export default function TutoScreen({ navigation }: TutoScreenProps) {
 		} else if (obj.type === 'image') {
 			console.log(obj.content);
 			return (
-				<View style={styles.imgContainer}>
+				<View key={i} style={styles.imgContainer}>
 					<Image 
-						key={i}
 						style={styles.img}
 						// source={require(obj.content)} // ne fonctionn pas
 						// source={require('../assets/creation_compte_google.jpg')} // fonctionne !?!
