@@ -53,7 +53,7 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 			category: "internet",
 			difficulty: "easy",
 			content:
-				"<View><Text>Nous allons créer une adresse gmail pas à pas avec toi ...</Text></View>",
+				"[{ type: 'text', content: 'Nous allons créer une adresse gmail pas à pas avec toi ...'}]",
 		},
 		{
 			_id: "2",
@@ -64,7 +64,7 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 			category: "system",
 			difficulty: "easy",
 			content:
-				"<View><Text>Cliquer sur l'icone à droite de votre barre des tâches ...</Text></View>",
+				"[{ type: 'text', content: 'Cliquer sur l\'icone à droite de votre barre des tâches ...' }]",
 		},
 		{
 			_id: "3",
@@ -75,7 +75,7 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 			category: "software",
 			difficulty: "easy",
 			content:
-				"<View><Text>en bas de votre écran, appuyer sur le bouton en forme d'appareil photo ...</Text></View>",
+				"[{ type: 'text', content: 'En bas de votre écran, appuyer sur le bouton en forme d\'appareil photo ...' }]",
 		},
 		{
 			_id: "4",
@@ -86,7 +86,7 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 			category: "system",
 			difficulty: "advanced",
 			content:
-				"<View><Text>Télécharger l'application ccleaner à l'adresse suivante...</Text></View>",
+				"[{ type: 'text', content: 'Télécharger l\'application ccleaner à l'adresse suivante...' }]",
 		},
 		{
 			_id: "5",
@@ -97,7 +97,7 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 			category: "internet",
 			difficulty: "intermediate",
 			content:
-				"<View><Text>Télécharger l'application ccleaner à l'adresse suivante...</Text></View>",
+				"[{ type: 'text', content: 'Vérifier l'objet du message, l\'email de l\'émetteur et du destinataire... ' }]",
 		},
 		{
 			_id: "6",
@@ -108,7 +108,7 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 			category: "system",
 			difficulty: "easy",
 			content:
-				"<View><Text>Cliquer sur l'icone à droite de votre barre des tâches ...</Text></View>",
+				"[{ type: 'text', content: 'Cliquer sur l'icone à droite de votre barre des tâches ...' }]",
 		},
 	];
 
