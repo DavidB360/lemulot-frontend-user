@@ -4,6 +4,7 @@ import {
 	TouchableOpacity,
 	StyleSheet,
 	ScrollView,
+	Image,
 } from "react-native";
 
 import { NavigationProp, ParamListBase } from "@react-navigation/native";
@@ -21,6 +22,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faHeartCirclePlus } from "@fortawesome/free-solid-svg-icons";
 import { BACKEND_URL } from "@env";
 import { Types } from 'mongoose';
+import { autoBatchEnhancer } from "@reduxjs/toolkit";
 
 type TutoScreenProps = {
 	navigation: NavigationProp<ParamListBase>;
@@ -39,11 +41,11 @@ export default function TutoScreen({ navigation }: TutoScreenProps) {
 	const user = useSelector((state: {user: UserState }) => state.user.value);
 
 	// on crée un useState pour stocker l'objet tutoriel récupéré dans la base de données à partir de son id
-	const [tutorialToDisplay, setTutorialToDisplay] = useState({
+	const [tutorialToDisplay, setTutorialToDisplay] = useState<any>({
 		title: "",
 		creationDate: "",
 		author: "",
-		content: "leçon en chargement...",
+		content: [{type: 'text', content: 'pas de contenu'}],
 		_id: "",
 	});
 
@@ -93,6 +95,27 @@ export default function TutoScreen({ navigation }: TutoScreenProps) {
 
 	const dateCrea = new Date(tutorialToDisplay.creationDate);
 
+	// console.log(tutorialToDisplay.content);
+	const tutorialContent = tutorialToDisplay.content.map((obj: any, i: number) => {
+		// console.log(obj.content);
+		if (obj.type === 'text') {
+			return (
+				<Text key={i} style={styles.textContent}>{obj.content}</Text>
+			);
+		} else if (obj.type === 'image') {
+			console.log(obj.content);
+			return (
+				<View key={i} style={styles.imgContainer}>
+					<Image 
+						style={styles.img}
+						// source={require(obj.content)}
+						source={require('../assets/creation_compte_google.jpg')}
+					/>
+				</View>
+			);
+		}
+	});
+
 	return (
 		<View style={styles.container}>
 			<View style={styles.btnTop}>
@@ -117,7 +140,7 @@ export default function TutoScreen({ navigation }: TutoScreenProps) {
 
 			<View style={styles.titleTuto}>
 				<View style={styles.tutoText}>
-					<Text style={styles.textResult}>
+					<Text style={styles.tutoTitle}>
 						Titre : {tutorialToDisplay.title}
 					</Text>
 					<Text style={styles.textResult}>
@@ -150,11 +173,13 @@ export default function TutoScreen({ navigation }: TutoScreenProps) {
 				</TouchableOpacity>
 				}
 			</View>
+
 			<View style={styles.tuto}>
 				<ScrollView>
-					<Text>{tutorialToDisplay.content}</Text>
+					{tutorialContent}
 				</ScrollView>
 			</View>
+
 			<View style={styles.btnBottom}>
 				<TouchableOpacity
 					style={styles.btnHelrequest}
@@ -289,6 +314,15 @@ const styles = StyleSheet.create({
 		textShadowOffset: { width: 0, height: 2 },
 		textShadowRadius: 5,
 	},
+	
+	tutoTitle: {
+		paddingBottom: 5,
+		fontSize: 20,
+		textShadowColor: "#fff",
+		textShadowOffset: { width: 0, height: 2 },
+		textShadowRadius: 5,
+		fontWeight: "bold",
+	},
 
 	btnFavorite: {
 		marginRight: 10,
@@ -330,6 +364,7 @@ const styles = StyleSheet.create({
 
 	tuto: {
 		marginTop: 20,
+		padding: 10,
 		flexDirection: "column",
 		justifyContent: "center",
 		alignItems: "center",
@@ -377,5 +412,22 @@ const styles = StyleSheet.create({
 	textBtnHelrequest: {
 		fontSize: 22,
 		color: "#000000",
+	},
+
+	textContent: {
+		fontSize: 20,
+		textAlign: "justify",
+		marginBottom: 5,
+	},
+
+	imgContainer: {
+		width: "90%",
+		height: "10%",
+	},
+
+	img: {
+		marginBottom: 5,
+		width: 300,
+		height: 200,
 	},
 });
