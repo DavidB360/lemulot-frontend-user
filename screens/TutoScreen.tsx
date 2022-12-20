@@ -57,9 +57,9 @@ export default function TutoScreen({ navigation }: TutoScreenProps) {
 
 	// fonction pour ajouter le tutoriel aux favoris
 	const handleClickAddToFavorites = (token: string|null, tutoId: Types.ObjectId|null) => {
-		console.log(BACKEND_URL + "addToFavorites/" + token + '/' + tutoId);
-		fetch(BACKEND_URL + "addToFavorites/" + token + '/' + tutoId, 
-		{ // il manque des choses : possible unhandled promise rejection
+		// console.log(BACKEND_URL + "users/addToFavorites/" + token + '/' + tutoId);
+		fetch(BACKEND_URL + "users/addToFavorites/" + token + '/' + tutoId, 
+		{
 			method: "PUT"
 		})
 		.then((response) => response.json())
@@ -70,9 +70,9 @@ export default function TutoScreen({ navigation }: TutoScreenProps) {
 			});
 	};
 
-	// fonction pour supprimer le tutoriel des favoris
+	// fonction pour retirer le tutoriel des favoris
 	const handleClickRemoveFromFavorites = (token: string|null, tutoId: Types.ObjectId|null) => {
-		fetch(BACKEND_URL + "removeFromFavorites/" + token + '/' + tutoId, { method: "DELETE"})
+		fetch(BACKEND_URL + "users/removeFromFavorites/" + token + '/' + tutoId, { method: "DELETE"})
 		.then((response) => response.json())
 			.then((data) => {
 				if (data.result === true) {
@@ -103,18 +103,17 @@ export default function TutoScreen({ navigation }: TutoScreenProps) {
 				<View key={i}><Text  style={styles.textContent}>{obj.content}</Text></View>
 			);
 		} else if (obj.type === 'image') {
-			console.log(obj.content);
+			// console.log(obj.content);
 			return (
 				<View key={i} style={styles.imgContainer}>
 					<Image 
 						style={styles.img}
-						// source={require(obj.content)} // ne fonctionn pas
+						// source={require(obj.content)} // ne fonctionne pas
 						// source={require('../assets/creation_compte_google.jpg')} // fonctionne !?!
-						// on va chercher la photo stockée en ligne sur Cloudinary (url renseignée dans la base de données)
+						// on va chercher la photo stockée en ligne sur Cloudinary (url renseignée dans la base de données) :
 						source={{uri: obj.content}}
 					/>
-				</View>
-					
+				</View>		
 			);
 		}
 	});
@@ -430,8 +429,8 @@ const styles = StyleSheet.create({
 
 	img: {
 		marginBottom: 5,
-		width: "100%",
 		height: "100%",
+		width: "100%",
 	},
 
 	scrollView: {

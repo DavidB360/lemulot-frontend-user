@@ -1,4 +1,3 @@
-import React from "react";
 import {
 	View,
 	Text,
@@ -16,12 +15,28 @@ import {
 	faCircleCheck,
 } from "@fortawesome/free-solid-svg-icons";
 import { faHourglassHalf } from "@fortawesome/free-regular-svg-icons";
+import { UserState } from "../reducers/user";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 type UserHelpScreenProps = {
 	navigation: NavigationProp<ParamListBase>;
 };
 
 export default function UserHelpScreen({ navigation }: UserHelpScreenProps) {
+
+	// intitiation d'un useState pour l'input de recherche
+	const [tutorialSearch, setTutorialSearch] = useState("");
+
+	// intitialisation d'un useState qui va stocker les demandes d'aide afficher
+	const [selectedHelpRequests, setSelectedHelpRequests] = useState<any>([]);
+
+	// initialisation d'un useState pour gérer la recherche avec une regex
+	const [regexSearch, setRegexSearch] = useState("");
+
+	// on charge le reducer user pour afficher son prénom
+	const user = useSelector((state: {user: UserState }) => state.user.value);
+
 	return (
 		<View style={styles.container}>
 			<View style={styles.btnTop}>
@@ -39,6 +54,9 @@ export default function UserHelpScreen({ navigation }: UserHelpScreenProps) {
 						style={styles.iconUsers}
 					/>
 				</TouchableOpacity>
+
+				<Text style={styles.title}>Bonjour {user.firstName}</Text>
+
 				<TouchableOpacity
 					style={styles.btnAide}
 					// onPress={() => navigation.navigate("Type")}
@@ -47,7 +65,7 @@ export default function UserHelpScreen({ navigation }: UserHelpScreenProps) {
 				</TouchableOpacity>
 			</View>
 			<View style={styles.textContainer}>
-				<Text style={styles.textTitle}>Mes demandes D'aide</Text>
+				<Text style={styles.pageTitle}>Mes demandes D'aide</Text>
 			</View>
 			<View style={styles.researchContainer}>
 				<TextInput
@@ -234,6 +252,14 @@ const styles = StyleSheet.create({
 		marginTop: 50,
 	},
 
+	title: {
+		fontSize: 25,
+		color: "#191970",
+		textShadowColor: "#696969",
+		textShadowOffset: { width: 0, height: 3 },
+		textShadowRadius: 5,
+	},
+
 	btnUsers: {
 		flexDirection: "column",
 		alignItems: "center",
@@ -303,7 +329,7 @@ const styles = StyleSheet.create({
 		borderRightWidth: 2,
 	},
 
-	textTitle: {
+	pageTitle: {
 		fontSize: 22,
 	},
 

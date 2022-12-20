@@ -2,15 +2,22 @@ import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../reducers/user";
+import { UserState } from "../reducers/user";
+
 
 export default function UserSettingScreen({ navigation }: any) {
 	const dispatch = useDispatch();
 
+	// on charge le reducer user pour afficher son prénom
+	const user = useSelector((state: {user: UserState }) => state.user.value);
+
 	return (
 		<View style={styles.container}>
 			<View style={styles.btnTop}>
+				<Text style={styles.title}>Bonjour {user.firstName}</Text>
+
 				<TouchableOpacity
 					style={styles.btnAide}
 					// onPress={() => navigation.navigate("Type")}
@@ -75,11 +82,20 @@ const styles = StyleSheet.create({
 
 	btnTop: {
 		flexDirection: "row",
-		justifyContent: "flex-end",
+		justifyContent: "space-between",
 		alignItems: "center",
 		width: "100%",
 		marginBottom: 20,
 		marginTop: 50,
+	},
+
+	title: {
+		fontSize: 25,
+		color: "#191970",
+		textShadowColor: "#696969",
+		textShadowOffset: { width: 0, height: 3 },
+		textShadowRadius: 5,
+		marginLeft: 20,
 	},
 
 	btnAide: {

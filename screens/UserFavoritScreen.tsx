@@ -16,7 +16,7 @@ import { UserState } from "../reducers/user";
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { updateTuto } from "../reducers/tuto";
-
+import { Types } from 'mongoose';
 
 type UserFavoritScreenProps = {
 	navigation: NavigationProp<ParamListBase>;
@@ -34,19 +34,17 @@ export default function UserFavoritScreen({	navigation }: UserFavoritScreenProps
 	// initialisation d'un useState pour gérer la recherche avec une regex
 	const [regexSearch, setRegexSearch] = useState("");
 
-	// on charge le reducer user pour afficher son prénom
+	// on charge le reducer user pour afficher son prénom et connaître ses leçons favorites
 	const user = useSelector((state: {user: UserState }) => state.user.value);
 
 	useEffect(() => {
-		// à faire : populate sur id de FavoriteLessons pour récupérer tableau de tutos favoris
-			fetch(BACKEND_URL + "tutorials")
-				.then((response) => response.json())
-				.then((data) => {
-					if (data.result === true) {
-						// console.log(data.tutorials);
-						setSelectedTutorials(data.tutorials);
-					}
-				});
+		fetch(BACKEND_URL + "users/favoriteTutorials/" + user.token)
+			.then((response) => response.json())
+			.then((data) => {
+				if (data.result === true) {
+					setSelectedTutorials(data.favoriteTutorials);
+				}
+			});
 	}, []);
 
 	// automatisation de l'affichage des tutoriels : on crée le contenu à partir du tableau de tutoriels avec un "map"
@@ -161,7 +159,7 @@ export default function UserFavoritScreen({	navigation }: UserFavoritScreenProps
 			</View>
 
 			<View style={styles.textContainer}>
-				<Text style={styles.textTitle}>Mes leçons favorites</Text>
+				<Text style={styles.pageTitle}>Mes leçons favorites</Text>
 			</View>
 
 			<View style={styles.researchContainer}>
@@ -298,6 +296,10 @@ const styles = StyleSheet.create({
 		borderBottomWidth: 2,
 		borderLeftWidth: 2,
 		borderRightWidth: 2,
+	},
+
+	pageTitle: {
+		fontSize: 22,
 	},
 
 	researchContainer: {
