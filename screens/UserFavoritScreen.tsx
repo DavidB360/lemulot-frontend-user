@@ -1,4 +1,3 @@
-import React from "react";
 import {
 	View,
 	Text,
@@ -11,16 +10,130 @@ import { NavigationProp, ParamListBase } from "@react-navigation/native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { BACKEND_URL } from "@env";
+import { updatePrevPage } from "../reducers/prevPage";
+import { UserState } from "../reducers/user";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { updateTuto } from "../reducers/tuto";
+
 
 type UserFavoritScreenProps = {
 	navigation: NavigationProp<ParamListBase>;
 };
 
-export default function UserFavoritScreen({
-	navigation,
-}: UserFavoritScreenProps) {
+export default function UserFavoritScreen({	navigation }: UserFavoritScreenProps) {
+	const dispatch = useDispatch();
+
+	// intitiation d'un useState pour l'input de recherche
+	const [tutorialSearch, setTutorialSearch] = useState("");
+
+	// intitialisation d'un useState qui va stocker les tutoriels à afficher
+	const [selectedTutorials, setSelectedTutorials] = useState<any>([]);
+
+	// initialisation d'un useState pour gérer la recherche avec une regex
+	const [regexSearch, setRegexSearch] = useState("");
+
+	// on charge le reducer user pour afficher son prénom
+	const user = useSelector((state: {user: UserState }) => state.user.value);
+
+	useEffect(() => {
+		// à faire : populate sur id de FavoriteLessons pour récupérer tableau de tutos favoris
+			fetch(BACKEND_URL + "tutorials")
+				.then((response) => response.json())
+				.then((data) => {
+					if (data.result === true) {
+						// console.log(data.tutorials);
+						setSelectedTutorials(data.tutorials);
+					}
+				});
+	}, []);
+
+	// automatisation de l'affichage des tutoriels : on crée le contenu à partir du tableau de tutoriels avec un "map"
+	const displayedTutorials = selectedTutorials.map(
+		(tutorial: any, i: any) => {
+			// préparation d'une regex pour permettre la recherche par mot clé dans le titre des tutoriels
+			const pattern = new RegExp(regexSearch, "i");
+			// on charge la date dans un objet Date pour pouvoir formater l'affichage de la date à notre façon
+			const date = new Date(tutorial.creationDate);
+
+			if (pattern.test(tutorial.title)) {
+				return (
+					<TouchableOpacity
+						key={i}
+						onPress={() => {
+							dispatch(updateTuto(tutorial._id));
+							dispatch(updatePrevPage("Favoris"));
+							navigation.navigate("Tuto");
+						}}
+					>
+						<View style={styles.tuto}>
+							<View style={styles.tutoText}>
+								<Text style={styles.textTitle}>
+									Titre : {tutorial.title}
+								</Text>
+								<Text style={styles.textDate}>
+									Date de création :{" "}
+									{date.getDate() +
+										"/" +
+										(date.getMonth() + 1) +
+										"/" +
+										date.getFullYear()}
+								</Text>
+								<Text style={styles.textAuthor}>
+									Auteur : {tutorial.author}
+								</Text>
+							</View>
+							
+							{/* Affichage des icones "difficulté" fonction du paramètre difficulty */}
+							{tutorial.difficulty === "easy" && (
+								<View style={styles.difficulty}>
+									<FontAwesome
+										name="thermometer-empty"
+										size={40}
+										color={"#5db194"}
+									/>
+									<Text style={styles.textDifficulty}>
+										Facile
+									</Text>
+								</View>
+							)}
+
+							{tutorial.difficulty === "intermediate" && (
+								<View style={styles.difficulty}>
+									<FontAwesome
+										name="thermometer-half"
+										size={40}
+										color={"#ffd700"}
+									/>
+									<Text style={styles.textDifficulty}>
+										Moyen
+									</Text>
+								</View>
+							)}
+
+							{tutorial.difficulty === "advanced" && (
+								<View style={styles.difficulty}>
+									<FontAwesome
+										name="thermometer-full"
+										size={40}
+										color={"#ff4500"}
+									/>
+									<Text style={styles.textDifficulty}>
+										Avancé
+									</Text>
+								</View>
+							)}
+						</View>
+					</TouchableOpacity>
+				);
+			}
+		}
+	);
+
 	return (
 		<View style={styles.container}>
+
 			<View style={styles.btnTop}>
 				<TouchableOpacity
 					style={styles.btnUsers}
@@ -36,6 +149,9 @@ export default function UserFavoritScreen({
 						style={styles.iconUsers}
 					/>
 				</TouchableOpacity>
+
+				<Text style={styles.title}>Bonjour {user.firstName}</Text>
+
 				<TouchableOpacity
 					style={styles.btnAide}
 					// onPress={() => navigation.navigate("Type")}
@@ -43,19 +159,23 @@ export default function UserFavoritScreen({
 					<Text style={styles.textBtnAide}>?</Text>
 				</TouchableOpacity>
 			</View>
+
 			<View style={styles.textContainer}>
 				<Text style={styles.textTitle}>Mes leçons favorites</Text>
 			</View>
+
 			<View style={styles.researchContainer}>
 				<TextInput
 					style={styles.input}
-					//onChangeText={(e) => setTutorial(e.target.value)}
-					//value={tutorial}
+					// on envoie le texte tapé dans le useState tutorialSearch à chaque changement
+					onChangeText={(value) => setTutorialSearch(value)}
+					value={tutorialSearch}
 					placeholder="Recherche..."
 				/>
 				<TouchableOpacity
 					style={styles.btnResearch}
-					// onPress={() => navigation.navigate("Tuto")}
+					// on affecte tutorialSearch au useState regexSearch au clic sur le bouton loupe
+					onPress={() => setRegexSearch(tutorialSearch)}
 				>
 					<FontAwesome
 						name="search"
@@ -64,175 +184,17 @@ export default function UserFavoritScreen({
 					/>
 				</TouchableOpacity>
 			</View>
+
 			<View style={styles.resultResearch}>
 				<ScrollView>
-					<TouchableOpacity
-						onPress={() => navigation.navigate("Tuto")}
-					>
-						<View style={styles.tuto}>
-							<View style={styles.tutoText}>
-								<Text style={styles.textResult}>
-									Title: "Envoyer une photo dans WhatsApp"
-								</Text>
-								<Text style={styles.textResult}>
-									Device: "Smartphone"
-								</Text>
-								<Text style={styles.textResult}>
-									Category: "Communication"
-								</Text>
-								<Text style={styles.textResult}>
-									CreationDate: "13-12-2022"
-								</Text>
-								<Text style={styles.textResult}>
-									Author: "Mulot Influenceur"
-								</Text>
-							</View>
-							<View style={styles.difficulty}>
-								<FontAwesome
-									name="thermometer-empty"
-									size={40}
-									color={"#5db194"}
-								/>
-								<Text style={styles.textDifficulty}>
-									Facile
-								</Text>
-							</View>
-						</View>
-					</TouchableOpacity>
-					<TouchableOpacity
-						onPress={() => navigation.navigate("Tuto")}
-					>
-						<View style={styles.tuto}>
-							<View style={styles.tutoText}>
-								<Text style={styles.textResult}>
-									Title: "Envoyer une photo dans WhatsApp"
-								</Text>
-								<Text style={styles.textResult}>
-									Device: "Smartphone"
-								</Text>
-								<Text style={styles.textResult}>
-									Category: "Communication"
-								</Text>
-								<Text style={styles.textResult}>
-									CreationDate: "13-12-2022"
-								</Text>
-								<Text style={styles.textResult}>
-									Author: "Mulot Influenceur"
-								</Text>
-							</View>
-							<View style={styles.difficulty}>
-								<FontAwesome
-									name="thermometer-empty"
-									size={40}
-									color={"#5db194"}
-								/>
-								<Text style={styles.textDifficulty}>
-									Facile
-								</Text>
-							</View>
-						</View>
-					</TouchableOpacity>
-					<TouchableOpacity
-						onPress={() => navigation.navigate("Tuto")}
-					>
-						<View style={styles.tuto}>
-							<View style={styles.tutoText}>
-								<Text style={styles.textResult}>
-									Title: "Envoyer une photo dans WhatsApp"
-								</Text>
-								<Text style={styles.textResult}>
-									Device: "Smartphone"
-								</Text>
-								<Text style={styles.textResult}>
-									Category: "Communication"
-								</Text>
-								<Text style={styles.textResult}>
-									CreationDate: "13-12-2022"
-								</Text>
-								<Text style={styles.textResult}>
-									Author: "Mulot Influenceur"
-								</Text>
-							</View>
-							<View style={styles.difficulty}>
-								<FontAwesome
-									name="thermometer-half"
-									size={40}
-									color={"#ffd700"}
-								/>
-								<Text style={styles.textDifficulty}>Moyen</Text>
-							</View>
-						</View>
-					</TouchableOpacity>
-					<TouchableOpacity
-						onPress={() => navigation.navigate("Tuto")}
-					>
-						<View style={styles.tuto}>
-							<View style={styles.tutoText}>
-								<Text style={styles.textResult}>
-									Title: "Envoyer une photo dans WhatsApp"
-								</Text>
-								<Text style={styles.textResult}>
-									Device: "Smartphone"
-								</Text>
-								<Text style={styles.textResult}>
-									Category: "Communication"
-								</Text>
-								<Text style={styles.textResult}>
-									CreationDate: "13-12-2022"
-								</Text>
-								<Text style={styles.textResult}>
-									Author: "Mulot Influenceur"
-								</Text>
-							</View>
-							<View style={styles.difficulty}>
-								<FontAwesome
-									name="thermometer-half"
-									size={40}
-									color={"#ffd700"}
-								/>
-								<Text style={styles.textDifficulty}>Moyen</Text>
-							</View>
-						</View>
-					</TouchableOpacity>
-					<TouchableOpacity
-						onPress={() => navigation.navigate("Tuto")}
-					>
-						<View style={styles.tuto}>
-							<View style={styles.tutoText}>
-								<Text style={styles.textResult}>
-									Title: "Envoyer une photo dans WhatsApp"
-								</Text>
-								<Text style={styles.textResult}>
-									Device: "Smartphone"
-								</Text>
-								<Text style={styles.textResult}>
-									Category: "Communication"
-								</Text>
-								<Text style={styles.textResult}>
-									CreationDate: "13-12-2022"
-								</Text>
-								<Text style={styles.textResult}>
-									Author: "Mulot Influenceur"
-								</Text>
-							</View>
-							<View style={styles.difficulty}>
-								<FontAwesome
-									name="thermometer-full"
-									size={40}
-									color={"#ff4500"}
-								/>
-								<Text style={styles.textDifficulty}>
-									Expert
-								</Text>
-							</View>
-						</View>
-					</TouchableOpacity>
+					{displayedTutorials}
 				</ScrollView>
 			</View>
+
 			<View style={styles.lesson}>
 				<TouchableOpacity
 					style={styles.btnLesson}
-					onPress={() => navigation.navigate("Home")}
+					onPress={() => navigation.navigate("Device")}
 				>
 					<Text style={styles.textBtnLesson}>
 						Les leçons du Mulot
@@ -259,6 +221,14 @@ const styles = StyleSheet.create({
 		width: "100%",
 		marginBottom: 20,
 		marginTop: 50,
+	},
+
+	title: {
+		fontSize: 25,
+		color: "#191970",
+		textShadowColor: "#696969",
+		textShadowOffset: { width: 0, height: 3 },
+		textShadowRadius: 5,
 	},
 
 	btnUsers: {
@@ -328,10 +298,6 @@ const styles = StyleSheet.create({
 		borderBottomWidth: 2,
 		borderLeftWidth: 2,
 		borderRightWidth: 2,
-	},
-
-	textTitle: {
-		fontSize: 22,
 	},
 
 	researchContainer: {
@@ -440,6 +406,27 @@ const styles = StyleSheet.create({
 		marginTop: 5,
 		marginLeft: 5,
 		width: "70%",
+		height: "100%",
+		flexDirection: "column",
+		justifyContent: "space-between",
+	},
+
+	textTitle: {
+		fontWeight: "bold",
+		fontSize: 18,
+		color: "#ffffff",
+		marginTop: 4,
+	},
+
+	textDate: {
+		fontSize: 16,
+		color: "#ffffff",
+	},
+
+	textAuthor: {
+		fontSize: 16,
+		color: "#ffffff",
+		marginBottom: 20,
 	},
 
 	textResult: {

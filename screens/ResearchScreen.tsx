@@ -289,6 +289,7 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 			<View style={styles.resultResearch}>
 				<ScrollView>{displayedTutorials}</ScrollView>
 			</View>
+			
 			<View style={styles.btnBottom}>
 				<TouchableOpacity
 					style={styles.btnDico}

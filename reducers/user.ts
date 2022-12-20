@@ -1,11 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Types } from 'mongoose';
 
 export type UserState = {
 	value: {
 		token: string | null;
 		firstName: string | null;
 		lastName: string | null;
-		favoriteLessons: string[];
+		favoriteLessons: (Types.ObjectId|null)[];
 	};
 };
 
@@ -28,10 +29,10 @@ export const userSlice = createSlice({
 			state.value.lastName = action.payload.lastName;
 			state.value.favoriteLessons = action.payload.favoriteLessons;
 		},
-		addToFavoriteLessons: (state, action: PayloadAction<string>) => {
+		addToFavoriteLessons: (state, action: PayloadAction<Types.ObjectId|null>) => {
 			state.value.favoriteLessons.push(action.payload);
 		},
-		removeFromFavoriteLessons: (state, action: PayloadAction<string>) => {
+		removeFromFavoriteLessons: (state, action: PayloadAction<Types.ObjectId|null>) => {
 			state.value.favoriteLessons = state.value.favoriteLessons.filter(
 				(data) => data !== action.payload
 			);

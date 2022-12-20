@@ -20,6 +20,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faHeartCirclePlus } from "@fortawesome/free-solid-svg-icons";
 import { BACKEND_URL } from "@env";
+import { Types } from 'mongoose';
 
 type TutoScreenProps = {
 	navigation: NavigationProp<ParamListBase>;
@@ -34,7 +35,10 @@ export default function TutoScreen({ navigation }: TutoScreenProps) {
 	// on charge le reducer prevPage pour indiquer la page précédente au bouton retour
 	const prevPage = useSelector((state: {prevPage: PrevPageState }) => state.prevPage.value);
 
-	// on crée une useState pour stocker l'objet tutoriel récupéré dans la base de données à partir de son id
+	// on charge le reducer user pour savoir si l'utilisateur est connecté et connaître ses leçons favorites
+	const user = useSelector((state: {user: UserState }) => state.user.value);
+
+	// on crée un useState pour stocker l'objet tutoriel récupéré dans la base de données à partir de son id
 	const [tutorialToDisplay, setTutorialToDisplay] = useState({
 		title: "",
 		creationDate: "",
@@ -42,6 +46,38 @@ export default function TutoScreen({ navigation }: TutoScreenProps) {
 		content: "leçon en chargement...",
 		_id: "",
 	});
+
+	// l'utilisateur est-il connecté ?
+	const isUserConnected = (user.token !== null);
+
+	// le tutoriel est-il dans les favoris ?
+	const isTutoLiked = user.favoriteLessons.some(e => e === tuto);
+
+	// fonction pour ajouter le tutoriel aux favoris
+	const handleClickAddToFavorites = (token: string|null, tutoId: Types.ObjectId|null) => {
+		console.log(BACKEND_URL + "addToFavorites/" + token + '/' + tutoId);
+		fetch(BACKEND_URL + "addToFavorites/" + token + '/' + tutoId, 
+		{ // il manque des choses : possible unhandled promise rejection
+			method: "PUT"
+		})
+		.then((response) => response.json())
+			.then((data) => {
+				if (data.result === true) {
+					dispatch(addToFavoriteLessons(tutoId));
+				}
+			});
+	};
+
+	// fonction pour supprimer le tutoriel des favoris
+	const handleClickRemoveFromFavorites = (token: string|null, tutoId: Types.ObjectId|null) => {
+		fetch(BACKEND_URL + "removeFromFavorites/" + token + '/' + tutoId, { method: "DELETE"})
+		.then((response) => response.json())
+			.then((data) => {
+				if (data.result === true) {
+					dispatch(removeFromFavoriteLessons(tutoId));
+				}
+			});
+	};
 
 	useEffect(() => {
 		// on récupère le tutoriel par son id dans la base de données
@@ -92,25 +128,27 @@ export default function TutoScreen({ navigation }: TutoScreenProps) {
 						Auteur: {tutorialToDisplay.author}
 					</Text>
 				</View>
+				{ isUserConnected &&
 				<TouchableOpacity
 					style={styles.btnFavorite}
 					onPress={() => {
-						// dispatch(addToFavoriteLessons(tutorialToDisplay._id));
+						isTutoLiked ? handleClickRemoveFromFavorites(user.token, tuto) : handleClickAddToFavorites(user.token, tuto);
 					}}
 				>
 					<View style={styles.icon}>
-						<FontAwesome
+						{isTutoLiked && <FontAwesome
 							name="heart"
 							size={40}
 							style={styles.iconHeart}
-						/>
-						{/* <FontAwesomeIcon
+						/>}
+						{!isTutoLiked && <FontAwesomeIcon
 							icon={faHeartCirclePlus}
 							size={40}
-							style={styles.iconHeart}
-						/> */}
+							style={styles.iconHeartPlus}
+						/>}
 					</View>
 				</TouchableOpacity>
+				}
 			</View>
 			<View style={styles.tuto}>
 				<ScrollView>
@@ -276,6 +314,15 @@ const styles = StyleSheet.create({
 		marginLeft: 5,
 		marginRight: 5,
 		color: "#dc143c",
+		textShadowColor: "#000000",
+		textShadowOffset: { width: 0, height: 3 },
+		textShadowRadius: 3,
+	},
+
+	iconHeartPlus: {
+		marginLeft: 5,
+		marginRight: 5,
+		color: "gray",
 		textShadowColor: "#000000",
 		textShadowOffset: { width: 0, height: 3 },
 		textShadowRadius: 3,
