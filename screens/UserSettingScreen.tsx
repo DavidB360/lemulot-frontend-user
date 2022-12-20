@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
+// import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+// import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch } from "react-redux";
 import { logout } from "../reducers/user";
 
@@ -21,18 +21,18 @@ export default function UserSettingScreen({ navigation }: any) {
 			<View style={styles.btnContainer}>
 				<TouchableOpacity
 					style={styles.btnSetting}
-					// onPress={() => }
+					onPress={() => navigation.navigate("Profile")}
 				>
 					<Text style={styles.textBtnSetting}>
 						Changer ma photo de profil
 					</Text>
 				</TouchableOpacity>
 				<View style={styles.user}>
-					<FontAwesomeIcon
+					{/* <FontAwesomeIcon
 						icon={faUser}
 						size={100}
 						style={styles.iconUser}
-					/>
+					/> */}
 				</View>
 				<TouchableOpacity
 					style={styles.btnSetting}
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
 		elevation: 25,
 		width: 150,
 		height: 150,
-		backgroundColor: "#fff",
+		backgroundColor: "#5db194",
 		justifyContent: "center",
 		alignItems: "center",
 	},

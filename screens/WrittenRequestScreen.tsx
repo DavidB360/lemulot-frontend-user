@@ -8,7 +8,7 @@ import {
 import { NavigationProp, ParamListBase } from "@react-navigation/native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faCameraRetro } from "@fortawesome/free-solid-svg-icons";
 
 type WrittenRequestScreenProps = {
 	navigation: NavigationProp<ParamListBase>;
@@ -50,9 +50,33 @@ export default function WrittenRequestScreen({
 					//value={tutorial}
 					placeholder="Recherche..."
 					placeholderTextColor="#808080"
-					// maxLength={280}
+					maxLength={280}
 					multiline={true}
 				/>
+			</View>
+			<View style={styles.camera}>
+				<Text style={styles.textCamera}>
+					Prendre une photo du problème
+				</Text>
+				<TouchableOpacity
+					style={styles.btnCamera}
+					onPress={() => navigation.navigate("Camera")}
+				>
+					<FontAwesome
+						name="camera-retro"
+						size={50}
+						color="#fff"
+						style={styles.iconCamera}
+					/>
+				</TouchableOpacity>
+			</View>
+			<View style={styles.btnBottom}>
+				<TouchableOpacity
+					style={styles.btnSend}
+					// onPress={() => }
+				>
+					<Text style={styles.textSend}>Envoyer</Text>
+				</TouchableOpacity>
 			</View>
 		</View>
 	);
@@ -177,5 +201,86 @@ const styles = StyleSheet.create({
 		shadowRadius: 16.0,
 
 		elevation: 25,
+	},
+
+	camera: {
+		flexDirection: "column",
+		justifyContent: "center",
+		alignItems: "center",
+	},
+
+	textCamera: {
+		marginTop: 20,
+		marginBottom: 20,
+		fontSize: 22,
+		textShadowColor: "#808080",
+		textShadowOffset: { width: 0, height: 2 },
+		textShadowRadius: 5,
+	},
+
+	btnCamera: {
+		justifyContent: "center",
+		alignItems: "center",
+		backgroundColor: "#778ed4",
+		width: 150,
+		height: 100,
+		borderColor: "#808080",
+		borderRadius: 6,
+		borderBottomWidth: 4,
+		borderLeftWidth: 2,
+		borderRightWidth: 2,
+		shadowOffset: {
+			width: -10,
+			height: 12,
+		},
+		shadowOpacity: 0.58,
+		shadowRadius: 16.0,
+
+		elevation: 25,
+	},
+
+	iconCamera: {
+		textShadowColor: "#000",
+		textShadowOffset: { width: 0, height: 2 },
+		textShadowRadius: 3,
+	},
+
+	btnBottom: {
+		flexDirection: "column",
+		justifyContent: "center",
+		alignItems: "center",
+		width: "100%",
+	},
+
+	btnSend: {
+		marginTop: 30,
+		marginBottom: 10,
+		backgroundColor: "#5db194",
+		width: "60%",
+		height: 60,
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "center",
+		borderRadius: 10,
+		borderColor: "#808080",
+		borderBottomWidth: 4,
+		borderLeftWidth: 2,
+		borderRightWidth: 2,
+		shadowOffset: {
+			width: -10,
+			height: 12,
+		},
+		shadowOpacity: 0.58,
+		shadowRadius: 16.0,
+
+		elevation: 25,
+	},
+
+	textSend: {
+		fontSize: 22,
+		color: "#ffffff",
+		textShadowColor: "#000000",
+		textShadowOffset: { width: 0, height: 2 },
+		textShadowRadius: 5,
 	},
 });
