@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
-	KeyboardAvoidingView,
 	Platform,
+	KeyboardAvoidingView,
 	StyleSheet,
 	Text,
 	TextInput,
@@ -12,6 +12,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { useDispatch, useSelector } from "react-redux";
 import { login, UserState } from "../reducers/user";
 import { BACKEND_URL } from "@env";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const EMAIL_REGEX: RegExp =
 	/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -67,72 +68,71 @@ export default function SignIn({ navigation }: any) {
 	};
 
 	return (
-		<KeyboardAvoidingView
-			style={styles.container}
-			behavior={Platform.OS === "ios" ? "padding" : "height"}
-		>
-			<View style={styles.btnTop}>
-				<TouchableOpacity
-					style={styles.btnRetour}
-					onPress={() => navigation.navigate("Connection")}
-				>
-					<FontAwesome
-						name="long-arrow-left"
-						size={50}
-						style={styles.iconArrow}
-					/>
-					<Text style={styles.textBtnRetour}>Retour</Text>
-				</TouchableOpacity>
-				<TouchableOpacity
-					style={styles.btnAide}
-					// onPress={() => navigation.navigate("Type")}
-				>
-					<Text style={styles.textBtnAide}>?</Text>
-				</TouchableOpacity>
-			</View>
-			<Text style={styles.title}>Connexion</Text>
+		<KeyboardAwareScrollView style={styles.container}>
+			<View style={styles.all}>
+				<View style={styles.btnTop}>
+					<TouchableOpacity
+						style={styles.btnRetour}
+						onPress={() => navigation.navigate("Connection")}
+					>
+						<FontAwesome
+							name="long-arrow-left"
+							size={50}
+							style={styles.iconArrow}
+						/>
+						<Text style={styles.textBtnRetour}>Retour</Text>
+					</TouchableOpacity>
+					<TouchableOpacity
+						style={styles.btnAide}
+						// onPress={() => navigation.navigate("Type")}
+					>
+						<Text style={styles.textBtnAide}>?</Text>
+					</TouchableOpacity>
+				</View>
+				<Text style={styles.title}>Connexion</Text>
 
-			<View style={styles.inputContainer}>
-				<TextInput
-					onChangeText={(value) => setEmail(value)}
-					value={email}
-					placeholder="Email"
-					autoCapitalize="none"
-					keyboardType="email-address"
-					textContentType="emailAddress"
-					autoComplete="email"
-					style={styles.input}
-				/>
-				<TextInput
-					onChangeText={(value) => setPassword(value)}
-					value={password}
-					secureTextEntry={true}
-					placeholder="Mot de passe"
-					style={styles.input}
-				/>
-				{emailError && (
-					<Text style={styles.error}>
-						Email ou mot de passe incorrect.
-					</Text>
-				)}
+				<View style={styles.inputContainer}>
+					<TextInput
+						onChangeText={(value) => setEmail(value)}
+						value={email}
+						placeholder="Email"
+						autoCapitalize="none"
+						keyboardType="email-address"
+						textContentType="emailAddress"
+						autoComplete="email"
+						style={styles.input}
+					/>
+					<TextInput
+						onChangeText={(value) => setPassword(value)}
+						value={password}
+						secureTextEntry={true}
+						placeholder="Mot de passe"
+						style={styles.input}
+					/>
+					{emailError && (
+						<Text style={styles.error}>
+							Email ou mot de passe incorrect.
+						</Text>
+					)}
+				</View>
+				<View style={styles.btnBottom}>
+					<TouchableOpacity
+						style={styles.btnConnection}
+						onPress={() => handleConnection()}
+					>
+						<Text style={styles.textBtnConnection}>Connexion</Text>
+					</TouchableOpacity>
+					<TouchableOpacity
+						style={styles.btnPassword}
+						onPress={() => navigation.navigate("Dico")}
+					>
+						<Text style={styles.textBtnPassword}>
+							Mot de passe oublie
+						</Text>
+					</TouchableOpacity>
+				</View>
 			</View>
-			<View style={styles.btnBottom}>
-				<TouchableOpacity
-					style={styles.btnPassword}
-					onPress={() => navigation.navigate("Dico")}
-				>
-					<Text style={styles.textBtnPassword}>
-						Mot de passe oublie
-					</Text>
-				</TouchableOpacity>
-				<TouchableOpacity
-					style={styles.btnConnection}
-					onPress={() => handleConnection()}
-				>
-					<Text style={styles.textBtnConnection}>Connexion</Text>
-				</TouchableOpacity>
-			</View>
-		</KeyboardAvoidingView>
+		</KeyboardAwareScrollView>
 	);
 }
 
@@ -140,36 +140,47 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		flexDirection: "column",
-		alignItems: "center",
-		justifyContent: "flex-start",
+
 		backgroundColor: "#ffffff",
 	},
+	all: {
+		justifyContent: "center",
+		alignItems: "center",
+	},
 	title: {
-		marginTop: 30,
-		fontSize: 40,
-		marginBottom: 20,
-		shadowColor: "#000",
-		shadowOffset: {
-			width: 0,
-			height: 12,
-		},
-		shadowOpacity: 0.7,
-		shadowRadius: 16.0,
-		elevation: 24,
+		fontSize: 35,
+		color: "#191970",
+		textShadowColor: "#696969",
+		textShadowOffset: { width: 0, height: 3 },
+		textShadowRadius: 5,
 	},
 	inputContainer: {
-		marginTop: 30,
-		margin: 15,
+		marginTop: 70,
 		alignItems: "center",
 		justifyContent: "center",
 	},
 	input: {
 		margin: 20,
-		paddingLeft: 20,
-		width: 250,
-		height: 40,
-		borderWidth: 1,
-		fontSize: 16,
+		paddingLeft: 5,
+		marginRight: 10,
+		fontSize: 22,
+		fontWeight: "bold",
+		backgroundColor: "#ffffff",
+		width: 350,
+		height: 50,
+		borderColor: "#808080",
+		borderRadius: 6,
+		borderBottomWidth: 4,
+		borderLeftWidth: 2,
+		borderRightWidth: 2,
+		shadowOffset: {
+			width: -10,
+			height: 12,
+		},
+		shadowOpacity: 0.58,
+		shadowRadius: 16.0,
+
+		elevation: 25,
 	},
 	error: {
 		color: "red",
@@ -282,9 +293,9 @@ const styles = StyleSheet.create({
 	},
 
 	btnPassword: {
-		marginTop: 50,
+		marginTop: 170,
 		marginBottom: 10,
-		backgroundColor: "#778ed4",
+		backgroundColor: "#fffb00",
 		width: "90%",
 		height: 60,
 		flexDirection: "row",
@@ -307,14 +318,14 @@ const styles = StyleSheet.create({
 
 	textBtnPassword: {
 		fontSize: 22,
-		color: "#ffffff",
-		textShadowColor: "#000000",
+		color: "#000000",
+		textShadowColor: "#ffffff",
 		textShadowOffset: { width: 0, height: 2 },
 		textShadowRadius: 5,
 	},
 	btnConnection: {
-		marginTop: 10,
-		backgroundColor: "#fffb00",
+		marginTop: 50,
+		backgroundColor: "#5db194",
 		width: "90%",
 		height: 60,
 		flexDirection: "row",
@@ -337,6 +348,6 @@ const styles = StyleSheet.create({
 
 	textBtnConnection: {
 		fontSize: 22,
-		color: "#000000",
+		color: "#ffffff",
 	},
 });

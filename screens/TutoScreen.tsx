@@ -4,6 +4,7 @@ import {
 	TouchableOpacity,
 	StyleSheet,
 	ScrollView,
+	Image,
 } from "react-native";
 
 import { NavigationProp, ParamListBase } from "@react-navigation/native";
@@ -15,10 +16,13 @@ import {
 	UserState,
 } from "../reducers/user";
 import { TutoState } from "../reducers/tuto";
+import { PrevPageState } from "../reducers/prevPage";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faHeartCirclePlus } from "@fortawesome/free-solid-svg-icons";
 import { BACKEND_URL } from "@env";
+import { Types } from 'mongoose';
+import { autoBatchEnhancer } from "@reduxjs/toolkit";
 
 type TutoScreenProps = {
 	navigation: NavigationProp<ParamListBase>;
@@ -30,14 +34,52 @@ export default function TutoScreen({ navigation }: TutoScreenProps) {
 	// on charge le reducer tuto pour connaître l'id du tutoriel à afficher
 	const tuto = useSelector((state: { tuto: TutoState }) => state.tuto.value);
 
-	// on crée une useState pour stocker l'objet tutoriel récupéré dans la base de données à partir de son id
-	const [tutorialToDisplay, setTutorialToDisplay] = useState({
+	// on charge le reducer prevPage pour indiquer la page précédente au bouton retour
+	const prevPage = useSelector((state: {prevPage: PrevPageState }) => state.prevPage.value);
+
+	// on charge le reducer user pour savoir si l'utilisateur est connecté et connaître ses leçons favorites
+	const user = useSelector((state: {user: UserState }) => state.user.value);
+
+	// on crée un useState pour stocker l'objet tutoriel récupéré dans la base de données à partir de son id
+	const [tutorialToDisplay, setTutorialToDisplay] = useState<any>({
 		title: "",
 		creationDate: "",
 		author: "",
-		content: "leçon en chargement...",
+		content: [{type: 'text', content: 'pas de contenu'}],
 		_id: "",
 	});
+
+	// l'utilisateur est-il connecté ?
+	const isUserConnected = (user.token !== null);
+
+	// le tutoriel est-il dans les favoris ?
+	const isTutoLiked = user.favoriteLessons.some(e => e === tuto);
+
+	// fonction pour ajouter le tutoriel aux favoris
+	const handleClickAddToFavorites = (token: string|null, tutoId: Types.ObjectId|null) => {
+		console.log(BACKEND_URL + "addToFavorites/" + token + '/' + tutoId);
+		fetch(BACKEND_URL + "addToFavorites/" + token + '/' + tutoId, 
+		{ // il manque des choses : possible unhandled promise rejection
+			method: "PUT"
+		})
+		.then((response) => response.json())
+			.then((data) => {
+				if (data.result === true) {
+					dispatch(addToFavoriteLessons(tutoId));
+				}
+			});
+	};
+
+	// fonction pour supprimer le tutoriel des favoris
+	const handleClickRemoveFromFavorites = (token: string|null, tutoId: Types.ObjectId|null) => {
+		fetch(BACKEND_URL + "removeFromFavorites/" + token + '/' + tutoId, { method: "DELETE"})
+		.then((response) => response.json())
+			.then((data) => {
+				if (data.result === true) {
+					dispatch(removeFromFavoriteLessons(tutoId));
+				}
+			});
+	};
 
 	useEffect(() => {
 		// on récupère le tutoriel par son id dans la base de données
@@ -46,19 +88,43 @@ export default function TutoScreen({ navigation }: TutoScreenProps) {
 			.then((data) => {
 				if (data.result === true) {
 					// console.log(data.tutorial);
-					setTutorialToDisplay(data.tutorial[0]);
+					setTutorialToDisplay(data.tutorial);
 				}
 			});
 	}, []);
 
 	const dateCrea = new Date(tutorialToDisplay.creationDate);
 
+	// console.log(tutorialToDisplay.content);
+	const tutorialContent = tutorialToDisplay.content.map((obj: any, i: number) => {
+		// console.log(obj.content);
+		if (obj.type === 'text') {
+			return (
+				<View key={i}><Text  style={styles.textContent}>{obj.content}</Text></View>
+			);
+		} else if (obj.type === 'image') {
+			console.log(obj.content);
+			return (
+				<View key={i} style={styles.imgContainer}>
+					<Image 
+						style={styles.img}
+						// source={require(obj.content)} // ne fonctionn pas
+						// source={require('../assets/creation_compte_google.jpg')} // fonctionne !?!
+						// on va chercher la photo stockée en ligne sur Cloudinary (url renseignée dans la base de données)
+						source={{uri: obj.content}}
+					/>
+				</View>
+					
+			);
+		}
+	});
+
 	return (
 		<View style={styles.container}>
 			<View style={styles.btnTop}>
 				<TouchableOpacity
 					style={styles.btnRetour}
-					onPress={() => navigation.navigate("Research")}
+					onPress={() => navigation.navigate(prevPage)}
 				>
 					<FontAwesome
 						name="long-arrow-left"
@@ -77,7 +143,7 @@ export default function TutoScreen({ navigation }: TutoScreenProps) {
 
 			<View style={styles.titleTuto}>
 				<View style={styles.tutoText}>
-					<Text style={styles.textResult}>
+					<Text style={styles.tutoTitle}>
 						Titre : {tutorialToDisplay.title}
 					</Text>
 					<Text style={styles.textResult}>
@@ -88,31 +154,35 @@ export default function TutoScreen({ navigation }: TutoScreenProps) {
 						Auteur: {tutorialToDisplay.author}
 					</Text>
 				</View>
+				{ isUserConnected &&
 				<TouchableOpacity
 					style={styles.btnFavorite}
 					onPress={() => {
-						// dispatch(addToFavoriteLessons(tutorialToDisplay._id));
+						isTutoLiked ? handleClickRemoveFromFavorites(user.token, tuto) : handleClickAddToFavorites(user.token, tuto);
 					}}
 				>
 					<View style={styles.icon}>
-						<FontAwesome
+						{isTutoLiked && <FontAwesome
 							name="heart"
 							size={40}
 							style={styles.iconHeart}
-						/>
-						{/* <FontAwesomeIcon
+						/>}
+						{!isTutoLiked && <FontAwesomeIcon
 							icon={faHeartCirclePlus}
 							size={40}
-							style={styles.iconHeart}
-						/> */}
+							style={styles.iconHeartPlus}
+						/>}
 					</View>
 				</TouchableOpacity>
+				}
 			</View>
+
 			<View style={styles.tuto}>
-				<ScrollView>
-					<Text>{tutorialToDisplay.content}</Text>
+				<ScrollView contentContainerStyle={styles.scrollView}>
+					{tutorialContent}
 				</ScrollView>
 			</View>
+
 			<View style={styles.btnBottom}>
 				<TouchableOpacity
 					style={styles.btnHelrequest}
@@ -247,6 +317,15 @@ const styles = StyleSheet.create({
 		textShadowOffset: { width: 0, height: 2 },
 		textShadowRadius: 5,
 	},
+	
+	tutoTitle: {
+		paddingBottom: 5,
+		fontSize: 20,
+		textShadowColor: "#fff",
+		textShadowOffset: { width: 0, height: 2 },
+		textShadowRadius: 5,
+		fontWeight: "bold",
+	},
 
 	btnFavorite: {
 		marginRight: 10,
@@ -277,8 +356,18 @@ const styles = StyleSheet.create({
 		textShadowRadius: 3,
 	},
 
+	iconHeartPlus: {
+		marginLeft: 5,
+		marginRight: 5,
+		color: "gray",
+		textShadowColor: "#000000",
+		textShadowOffset: { width: 0, height: 3 },
+		textShadowRadius: 3,
+	},
+
 	tuto: {
 		marginTop: 20,
+		padding: 10,
 		flexDirection: "column",
 		justifyContent: "center",
 		alignItems: "center",
@@ -326,5 +415,26 @@ const styles = StyleSheet.create({
 	textBtnHelrequest: {
 		fontSize: 22,
 		color: "#000000",
+	},
+
+	textContent: {
+		fontSize: 20,
+		textAlign: "justify",
+		marginBottom: 5,
+	},
+
+	imgContainer: {
+		width: "100%",
+		height: "100%",
+	},
+
+	img: {
+		marginBottom: 5,
+		width: "100%",
+		height: "100%",
+	},
+
+	scrollView: {
+		paddingBottom: 1000,
 	},
 });
