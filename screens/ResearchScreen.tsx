@@ -14,7 +14,6 @@ import { CategoryState } from "../reducers/category";
 import React, { useState, useEffect } from "react";
 import { updateTuto } from "../reducers/tuto";
 import { BACKEND_URL } from "@env";
-import { updatePrevPage } from "../reducers/prevPage";
 
 type ResearchScreenProps = {
 	navigation: NavigationProp<ParamListBase>;
@@ -53,7 +52,7 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 			category: "internet",
 			difficulty: "easy",
 			content:
-				"[{ type: 'text', content: 'Nous allons créer une adresse gmail pas à pas avec toi ...'}]",
+				"<View><Text>Nous allons créer une adresse gmail pas à pas avec toi ...</Text></View>",
 		},
 		{
 			_id: "2",
@@ -64,7 +63,7 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 			category: "system",
 			difficulty: "easy",
 			content:
-				"[{ type: 'text', content: 'Cliquer sur l\'icone à droite de votre barre des tâches ...' }]",
+				"<View><Text>Cliquer sur l'icone à droite de votre barre des tâches ...</Text></View>",
 		},
 		{
 			_id: "3",
@@ -75,7 +74,7 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 			category: "software",
 			difficulty: "easy",
 			content:
-				"[{ type: 'text', content: 'En bas de votre écran, appuyer sur le bouton en forme d\'appareil photo ...' }]",
+				"<View><Text>en bas de votre écran, appuyer sur le bouton en forme d'appareil photo ...</Text></View>",
 		},
 		{
 			_id: "4",
@@ -86,7 +85,7 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 			category: "system",
 			difficulty: "advanced",
 			content:
-				"[{ type: 'text', content: 'Télécharger l\'application ccleaner à l'adresse suivante...' }]",
+				"<View><Text>Télécharger l'application ccleaner à l'adresse suivante...</Text></View>",
 		},
 		{
 			_id: "5",
@@ -97,7 +96,7 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 			category: "internet",
 			difficulty: "intermediate",
 			content:
-				"[{ type: 'text', content: 'Vérifier l'objet du message, l\'email de l\'émetteur et du destinataire... ' }]",
+				"<View><Text>Télécharger l'application ccleaner à l'adresse suivante...</Text></View>",
 		},
 		{
 			_id: "6",
@@ -108,7 +107,7 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 			category: "system",
 			difficulty: "easy",
 			content:
-				"[{ type: 'text', content: 'Cliquer sur l'icone à droite de votre barre des tâches ...' }]",
+				"<View><Text>Cliquer sur l'icone à droite de votre barre des tâches ...</Text></View>",
 		},
 	];
 
@@ -148,7 +147,6 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 						key={i}
 						onPress={() => {
 							dispatch(updateTuto(tutorial._id));
-							dispatch(updatePrevPage("Research"));
 							navigation.navigate("Tuto");
 						}}
 					>
@@ -169,8 +167,7 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 									Auteur : {tutorial.author}
 								</Text>
 							</View>
-							
-							{/* Affichage des icones "difficulté" fonction du paramètre difficulty */}
+
 							{tutorial.difficulty === "easy" && (
 								<View style={styles.difficulty}>
 									<FontAwesome
@@ -271,6 +268,7 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 					onChangeText={(value) => setTutorialSearch(value)}
 					value={tutorialSearch}
 					placeholder="Recherche..."
+					placeholderTextColor="#808080"
 				/>
 
 				<TouchableOpacity
@@ -289,7 +287,6 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 			<View style={styles.resultResearch}>
 				<ScrollView>{displayedTutorials}</ScrollView>
 			</View>
-			
 			<View style={styles.btnBottom}>
 				<TouchableOpacity
 					style={styles.btnDico}
@@ -342,7 +339,7 @@ const styles = StyleSheet.create({
 		fontSize: 25,
 		color: "#191970",
 		textShadowColor: "#696969",
-		textShadowOffset: { width: 0, height: 3 },
+		textShadowOffset: { width: 0, height: 2 },
 		textShadowRadius: 5,
 	},
 

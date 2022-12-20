@@ -22,7 +22,9 @@ type UserFavoritScreenProps = {
 	navigation: NavigationProp<ParamListBase>;
 };
 
-export default function UserFavoritScreen({	navigation }: UserFavoritScreenProps) {
+export default function UserFavoritScreen({
+	navigation,
+}: UserFavoritScreenProps) {
 	const dispatch = useDispatch();
 
 	// intitiation d'un useState pour l'input de recherche
@@ -82,7 +84,7 @@ export default function UserFavoritScreen({	navigation }: UserFavoritScreenProps
 									Auteur : {tutorial.author}
 								</Text>
 							</View>
-							
+
 							{/* Affichage des icones "difficulté" fonction du paramètre difficulty */}
 							{tutorial.difficulty === "easy" && (
 								<View style={styles.difficulty}>
@@ -131,7 +133,6 @@ export default function UserFavoritScreen({	navigation }: UserFavoritScreenProps
 
 	return (
 		<View style={styles.container}>
-
 			<View style={styles.btnTop}>
 				<TouchableOpacity
 					style={styles.btnUsers}
@@ -169,6 +170,7 @@ export default function UserFavoritScreen({	navigation }: UserFavoritScreenProps
 					onChangeText={(value) => setTutorialSearch(value)}
 					value={tutorialSearch}
 					placeholder="Recherche..."
+					placeholderTextColor="#808080"
 				/>
 				<TouchableOpacity
 					style={styles.btnResearch}
@@ -184,9 +186,7 @@ export default function UserFavoritScreen({	navigation }: UserFavoritScreenProps
 			</View>
 
 			<View style={styles.resultResearch}>
-				<ScrollView>
-					{displayedTutorials}
-				</ScrollView>
+				<ScrollView>{displayedTutorials}</ScrollView>
 			</View>
 
 			<View style={styles.lesson}>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react";
 import {
 	Platform,
 	KeyboardAvoidingView,
@@ -7,32 +7,32 @@ import {
 	TextInput,
 	TouchableOpacity,
 	View,
-} from "react-native"
-import FontAwesome from "react-native-vector-icons/FontAwesome"
-import { useDispatch, useSelector } from "react-redux"
-import { login, UserState } from "../reducers/user"
-import { BACKEND_URL } from "@env"
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
+} from "react-native";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { useDispatch, useSelector } from "react-redux";
+import { login, UserState } from "../reducers/user";
+import { BACKEND_URL } from "@env";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const EMAIL_REGEX: RegExp =
-	/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+	/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 export default function SignIn({ navigation }: any) {
-	const dispatch = useDispatch()
+	const dispatch = useDispatch();
 
-	const [email, setEmail] = useState("")
-	const [emailError, setEmailError] = useState(false)
-	const [password, setPassword] = useState("")
+	const [email, setEmail] = useState("");
+	const [emailError, setEmailError] = useState(false);
+	const [password, setPassword] = useState("");
 
-	const user = useSelector((state: { user: UserState }) => state.user.value)
+	const user = useSelector((state: { user: UserState }) => state.user.value);
 
 	useEffect(() => {
 		if (user.token) {
 			navigation.navigate("TabNavigator", {
 				screen: "Demandes",
-			})
+			});
 		}
-	}, [])
+	}, []);
 
 	const handleConnection = () => {
 		// console.log(BACKEND_URL)
@@ -45,7 +45,7 @@ export default function SignIn({ navigation }: any) {
 			})
 				.then((response) => response.json())
 				.then((data) => {
-					console.log(data)
+					console.log(data);
 					if (data.result) {
 						dispatch(
 							login({
@@ -54,18 +54,18 @@ export default function SignIn({ navigation }: any) {
 								lastName: data.lastName,
 								favoriteLessons: data.favoriteLessons,
 							})
-						)
+						);
 						navigation.navigate("TabNavigator", {
 							screen: "Demandes",
-						})
+						});
 					} else {
-						setEmailError(true)
+						setEmailError(true);
 					}
-				})
+				});
 		} else {
-			setEmailError(true)
+			setEmailError(true);
 		}
-	}
+	};
 
 	return (
 		<KeyboardAwareScrollView style={styles.container}>
@@ -90,12 +90,12 @@ export default function SignIn({ navigation }: any) {
 					</TouchableOpacity>
 				</View>
 				<Text style={styles.title}>Connexion</Text>
-
 				<View style={styles.inputContainer}>
 					<TextInput
 						onChangeText={(value) => setEmail(value)}
 						value={email}
 						placeholder="Email"
+						placeholderTextColor="#808080"
 						autoCapitalize="none"
 						keyboardType="email-address"
 						textContentType="emailAddress"
@@ -107,10 +107,13 @@ export default function SignIn({ navigation }: any) {
 						value={password}
 						secureTextEntry={true}
 						placeholder="Mot de passe"
+						placeholderTextColor="#808080"
 						style={styles.input}
 					/>
 					{emailError && (
-						<Text style={styles.error}>Email ou mot de passe incorrect.</Text>
+						<Text style={styles.error}>
+							Email ou mot de passe incorrect.
+						</Text>
 					)}
 				</View>
 				<View style={styles.btnBottom}>
@@ -124,48 +127,47 @@ export default function SignIn({ navigation }: any) {
 						style={styles.btnPassword}
 						onPress={() => navigation.navigate("Dico")}
 					>
-						<Text style={styles.textBtnPassword}>Mot de passe oublie</Text>
+						<Text style={styles.textBtnPassword}>
+							Mot de passe oublie
+						</Text>
 					</TouchableOpacity>
 				</View>
 			</View>
 		</KeyboardAwareScrollView>
-	)
+	);
 }
 
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		flexDirection: "column",
-
 		backgroundColor: "#ffffff",
 	},
+
 	all: {
 		justifyContent: "center",
 		alignItems: "center",
 	},
-	title: {
-		fontSize: 35,
-		color: "#191970",
-		textShadowColor: "#696969",
-		textShadowOffset: { width: 0, height: 3 },
-		textShadowRadius: 5,
+
+	btnTop: {
+		flexDirection: "row",
+		justifyContent: "space-between",
+		alignItems: "center",
+		width: "100%",
+		marginBottom: 30,
+		marginTop: 50,
 	},
-	inputContainer: {
-		marginTop: 70,
+
+	btnRetour: {
+		flexDirection: "column",
 		alignItems: "center",
 		justifyContent: "center",
-	},
-	input: {
-		margin: 20,
-		paddingLeft: 5,
-		marginRight: 10,
-		fontSize: 22,
-		fontWeight: "bold",
-		backgroundColor: "#ffffff",
-		width: 350,
-		height: 50,
+		marginLeft: 20,
+		backgroundColor: "#5db194",
+		width: 80,
+		height: 80,
+		borderRadius: 40,
 		borderColor: "#808080",
-		borderRadius: 6,
 		borderBottomWidth: 4,
 		borderLeftWidth: 2,
 		borderRightWidth: 2,
@@ -178,17 +180,25 @@ const styles = StyleSheet.create({
 
 		elevation: 25,
 	},
-	error: {
-		color: "red",
+
+	iconArrow: {
+		paddingRight: 5,
+		marginBottom: -15,
+		color: "#ffffff",
+		textShadowColor: "#000000",
+		textShadowOffset: { width: 0, height: 2 },
+		textShadowRadius: 5,
 	},
-	btnTop: {
-		flexDirection: "row",
-		justifyContent: "space-between",
-		alignItems: "center",
-		width: "100%",
-		marginBottom: 30,
-		marginTop: 50,
+
+	textBtnRetour: {
+		paddingBottom: 5,
+		color: "#ffffff",
+		fontSize: 15,
+		textShadowColor: "#000000",
+		textShadowOffset: { width: 0, height: 2 },
+		textShadowRadius: 5,
 	},
+
 	btnAide: {
 		marginRight: 20,
 		backgroundColor: "#fffb00",
@@ -217,15 +227,65 @@ const styles = StyleSheet.create({
 		opacity: 0.6,
 	},
 
-	btnRetour: {
-		flexDirection: "column",
+	title: {
+		fontSize: 35,
+		color: "#191970",
+		textShadowColor: "#696969",
+		textShadowOffset: { width: 0, height: 3 },
+		textShadowRadius: 5,
+	},
+
+	inputContainer: {
+		marginTop: 30,
 		alignItems: "center",
 		justifyContent: "center",
-		marginLeft: 20,
+		width: "100%",
+	},
+
+	input: {
+		margin: 20,
+		paddingLeft: 5,
+		fontSize: 22,
+		fontWeight: "bold",
+		backgroundColor: "#ffffff",
+		width: "90%",
+		height: 50,
+		borderColor: "#808080",
+		borderRadius: 6,
+		borderBottomWidth: 4,
+		borderLeftWidth: 2,
+		borderRightWidth: 2,
+		shadowOffset: {
+			width: -10,
+			height: 12,
+		},
+		shadowOpacity: 0.58,
+		shadowRadius: 16.0,
+
+		elevation: 25,
+	},
+
+	error: {
+		color: "red",
+	},
+
+	btnBottom: {
+		marginTop: 20,
+		flexDirection: "column",
+		justifyContent: "center",
+		alignItems: "center",
+		width: "100%",
+	},
+
+	btnConnection: {
+		marginTop: 20,
 		backgroundColor: "#5db194",
-		width: 80,
-		height: 80,
-		borderRadius: 40,
+		width: "90%",
+		height: 60,
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "center",
+		borderRadius: 10,
 		borderColor: "#808080",
 		borderBottomWidth: 4,
 		borderLeftWidth: 2,
@@ -239,57 +299,17 @@ const styles = StyleSheet.create({
 
 		elevation: 25,
 	},
-	textBtnRetour: {
-		paddingBottom: 5,
+
+	textBtnConnection: {
+		fontSize: 22,
 		color: "#ffffff",
-		fontSize: 15,
-		textShadowColor: "#000000",
+		textShadowColor: "#808080",
 		textShadowOffset: { width: 0, height: 2 },
 		textShadowRadius: 5,
-	},
-
-	iconContent: {
-		marginTop: 20,
-		marginBottom: 40,
-		marginRight: 10,
-		marginLeft: 10,
-		flexDirection: "column",
-		justifyContent: "flex-start",
-		alignItems: "center",
-		width: "42%",
-		borderColor: "#a9a9a9",
-		borderBottomWidth: 6,
-		borderLeftWidth: 4,
-		borderRightWidth: 4,
-		borderRadius: 5,
-		backgroundColor: "#778ed4",
-		shadowColor: "#000000",
-		shadowOffset: {
-			width: -10,
-			height: 12,
-		},
-		shadowOpacity: 0.58,
-		shadowRadius: 16.0,
-
-		elevation: 25,
-	},
-	iconArrow: {
-		paddingRight: 5,
-		marginBottom: -15,
-		color: "#ffffff",
-		textShadowColor: "#000000",
-		textShadowOffset: { width: 0, height: 2 },
-		textShadowRadius: 5,
-	},
-	btnBottom: {
-		flexDirection: "column",
-		justifyContent: "center",
-		alignItems: "center",
-		width: "100%",
 	},
 
 	btnPassword: {
-		marginTop: 170,
+		marginTop: 190,
 		marginBottom: 10,
 		backgroundColor: "#fffb00",
 		width: "90%",
@@ -319,31 +339,4 @@ const styles = StyleSheet.create({
 		textShadowOffset: { width: 0, height: 2 },
 		textShadowRadius: 5,
 	},
-	btnConnection: {
-		marginTop: 50,
-		backgroundColor: "#5db194",
-		width: "90%",
-		height: 60,
-		flexDirection: "row",
-		alignItems: "center",
-		justifyContent: "center",
-		borderRadius: 10,
-		borderColor: "#808080",
-		borderBottomWidth: 4,
-		borderLeftWidth: 2,
-		borderRightWidth: 2,
-		shadowOffset: {
-			width: -10,
-			height: 12,
-		},
-		shadowOpacity: 0.58,
-		shadowRadius: 16.0,
-
-		elevation: 25,
-	},
-
-	textBtnConnection: {
-		fontSize: 22,
-		color: "#ffffff",
-	},
-})
+});

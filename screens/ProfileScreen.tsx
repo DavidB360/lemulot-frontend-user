@@ -1,23 +1,49 @@
+import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import {
-	faEllipsis,
-	faWindowRestore,
-	faGear,
-	faGlobe,
-} from "@fortawesome/free-solid-svg-icons";
 import { useDispatch } from "react-redux";
-import { updateCategory } from "../reducers/category";
+import * as ImagePicker from "expo-image-picker";
 
-export default function CategoryScreen({ navigation }: any) {
+export default function CameraScreen({ navigation }: any) {
 	const dispatch = useDispatch();
+
+	const [hasGalleryPermission, setHasGalleryPermission] = useState(false);
+	const [image, setImage] = useState<string | undefined>(undefined);
+
+	useEffect(() => {
+		(async () => {
+			const { status } =
+				await ImagePicker.requestMediaLibraryPermissionsAsync();
+			setHasGalleryPermission(status === "granted");
+		})();
+	}, []);
+
+	const PickImage = async () => {
+		let result = await ImagePicker.launchImageLibraryAsync({
+			mediaTypes: ImagePicker.MediaTypeOptions.All,
+			allowsEditing: true,
+			aspect: [4, 3],
+			quality: 1,
+		});
+		if (!result.canceled) {
+			setImage(result.uri);
+		}
+	};
+
+	if (!hasGalleryPermission) {
+		return <Text>Pas d'accès au stockage interne</Text>;
+	}
+
 	return (
 		<View style={styles.container}>
 			<View style={styles.btnTop}>
 				<TouchableOpacity
 					style={styles.btnRetour}
-					onPress={() => navigation.navigate("Device")}
+					onPress={() =>
+						navigation.navigate("TabNavigator", {
+							screen: "Paramètre",
+						})
+					}
 				>
 					<FontAwesome
 						name="long-arrow-left"
@@ -26,9 +52,6 @@ export default function CategoryScreen({ navigation }: any) {
 					/>
 					<Text style={styles.textBtnRetour}>Retour</Text>
 				</TouchableOpacity>
-
-				<Text style={styles.title}>Catégorie</Text>
-
 				<TouchableOpacity
 					style={styles.btnAide}
 					// onPress={() => navigation.navigate("Type")}
@@ -36,70 +59,20 @@ export default function CategoryScreen({ navigation }: any) {
 					<Text style={styles.textBtnAide}>?</Text>
 				</TouchableOpacity>
 			</View>
-			<View style={styles.iconContainer}>
-				<TouchableOpacity
-					style={styles.iconContent}
-					onPress={() => {
-						dispatch(updateCategory("system"));
-						navigation.navigate("Research");
-					}}
-				>
-					<Text style={styles.textIcon}>Système</Text>
-					<View style={styles.icon}>
-						<FontAwesomeIcon
-							icon={faGear}
-							style={styles.iconColor}
-							size={130}
-						/>
-					</View>
+			<View style={styles.photoProfile}>
+				{image && <Image source={{ uri: image }} style={styles.user} />}
+			</View>
+			<View style={styles.profile}>
+				<TouchableOpacity style={styles.btnProfile} onPress={PickImage}>
+					<Text style={styles.textBtnProfile}>
+						Télécharger mon image
+					</Text>
 				</TouchableOpacity>
 				<TouchableOpacity
-					style={styles.iconContent}
-					onPress={() => {
-						dispatch(updateCategory("internet"));
-						navigation.navigate("Research");
-					}}
+					style={styles.btnProfile}
+					onPress={() => navigation.navigate("Camera")}
 				>
-					<Text style={styles.textIcon}>Internet</Text>
-					<View style={styles.icon}>
-						<FontAwesomeIcon
-							icon={faGlobe}
-							style={styles.iconColor}
-							size={130}
-						/>
-					</View>
-				</TouchableOpacity>
-				<TouchableOpacity
-					style={styles.iconContent}
-					onPress={() => {
-						dispatch(updateCategory("software"));
-						navigation.navigate("Research");
-					}}
-				>
-					<Text style={styles.textIcon}>Logiciel</Text>
-					<View style={styles.icon}>
-						<FontAwesomeIcon
-							icon={faWindowRestore}
-							style={styles.iconColor}
-							size={130}
-						/>
-					</View>
-				</TouchableOpacity>
-				<TouchableOpacity
-					style={styles.iconContent}
-					onPress={() => {
-						dispatch(updateCategory(null));
-						navigation.navigate("Research");
-					}}
-				>
-					<Text style={styles.textIcon}>Tout</Text>
-					<View style={styles.icon}>
-						<FontAwesomeIcon
-							icon={faEllipsis}
-							style={styles.iconColor}
-							size={130}
-						/>
-					</View>
+					<Text style={styles.textBtnProfile}>Prendre une photo</Text>
 				</TouchableOpacity>
 			</View>
 		</View>
@@ -122,14 +95,6 @@ const styles = StyleSheet.create({
 		width: "100%",
 		marginBottom: 30,
 		marginTop: 50,
-	},
-
-	title: {
-		fontSize: 25,
-		color: "#191970",
-		textShadowColor: "#696969",
-		textShadowOffset: { width: 0, height: 2 },
-		textShadowRadius: 5,
 	},
 
 	btnAide: {
@@ -201,30 +166,18 @@ const styles = StyleSheet.create({
 		textShadowRadius: 5,
 	},
 
-	iconContainer: {
-		flexDirection: "row",
+	photoProfile: {
 		justifyContent: "center",
 		alignItems: "center",
-		flexWrap: "wrap",
-		width: "100%",
-	},
-
-	iconContent: {
-		marginTop: 20,
-		marginBottom: 40,
-		marginRight: 10,
-		marginLeft: 10,
-		flexDirection: "column",
-		justifyContent: "flex-start",
-		alignItems: "center",
-		width: "42%",
-		borderColor: "#a9a9a9",
-		borderBottomWidth: 6,
-		borderLeftWidth: 4,
-		borderRightWidth: 4,
-		borderRadius: 5,
-		backgroundColor: "#778ed4",
-		shadowColor: "#000000",
+		width: 160,
+		height: 160,
+		borderRadius: 80,
+		borderColor: "#808080",
+		backgroundColor: "#5db194",
+		borderTopWidth: 1,
+		borderBottomWidth: 4,
+		borderLeftWidth: 2,
+		borderRightWidth: 2,
 		shadowOffset: {
 			width: -10,
 			height: 12,
@@ -235,26 +188,57 @@ const styles = StyleSheet.create({
 		elevation: 25,
 	},
 
-	textIcon: {
+	user: {
+		borderRadius: 80,
+		width: "100%",
+		height: "100%",
+		justifyContent: "center",
+		alignItems: "center",
+	},
+
+	iconUsers: {
+		flexDirection: "column",
+		justifyContent: "space-around",
+		width: "90%",
+		height: "40%",
+		color: "#5db194",
+	},
+
+	profile: {
+		flexDirection: "column",
+		justifyContent: "space-around",
+		width: "90%",
+		height: "40%",
+	},
+
+	btnProfile: {
+		backgroundColor: "#778ed4",
+		width: "100%",
+		height: 60,
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "center",
+		borderRadius: 10,
+		borderColor: "#808080",
+		borderBottomWidth: 4,
+		borderLeftWidth: 2,
+		borderRightWidth: 2,
+		shadowOffset: {
+			width: -10,
+			height: 12,
+		},
+		shadowOpacity: 0.58,
+		shadowRadius: 16.0,
+
+		elevation: 25,
+	},
+
+	textBtnProfile: {
+		// paddingBottom: 20,
 		fontSize: 22,
 		color: "#ffffff",
 		textShadowColor: "#000000",
 		textShadowOffset: { width: 0, height: 2 },
 		textShadowRadius: 5,
-	},
-
-	iconColor: {
-		color: "#778ed4",
-	},
-
-	icon: {
-		justifyContent: "center",
-		alignItems: "center",
-		backgroundColor: "#fff",
-		width: "100%",
-		height: 145,
-		borderTopWidth: 1,
-		borderColor: "#a9a9a9",
-		color: "#778ed4",
 	},
 });
