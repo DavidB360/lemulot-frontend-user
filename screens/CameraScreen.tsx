@@ -13,7 +13,7 @@ export default function SnapScreen({ navigation }: any) {
 	// const dispatch = useDispatch();
 
 	const [permission, setPermission] = useState(false);
-	// const [flashMode, setFlashMode] = useState(FlashMode.off);
+	const [flashMode, setFlashMode] = useState(FlashMode.off);
 	const [type, setType] = useState(CameraType.back);
 	const isFocused = useIsFocused();
 
@@ -39,7 +39,7 @@ export default function SnapScreen({ navigation }: any) {
 	return (
 		<Camera
 			style={styles.container}
-			// flashMode={flashMode}
+			flashMode={flashMode}
 			type={type}
 			ref={(ref) => (cameraRef = ref)}
 		>
@@ -54,42 +54,49 @@ export default function SnapScreen({ navigation }: any) {
 						color="#ffffff"
 					/>
 				</TouchableOpacity>
-				<TouchableOpacity
-					style={styles.btnFlip}
-					activeOpacity={0.8}
-					onPress={() =>
-						setType(
-							type === CameraType.back
-								? CameraType.front
-								: CameraType.back
-						)
-					}
-				>
-					<Text style={styles.textBtnFlip}>Changer de caméra :</Text>
-					<FontAwesomeIcon
-						icon={faCameraRotate}
-						size={55}
-						color="#ffffff"
-					/>
-				</TouchableOpacity>
-				{/* <TouchableOpacity
-					style={styles.btnFlash}
-					onPress={() =>
-						setFlashMode(
-							flashMode === FlashMode.off
-								? FlashMode.torch
-								: FlashMode.off
-						)
-					}
-				>
-					<FontAwesome
-						name="flash"
-						size={50}
-						color={
-							flashMode === FlashMode.off ? "#ffffff" : "#e8be4b"
+				<View style={styles.btnRight}>
+					<TouchableOpacity
+						style={styles.btnFlip}
+						activeOpacity={0.8}
+						onPress={() =>
+							setType(
+								type === CameraType.back
+									? CameraType.front
+									: CameraType.back
+							)
 						}
-					/>
-				</TouchableOpacity> */}
+					>
+						<Text style={styles.textBtnRight}>
+							Changer de caméra :
+						</Text>
+						<FontAwesomeIcon
+							icon={faCameraRotate}
+							size={55}
+							color="#ffffff"
+						/>
+					</TouchableOpacity>
+					<TouchableOpacity
+						style={styles.btnFlash}
+						onPress={() =>
+							setFlashMode(
+								flashMode === FlashMode.off
+									? FlashMode.torch
+									: FlashMode.off
+							)
+						}
+					>
+						<Text style={styles.textBtnRight}>Flash :</Text>
+						<FontAwesome
+							name="flash"
+							size={50}
+							color={
+								flashMode === FlashMode.off
+									? "#ffffff"
+									: "#e8be4b"
+							}
+						/>
+					</TouchableOpacity>
+				</View>
 			</View>
 			<View style={styles.btnSnap}>
 				<TouchableOpacity
@@ -128,6 +135,11 @@ const styles = StyleSheet.create({
 
 	btnRetour: {
 		marginLeft: 110,
+		marginBottom: 60,
+	},
+
+	btnRight: {
+		flexDirection: "column",
 	},
 
 	btnFlip: {
@@ -137,7 +149,14 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 	},
 
-	textBtnFlip: {
+	btnFlash: {
+		marginTop: 10,
+		flexDirection: "row",
+		justifyContent: "center",
+		alignItems: "center",
+	},
+
+	textBtnRight: {
 		color: "#fff",
 		paddingRight: 10,
 		fontSize: 18,

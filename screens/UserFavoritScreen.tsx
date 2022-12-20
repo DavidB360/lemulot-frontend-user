@@ -17,12 +17,13 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { updateTuto } from "../reducers/tuto";
 
-
 type UserFavoritScreenProps = {
 	navigation: NavigationProp<ParamListBase>;
 };
 
-export default function UserFavoritScreen({	navigation }: UserFavoritScreenProps) {
+export default function UserFavoritScreen({
+	navigation,
+}: UserFavoritScreenProps) {
 	const dispatch = useDispatch();
 
 	// intitiation d'un useState pour l'input de recherche
@@ -35,18 +36,18 @@ export default function UserFavoritScreen({	navigation }: UserFavoritScreenProps
 	const [regexSearch, setRegexSearch] = useState("");
 
 	// on charge le reducer user pour afficher son prénom
-	const user = useSelector((state: {user: UserState }) => state.user.value);
+	const user = useSelector((state: { user: UserState }) => state.user.value);
 
 	useEffect(() => {
 		// à faire : populate sur id de FavoriteLessons pour récupérer tableau de tutos favoris
-			fetch(BACKEND_URL + "tutorials")
-				.then((response) => response.json())
-				.then((data) => {
-					if (data.result === true) {
-						// console.log(data.tutorials);
-						setSelectedTutorials(data.tutorials);
-					}
-				});
+		fetch(BACKEND_URL + "tutorials")
+			.then((response) => response.json())
+			.then((data) => {
+				if (data.result === true) {
+					// console.log(data.tutorials);
+					setSelectedTutorials(data.tutorials);
+				}
+			});
 	}, []);
 
 	// automatisation de l'affichage des tutoriels : on crée le contenu à partir du tableau de tutoriels avec un "map"
@@ -84,7 +85,7 @@ export default function UserFavoritScreen({	navigation }: UserFavoritScreenProps
 									Auteur : {tutorial.author}
 								</Text>
 							</View>
-							
+
 							{/* Affichage des icones "difficulté" fonction du paramètre difficulty */}
 							{tutorial.difficulty === "easy" && (
 								<View style={styles.difficulty}>
@@ -133,7 +134,6 @@ export default function UserFavoritScreen({	navigation }: UserFavoritScreenProps
 
 	return (
 		<View style={styles.container}>
-
 			<View style={styles.btnTop}>
 				<TouchableOpacity
 					style={styles.btnUsers}
@@ -161,7 +161,9 @@ export default function UserFavoritScreen({	navigation }: UserFavoritScreenProps
 			</View>
 
 			<View style={styles.textContainer}>
-				<Text style={styles.textTitle}>Mes leçons favorites</Text>
+				<Text style={styles.textTitleContainer}>
+					Mes leçons favorites
+				</Text>
 			</View>
 
 			<View style={styles.researchContainer}>
@@ -171,6 +173,7 @@ export default function UserFavoritScreen({	navigation }: UserFavoritScreenProps
 					onChangeText={(value) => setTutorialSearch(value)}
 					value={tutorialSearch}
 					placeholder="Recherche..."
+					placeholderTextColor="#808080"
 				/>
 				<TouchableOpacity
 					style={styles.btnResearch}
@@ -186,9 +189,7 @@ export default function UserFavoritScreen({	navigation }: UserFavoritScreenProps
 			</View>
 
 			<View style={styles.resultResearch}>
-				<ScrollView>
-					{displayedTutorials}
-				</ScrollView>
+				<ScrollView>{displayedTutorials}</ScrollView>
 			</View>
 
 			<View style={styles.lesson}>
@@ -298,6 +299,10 @@ const styles = StyleSheet.create({
 		borderBottomWidth: 2,
 		borderLeftWidth: 2,
 		borderRightWidth: 2,
+	},
+
+	textTitleContainer: {
+		fontSize: 22,
 	},
 
 	researchContainer: {

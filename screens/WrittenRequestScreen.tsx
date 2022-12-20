@@ -6,9 +6,10 @@ import {
 	TextInput,
 } from "react-native";
 import { NavigationProp, ParamListBase } from "@react-navigation/native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faUser, faCameraRetro } from "@fortawesome/free-solid-svg-icons";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 type WrittenRequestScreenProps = {
 	navigation: NavigationProp<ParamListBase>;
@@ -18,71 +19,80 @@ export default function WrittenRequestScreen({
 	navigation,
 }: WrittenRequestScreenProps) {
 	return (
-		<View style={styles.container}>
-			<View style={styles.btnTop}>
-				<TouchableOpacity
-					style={styles.btnUsers}
-					onPress={() =>
-						navigation.navigate("TabNavigator", {
-							screen: "Paramètre",
-						})
-					}
-				>
-					<FontAwesomeIcon
-						icon={faUser}
-						size={50}
-						style={styles.iconUsers}
+		<KeyboardAwareScrollView style={styles.all}>
+			<View style={styles.container}>
+				<View style={styles.btnTop}>
+					<TouchableOpacity
+						style={styles.btnUsers}
+						onPress={() =>
+							navigation.navigate("TabNavigator", {
+								screen: "Paramètre",
+							})
+						}
+					>
+						<FontAwesomeIcon
+							icon={faUser}
+							size={50}
+							style={styles.iconUsers}
+						/>
+					</TouchableOpacity>
+					<Text style={styles.title}>Demande d'aide</Text>
+					<TouchableOpacity
+						style={styles.btnAide}
+						// onPress={() => navigation.navigate("Type")}
+					>
+						<Text style={styles.textBtnAide}>?</Text>
+					</TouchableOpacity>
+				</View>
+				<View style={styles.request}>
+					<Text style={styles.textRequest}>
+						Faire une demande écrite
+					</Text>
+					<TextInput
+						style={styles.inputRequest}
+						//onChangeText={(e) => setTutorial(e.target.value)}
+						//value={tutorial}
+						placeholder="Recherche..."
+						placeholderTextColor="#808080"
+						maxLength={280}
+						multiline={true}
+						numberOfLines={8}
 					/>
-				</TouchableOpacity>
-				<Text style={styles.title}>Demande d'aide</Text>
-				<TouchableOpacity
-					style={styles.btnAide}
-					// onPress={() => navigation.navigate("Type")}
-				>
-					<Text style={styles.textBtnAide}>?</Text>
-				</TouchableOpacity>
+				</View>
+				<View style={styles.camera}>
+					<Text style={styles.textCamera}>
+						Prendre une photo du problème
+					</Text>
+					<TouchableOpacity
+						style={styles.btnCamera}
+						onPress={() => navigation.navigate("Camera")}
+					>
+						<FontAwesome
+							name="camera-retro"
+							size={50}
+							color="#fff"
+							style={styles.iconCamera}
+						/>
+					</TouchableOpacity>
+				</View>
+				<View style={styles.btnBottom}>
+					<TouchableOpacity
+						style={styles.btnSend}
+						// onPress={() => }
+					>
+						<Text style={styles.textSend}>Envoyer</Text>
+					</TouchableOpacity>
+				</View>
 			</View>
-			<View style={styles.request}>
-				<Text style={styles.textRequest}>Faire une demande écrite</Text>
-				<TextInput
-					style={styles.inputRequest}
-					//onChangeText={(e) => setTutorial(e.target.value)}
-					//value={tutorial}
-					placeholder="Recherche..."
-					placeholderTextColor="#808080"
-					maxLength={280}
-					multiline={true}
-				/>
-			</View>
-			<View style={styles.camera}>
-				<Text style={styles.textCamera}>
-					Prendre une photo du problème
-				</Text>
-				<TouchableOpacity
-					style={styles.btnCamera}
-					onPress={() => navigation.navigate("Camera")}
-				>
-					<FontAwesome
-						name="camera-retro"
-						size={50}
-						color="#fff"
-						style={styles.iconCamera}
-					/>
-				</TouchableOpacity>
-			</View>
-			<View style={styles.btnBottom}>
-				<TouchableOpacity
-					style={styles.btnSend}
-					// onPress={() => }
-				>
-					<Text style={styles.textSend}>Envoyer</Text>
-				</TouchableOpacity>
-			</View>
-		</View>
+		</KeyboardAwareScrollView>
 	);
 }
 
 const styles = StyleSheet.create({
+	all: {
+		flex: 1,
+	},
+
 	container: {
 		flex: 1,
 		flexDirection: "column",
@@ -183,7 +193,7 @@ const styles = StyleSheet.create({
 		marginLeft: 10,
 		paddingLeft: 5,
 		width: "95%",
-		height: "80%",
+		height: "60%",
 		textAlign: "center",
 		fontSize: 22,
 		fontWeight: "bold",
@@ -204,6 +214,8 @@ const styles = StyleSheet.create({
 	},
 
 	camera: {
+		marginTop: -50,
+		marginBottom: 20,
 		flexDirection: "column",
 		justifyContent: "center",
 		alignItems: "center",
@@ -246,6 +258,7 @@ const styles = StyleSheet.create({
 	},
 
 	btnBottom: {
+		marginBottom: 180,
 		flexDirection: "column",
 		justifyContent: "center",
 		alignItems: "center",
@@ -253,9 +266,6 @@ const styles = StyleSheet.create({
 	},
 
 	btnSend: {
-		marginTop: 30,
-		marginBottom: 10,
-		backgroundColor: "#5db194",
 		width: "60%",
 		height: 60,
 		flexDirection: "row",
@@ -263,6 +273,7 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 		borderRadius: 10,
 		borderColor: "#808080",
+		backgroundColor: "#5db194",
 		borderBottomWidth: 4,
 		borderLeftWidth: 2,
 		borderRightWidth: 2,

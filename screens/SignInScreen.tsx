@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
+	Platform,
+	KeyboardAvoidingView,
 	StyleSheet,
 	Text,
 	TextInput,
@@ -88,12 +90,12 @@ export default function SignIn({ navigation }: any) {
 					</TouchableOpacity>
 				</View>
 				<Text style={styles.title}>Connexion</Text>
-
 				<View style={styles.inputContainer}>
 					<TextInput
 						onChangeText={(value) => setEmail(value)}
 						value={email}
 						placeholder="Email"
+						placeholderTextColor="#808080"
 						autoCapitalize="none"
 						keyboardType="email-address"
 						textContentType="emailAddress"
@@ -105,6 +107,7 @@ export default function SignIn({ navigation }: any) {
 						value={password}
 						secureTextEntry={true}
 						placeholder="Mot de passe"
+						placeholderTextColor="#808080"
 						style={styles.input}
 					/>
 					{emailError && (
@@ -138,36 +141,33 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		flexDirection: "column",
-
 		backgroundColor: "#ffffff",
 	},
+
 	all: {
 		justifyContent: "center",
 		alignItems: "center",
 	},
-	title: {
-		fontSize: 35,
-		color: "#191970",
-		textShadowColor: "#696969",
-		textShadowOffset: { width: 0, height: 3 },
-		textShadowRadius: 5,
+
+	btnTop: {
+		flexDirection: "row",
+		justifyContent: "space-between",
+		alignItems: "center",
+		width: "100%",
+		marginBottom: 30,
+		marginTop: 50,
 	},
-	inputContainer: {
-		marginTop: 70,
+
+	btnRetour: {
+		flexDirection: "column",
 		alignItems: "center",
 		justifyContent: "center",
-	},
-	input: {
-		margin: 20,
-		paddingLeft: 5,
-		marginRight: 10,
-		fontSize: 22,
-		fontWeight: "bold",
-		backgroundColor: "#ffffff",
-		width: 350,
-		height: 50,
+		marginLeft: 20,
+		backgroundColor: "#5db194",
+		width: 80,
+		height: 80,
+		borderRadius: 40,
 		borderColor: "#808080",
-		borderRadius: 6,
 		borderBottomWidth: 4,
 		borderLeftWidth: 2,
 		borderRightWidth: 2,
@@ -180,17 +180,25 @@ const styles = StyleSheet.create({
 
 		elevation: 25,
 	},
-	error: {
-		color: "red",
+
+	iconArrow: {
+		paddingRight: 5,
+		marginBottom: -15,
+		color: "#ffffff",
+		textShadowColor: "#000000",
+		textShadowOffset: { width: 0, height: 2 },
+		textShadowRadius: 5,
 	},
-	btnTop: {
-		flexDirection: "row",
-		justifyContent: "space-between",
-		alignItems: "center",
-		width: "100%",
-		marginBottom: 30,
-		marginTop: 50,
+
+	textBtnRetour: {
+		paddingBottom: 5,
+		color: "#ffffff",
+		fontSize: 15,
+		textShadowColor: "#000000",
+		textShadowOffset: { width: 0, height: 2 },
+		textShadowRadius: 5,
 	},
+
 	btnAide: {
 		marginRight: 20,
 		backgroundColor: "#fffb00",
@@ -219,15 +227,65 @@ const styles = StyleSheet.create({
 		opacity: 0.6,
 	},
 
-	btnRetour: {
-		flexDirection: "column",
+	title: {
+		fontSize: 35,
+		color: "#191970",
+		textShadowColor: "#696969",
+		textShadowOffset: { width: 0, height: 3 },
+		textShadowRadius: 5,
+	},
+
+	inputContainer: {
+		marginTop: 30,
 		alignItems: "center",
 		justifyContent: "center",
-		marginLeft: 20,
+		width: "100%",
+	},
+
+	input: {
+		margin: 20,
+		paddingLeft: 5,
+		fontSize: 22,
+		fontWeight: "bold",
+		backgroundColor: "#ffffff",
+		width: "90%",
+		height: 50,
+		borderColor: "#808080",
+		borderRadius: 6,
+		borderBottomWidth: 4,
+		borderLeftWidth: 2,
+		borderRightWidth: 2,
+		shadowOffset: {
+			width: -10,
+			height: 12,
+		},
+		shadowOpacity: 0.58,
+		shadowRadius: 16.0,
+
+		elevation: 25,
+	},
+
+	error: {
+		color: "red",
+	},
+
+	btnBottom: {
+		marginTop: 20,
+		flexDirection: "column",
+		justifyContent: "center",
+		alignItems: "center",
+		width: "100%",
+	},
+
+	btnConnection: {
+		marginTop: 20,
 		backgroundColor: "#5db194",
-		width: 80,
-		height: 80,
-		borderRadius: 40,
+		width: "90%",
+		height: 60,
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "center",
+		borderRadius: 10,
 		borderColor: "#808080",
 		borderBottomWidth: 4,
 		borderLeftWidth: 2,
@@ -241,57 +299,17 @@ const styles = StyleSheet.create({
 
 		elevation: 25,
 	},
-	textBtnRetour: {
-		paddingBottom: 5,
+
+	textBtnConnection: {
+		fontSize: 22,
 		color: "#ffffff",
-		fontSize: 15,
-		textShadowColor: "#000000",
+		textShadowColor: "#808080",
 		textShadowOffset: { width: 0, height: 2 },
 		textShadowRadius: 5,
-	},
-
-	iconContent: {
-		marginTop: 20,
-		marginBottom: 40,
-		marginRight: 10,
-		marginLeft: 10,
-		flexDirection: "column",
-		justifyContent: "flex-start",
-		alignItems: "center",
-		width: "42%",
-		borderColor: "#a9a9a9",
-		borderBottomWidth: 6,
-		borderLeftWidth: 4,
-		borderRightWidth: 4,
-		borderRadius: 5,
-		backgroundColor: "#778ed4",
-		shadowColor: "#000000",
-		shadowOffset: {
-			width: -10,
-			height: 12,
-		},
-		shadowOpacity: 0.58,
-		shadowRadius: 16.0,
-
-		elevation: 25,
-	},
-	iconArrow: {
-		paddingRight: 5,
-		marginBottom: -15,
-		color: "#ffffff",
-		textShadowColor: "#000000",
-		textShadowOffset: { width: 0, height: 2 },
-		textShadowRadius: 5,
-	},
-	btnBottom: {
-		flexDirection: "column",
-		justifyContent: "center",
-		alignItems: "center",
-		width: "100%",
 	},
 
 	btnPassword: {
-		marginTop: 170,
+		marginTop: 190,
 		marginBottom: 10,
 		backgroundColor: "#fffb00",
 		width: "90%",
@@ -320,32 +338,5 @@ const styles = StyleSheet.create({
 		textShadowColor: "#ffffff",
 		textShadowOffset: { width: 0, height: 2 },
 		textShadowRadius: 5,
-	},
-	btnConnection: {
-		marginTop: 50,
-		backgroundColor: "#5db194",
-		width: "90%",
-		height: 60,
-		flexDirection: "row",
-		alignItems: "center",
-		justifyContent: "center",
-		borderRadius: 10,
-		borderColor: "#808080",
-		borderBottomWidth: 4,
-		borderLeftWidth: 2,
-		borderRightWidth: 2,
-		shadowOffset: {
-			width: -10,
-			height: 12,
-		},
-		shadowOpacity: 0.58,
-		shadowRadius: 16.0,
-
-		elevation: 25,
-	},
-
-	textBtnConnection: {
-		fontSize: 22,
-		color: "#ffffff",
 	},
 });

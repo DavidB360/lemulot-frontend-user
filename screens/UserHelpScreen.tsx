@@ -55,6 +55,7 @@ export default function UserHelpScreen({ navigation }: UserHelpScreenProps) {
 					//onChangeText={(e) => setTutorial(e.target.value)}
 					//value={tutorial}
 					placeholder="Recherche..."
+					placeholderTextColor="#808080"
 				/>
 				<TouchableOpacity
 					style={styles.btnResearch}
@@ -70,7 +71,7 @@ export default function UserHelpScreen({ navigation }: UserHelpScreenProps) {
 			<View style={styles.resultResearch}>
 				<ScrollView>
 					<TouchableOpacity
-						onPress={() => navigation.navigate("Tuto")}
+						onPress={() => navigation.navigate("Chat")}
 					>
 						<View style={styles.requestContainer}>
 							<View style={styles.request}>
@@ -95,7 +96,7 @@ export default function UserHelpScreen({ navigation }: UserHelpScreenProps) {
 						</View>
 					</TouchableOpacity>
 					<TouchableOpacity
-						onPress={() => navigation.navigate("Tuto")}
+						onPress={() => navigation.navigate("Chat")}
 					>
 						<View style={styles.requestContainer}>
 							<View style={styles.request}>
@@ -121,7 +122,7 @@ export default function UserHelpScreen({ navigation }: UserHelpScreenProps) {
 						</View>
 					</TouchableOpacity>
 					<TouchableOpacity
-						onPress={() => navigation.navigate("Tuto")}
+						onPress={() => navigation.navigate("Chat")}
 					>
 						<View style={styles.requestContainer}>
 							<View style={styles.request}>
@@ -147,7 +148,7 @@ export default function UserHelpScreen({ navigation }: UserHelpScreenProps) {
 						</View>
 					</TouchableOpacity>
 					<TouchableOpacity
-						onPress={() => navigation.navigate("Tuto")}
+						onPress={() => navigation.navigate("Chat")}
 					>
 						<View style={styles.requestContainer}>
 							<View style={styles.request}>
@@ -172,7 +173,7 @@ export default function UserHelpScreen({ navigation }: UserHelpScreenProps) {
 						</View>
 					</TouchableOpacity>
 					<TouchableOpacity
-						onPress={() => navigation.navigate("Tuto")}
+						onPress={() => navigation.navigate("Chat")}
 					>
 						<View style={styles.requestContainer}>
 							<View style={styles.request}>
