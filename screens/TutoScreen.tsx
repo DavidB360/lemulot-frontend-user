@@ -140,7 +140,6 @@ export default function TutoScreen({ navigation }: TutoScreenProps) {
 					<Text style={styles.textBtnAide}>?</Text>
 				</TouchableOpacity>
 			</View>
-
 			<View style={styles.titleTuto}>
 				<View style={styles.tutoText}>
 					<Text style={styles.tutoTitle}>
