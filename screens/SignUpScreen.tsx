@@ -12,7 +12,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import FontAwesome from "react-native-vector-icons/FontAwesome"
 import { useDispatch } from "react-redux"
 import { login, UserState } from "../reducers/user"
-import {BACKEND_URL} from "@env"
+import { BACKEND_URL } from "@env"
 
 const EMAIL_REGEX: RegExp =
 	/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -27,12 +27,12 @@ export default function SignUp({ navigation }: any) {
 	const [zipCode, setZipCode] = useState("")
 	const [city, setCity] = useState("")
 	const [phoneNumber, setPhoneNumber] = useState("")
-	const [emailError, setEmailError] = useState(false)
+	const [inputError, setInputError] = useState(false)
 
 	const handleSignUp = () => {
 		if (EMAIL_REGEX.test(email)) {
 			// fetch("http://10.33.210.227:3000/users/signup", {
-			fetch(BACKEND_URL+"users/signup", {
+			fetch(BACKEND_URL + "users/signup", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({
@@ -50,7 +50,7 @@ export default function SignUp({ navigation }: any) {
 					if (data.result) {
 						navigation.navigate("SignIn")
 					} else {
-						setEmailError(true)
+						setInputError(true)
 					}
 				})
 		}
@@ -127,8 +127,8 @@ export default function SignUp({ navigation }: any) {
 						placeholder="Numéro de téléphone"
 						style={styles.input}
 					/>
-					{emailError && (
-						<Text style={styles.error}>Email ou mot de passe incorrect.</Text>
+					{inputError && (
+						<Text style={styles.error}>Champs vides ou manquants</Text>
 					)}
 				</View>
 				<TouchableOpacity
@@ -155,17 +155,11 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 	},
 	title: {
-		marginTop: 10,
-		fontSize: 40,
-		marginBottom: 20,
-		shadowColor: "#000",
-		shadowOffset: {
-			width: 0,
-			height: 12,
-		},
-		shadowOpacity: 0.7,
-		shadowRadius: 16.0,
-		elevation: 24,
+		fontSize: 35,
+		color: "#191970",
+		textShadowColor: "#696969",
+		textShadowOffset: { width: 0, height: 3 },
+		textShadowRadius: 5,
 	},
 	btnTop: {
 		flexDirection: "row",
@@ -246,8 +240,7 @@ const styles = StyleSheet.create({
 	},
 
 	inputContainer: {
-		marginTop: 5,
-		margin: 15,
+		marginTop: 50,
 		alignItems: "center",
 		justifyContent: "center",
 	},
@@ -263,7 +256,7 @@ const styles = StyleSheet.create({
 		color: "red",
 	},
 	button: {
-		marginTop: 30,
+		marginTop: 70,
 		backgroundColor: "#5db194",
 		width: "90%",
 		height: 60,
