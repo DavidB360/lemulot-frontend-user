@@ -1,21 +1,28 @@
-import { View, Text, TouchableOpacity, StyleSheet, Button, Image } from "react-native"
-import React, { useEffect } from "react"
-import FontAwesome from "react-native-vector-icons/FontAwesome"
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
-import { faUser, faPenNib } from "@fortawesome/free-solid-svg-icons"
-import { useSelector } from "react-redux"
-import { UserState } from "../reducers/user"
+import {
+	View,
+	Text,
+	TouchableOpacity,
+	StyleSheet,
+	Button,
+	Image,
+} from "react-native";
+import React, { useEffect } from "react";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faUser, faPenNib } from "@fortawesome/free-solid-svg-icons";
+import { useSelector } from "react-redux";
+import { UserState } from "../reducers/user";
 
 export default function ConnectionScreen({ navigation }: any) {
-	const user = useSelector((state: { user: UserState }) => state.user.value)
+	const user = useSelector((state: { user: UserState }) => state.user.value);
 
 	useEffect(() => {
 		if (user.token) {
 			navigation.navigate("TabNavigator", {
 				screen: "Demandes",
-			})
+			});
 		}
-	}, [])
+	}, []);
 
 	return (
 		<View style={styles.container}>
@@ -67,7 +74,7 @@ export default function ConnectionScreen({ navigation }: any) {
 				</TouchableOpacity>
 			</View>
 		</View>
-	)
+	);
 }
 
 const styles = StyleSheet.create({
@@ -158,21 +165,21 @@ const styles = StyleSheet.create({
 	},
 
 	iconContainer: {
+		marginTop: 50,
 		flexDirection: "column",
 		justifyContent: "center",
 		alignItems: "center",
-		height: "80%",
-		width: "98%",
-		paddingBottom: 20,
+		height: "60%",
+		width: "80%",
 	},
 
 	iconContent: {
 		marginBottom: 50,
 		flexDirection: "column",
-		justifyContent: "flex-start",
+		justifyContent: "center",
 		alignItems: "center",
-		width: "62%",
-		height: "42%",
+		width: "65%",
+		height: "45%",
 		borderColor: "#a9a9a9",
 		borderBottomWidth: 6,
 		borderLeftWidth: 4,
@@ -212,4 +219,4 @@ const styles = StyleSheet.create({
 		borderColor: "#a9a9a9",
 		color: "#778ed4",
 	},
-})
+});

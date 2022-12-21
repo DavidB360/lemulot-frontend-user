@@ -279,6 +279,7 @@ const styles = StyleSheet.create({
 	},
 
 	btnConnection: {
+		marginTop: 10,
 		marginBottom: 120,
 		backgroundColor: "#5db194",
 		width: "90%",
