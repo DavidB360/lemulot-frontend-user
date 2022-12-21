@@ -28,6 +28,8 @@ export default function SignUp({ navigation }: any) {
 	const [city, setCity] = useState("")
 	const [phoneNumber, setPhoneNumber] = useState("")
 	const [inputError, setInputError] = useState(false)
+	const [emailError, setEmailError] = useState(false)
+	const [errorMessage, setErrorMessage] = useState("")
 
 	const handleSignUp = () => {
 		if (EMAIL_REGEX.test(email)) {
@@ -50,9 +52,12 @@ export default function SignUp({ navigation }: any) {
 					if (data.result) {
 						navigation.navigate("SignIn")
 					} else {
+						setErrorMessage(data.error)
 						setInputError(true)
 					}
 				})
+		} else {
+			setEmailError(true)
 		}
 	}
 
@@ -127,9 +132,8 @@ export default function SignUp({ navigation }: any) {
 						placeholder="Numéro de téléphone"
 						style={styles.input}
 					/>
-					{inputError && (
-						<Text style={styles.error}>Champs vides ou manquants</Text>
-					)}
+					{inputError && <Text style={styles.error}>{errorMessage}</Text>}
+					{emailError && <Text style={styles.error}>Email incorrect.</Text>}
 				</View>
 				<TouchableOpacity
 					onPress={() => handleSignUp()}
