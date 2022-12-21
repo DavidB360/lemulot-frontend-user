@@ -4,87 +4,81 @@ import {
 	TouchableOpacity,
 	StyleSheet,
 	TextInput,
+	KeyboardAvoidingView,
+	Platform,
 } from "react-native";
-import { NavigationProp, ParamListBase } from "@react-navigation/native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 
-type WrittenRequestScreenProps = {
-	navigation: NavigationProp<ParamListBase>;
-};
-
-export default function WrittenRequestScreen({
-	navigation,
-}: WrittenRequestScreenProps) {
+export default function WrittenRequestScreen({ navigation }: any) {
 	return (
-		<KeyboardAwareScrollView style={styles.all}>
-			<View style={styles.container}>
-				<View style={styles.btnTop}>
-					<TouchableOpacity
-						style={styles.btnUsers}
-						onPress={() =>
-							navigation.navigate("TabNavigator", {
-								screen: "Paramètre",
-							})
-						}
-					>
-						<FontAwesomeIcon
-							icon={faUser}
-							size={50}
-							style={styles.iconUsers}
-						/>
-					</TouchableOpacity>
-					<Text style={styles.title}>Demande d'aide</Text>
-					<TouchableOpacity
-						style={styles.btnAide}
-						// onPress={() => navigation.navigate("Type")}
-					>
-						<Text style={styles.textBtnAide}>?</Text>
-					</TouchableOpacity>
-				</View>
-				<View style={styles.request}>
-					<Text style={styles.textRequest}>
-						Faire une demande écrite
-					</Text>
-					<TextInput
-						style={styles.inputRequest}
-						//onChangeText={(e) => setTutorial(e.target.value)}
-						//value={tutorial}
-						placeholder="Recherche..."
-						placeholderTextColor="#808080"
-						maxLength={280}
-						multiline={true}
-						numberOfLines={8}
+		<KeyboardAvoidingView
+			keyboardVerticalOffset={Platform.select({ ios: 0, android: -250 })}
+			behavior="padding"
+			style={styles.container}
+		>
+			<View style={styles.btnTop}>
+				<TouchableOpacity
+					style={styles.btnUsers}
+					onPress={() =>
+						navigation.navigate("TabNavigator", {
+							screen: "Paramètre",
+						})
+					}
+				>
+					<FontAwesomeIcon
+						icon={faUser}
+						size={50}
+						style={styles.iconUsers}
 					/>
-				</View>
-				<View style={styles.camera}>
-					<Text style={styles.textCamera}>
-						Prendre une photo du problème
-					</Text>
-					<TouchableOpacity
-						style={styles.btnCamera}
-						onPress={() => navigation.navigate("Camera")}
-					>
-						<FontAwesome
-							name="camera-retro"
-							size={50}
-							color="#fff"
-							style={styles.iconCamera}
-						/>
-					</TouchableOpacity>
-				</View>
-				<View style={styles.btnBottom}>
-					<TouchableOpacity
-						style={styles.btnSend}
-						// onPress={() => }
-					>
-						<Text style={styles.textSend}>Envoyer</Text>
-					</TouchableOpacity>
-				</View>
+				</TouchableOpacity>
+				<Text style={styles.title}>Demande d'aide</Text>
+				<TouchableOpacity
+					style={styles.btnAide}
+					// onPress={() => navigation.navigate("Type")}
+				>
+					<Text style={styles.textBtnAide}>?</Text>
+				</TouchableOpacity>
 			</View>
-		</KeyboardAwareScrollView>
+			<View style={styles.request}>
+				<Text style={styles.textRequest}>Faire une demande écrite</Text>
+				<TextInput
+					style={styles.inputRequest}
+					//onChangeText={(e) => setTutorial(e.target.value)}
+					//value={tutorial}
+					placeholder="Recherche..."
+					placeholderTextColor="#808080"
+					maxLength={280}
+					multiline={true}
+					numberOfLines={8}
+				/>
+			</View>
+			<View style={styles.camera}>
+				<Text style={styles.textCamera}>
+					Prendre une photo du problème
+				</Text>
+				<TouchableOpacity
+					style={styles.btnCamera}
+					onPress={() => navigation.navigate("Camera")}
+				>
+					<FontAwesome
+						name="camera-retro"
+						size={50}
+						color="#fff"
+						style={styles.iconCamera}
+					/>
+				</TouchableOpacity>
+			</View>
+			<View style={styles.btnBottom}>
+				<TouchableOpacity
+					style={styles.btnSend}
+					// onPress={() => }
+				>
+					<Text style={styles.textSend}>Envoyer</Text>
+				</TouchableOpacity>
+			</View>
+		</KeyboardAvoidingView>
 	);
 }
 

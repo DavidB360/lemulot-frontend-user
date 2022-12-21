@@ -1,16 +1,9 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { NavigationProp, ParamListBase } from "@react-navigation/native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 
-type OralRequestScreenProps = {
-	navigation: NavigationProp<ParamListBase>;
-};
-
-export default function OralRequestScreen({
-	navigation,
-}: OralRequestScreenProps) {
+export default function OralRequestScreen({ navigation }: any) {
 	return (
 		<View style={styles.container}>
 			<View style={styles.btnTop}>

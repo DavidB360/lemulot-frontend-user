@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import {
-	Platform,
-	KeyboardAvoidingView,
 	StyleSheet,
 	Text,
 	TextInput,
