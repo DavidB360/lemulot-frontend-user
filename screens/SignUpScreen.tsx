@@ -25,6 +25,7 @@ export default function SignUp({ navigation }: any) {
 
 	const handleSignUp = () => {
 		if (EMAIL_REGEX.test(email)) {
+			setEmailError(false)
 			// fetch("http://10.33.210.227:3000/users/signup", {
 			fetch(BACKEND_URL + "users/signup", {
 				method: "POST",
