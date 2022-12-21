@@ -15,6 +15,7 @@ import React, { useState, useEffect } from "react";
 import { updateTuto } from "../reducers/tuto";
 import { BACKEND_URL } from "@env";
 import { updatePrevPage } from "../reducers/prevPage";
+import { UserState } from "../reducers/user";
 
 type ResearchScreenProps = {
 	navigation: NavigationProp<ParamListBase>;
@@ -34,6 +35,11 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 	const category = useSelector(
 		(state: { category: CategoryState }) => state.category.value
 	);
+
+	// on charge le reducer user pour savoir si l'utilisateur est connecté
+	const user = useSelector((state: {user: UserState }) => state.user.value);
+	// l'utilisateur est-il connecté ?
+	const isUserConnected = (user.token !== null);
 
 	// intitialisation d'un useState qui va stocker les tutoriels à afficher en fonction
 	// des reducers device et category
@@ -299,12 +305,17 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 					<Text style={styles.textBtnDico}>Dictionnaire</Text>
 				</TouchableOpacity>
 				<TouchableOpacity
-					style={styles.btnHelrequest}
-					onPress={() =>
-						navigation.navigate("TabNavigator2", {
+					// navigation conditionnelle : si l'utilisateur est connecté, on va sur la page de demande écrite
+					// sinon on va sur la page de connexion
+					onPress={() => {
+						if (isUserConnected) {
+							navigation.navigate("TabNavigator2", {
 							screen: "Ecrite",
-						})
-					}
+							});
+						} else {
+							navigation.navigate("Connection");
+						}
+					}}
 				>
 					<Text style={styles.textBtnHelrequest}>
 						Demander de l'aide
