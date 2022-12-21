@@ -248,7 +248,7 @@ const styles = StyleSheet.create({
 		fontSize: 22,
 		fontWeight: "bold",
 		backgroundColor: "#ffffff",
-		width: "90%",
+		width: "75%",
 		height: 50,
 		borderColor: "#808080",
 		borderRadius: 6,
@@ -267,10 +267,11 @@ const styles = StyleSheet.create({
 
 	error: {
 		color: "red",
+		fontSize: 22,
+		marginBottom: 10,
 	},
 
 	btnBottom: {
-		marginTop: 20,
 		flexDirection: "column",
 		justifyContent: "center",
 		alignItems: "center",
@@ -278,7 +279,7 @@ const styles = StyleSheet.create({
 	},
 
 	btnConnection: {
-		marginTop: 20,
+		marginBottom: 120,
 		backgroundColor: "#5db194",
 		width: "90%",
 		height: 60,
@@ -309,8 +310,7 @@ const styles = StyleSheet.create({
 	},
 
 	btnPassword: {
-		marginTop: 190,
-		marginBottom: 10,
+		marginBottom: 100,
 		backgroundColor: "#fffb00",
 		width: "90%",
 		height: 60,
