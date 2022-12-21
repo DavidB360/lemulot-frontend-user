@@ -1,31 +1,37 @@
-import React, { useEffect, useState } from "react"
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native"
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
-import FontAwesome from "react-native-vector-icons/FontAwesome"
-import { useDispatch } from "react-redux"
-import { login, UserState } from "../reducers/user"
-import { BACKEND_URL } from "@env"
+import React, { useEffect, useState } from "react";
+import {
+	StyleSheet,
+	Text,
+	TextInput,
+	TouchableOpacity,
+	View,
+} from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { useDispatch } from "react-redux";
+import { login, UserState } from "../reducers/user";
+import { BACKEND_URL } from "@env";
 
 const EMAIL_REGEX: RegExp =
-	/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+	/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 export default function SignUp({ navigation }: any) {
-	const dispatch = useDispatch()
+	const dispatch = useDispatch();
 
-	const [email, setEmail] = useState("")
-	const [password, setPassword] = useState("")
-	const [lastName, setLastName] = useState("")
-	const [firstName, setFirstName] = useState("")
-	const [zipCode, setZipCode] = useState("")
-	const [city, setCity] = useState("")
-	const [phoneNumber, setPhoneNumber] = useState("")
-	const [inputError, setInputError] = useState(false)
-	const [emailError, setEmailError] = useState(false)
-	const [errorMessage, setErrorMessage] = useState("")
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
+	const [lastName, setLastName] = useState("");
+	const [firstName, setFirstName] = useState("");
+	const [zipCode, setZipCode] = useState("");
+	const [city, setCity] = useState("");
+	const [phoneNumber, setPhoneNumber] = useState("");
+	const [inputError, setInputError] = useState(false);
+	const [emailError, setEmailError] = useState(false);
+	const [errorMessage, setErrorMessage] = useState("");
 
 	const handleSignUp = () => {
 		if (EMAIL_REGEX.test(email)) {
-			setEmailError(false)
+			setEmailError(false);
 			// fetch("http://10.33.210.227:3000/users/signup", {
 			fetch(BACKEND_URL + "users/signup", {
 				method: "POST",
@@ -43,16 +49,16 @@ export default function SignUp({ navigation }: any) {
 				.then((response) => response.json())
 				.then((data) => {
 					if (data.result) {
-						navigation.navigate("SignIn")
+						navigation.navigate("SignIn");
 					} else {
-						setErrorMessage(data.error)
-						setInputError(true)
+						setErrorMessage(data.error);
+						setInputError(true);
 					}
-				})
+				});
 		} else {
-			setEmailError(true)
+			setEmailError(true);
 		}
-	}
+	};
 
 	return (
 		<KeyboardAwareScrollView style={styles.container}>
@@ -132,8 +138,12 @@ export default function SignUp({ navigation }: any) {
 						placeholderTextColor="#808080"
 						style={styles.input}
 					/>
-					{inputError && <Text style={styles.error}>{errorMessage}</Text>}
-					{emailError && <Text style={styles.error}>Email incorrect.</Text>}
+					{inputError && (
+						<Text style={styles.error}>{errorMessage}</Text>
+					)}
+					{emailError && (
+						<Text style={styles.error}>Email incorrect.</Text>
+					)}
 				</View>
 				<TouchableOpacity
 					onPress={() => handleSignUp()}
@@ -144,7 +154,7 @@ export default function SignUp({ navigation }: any) {
 				</TouchableOpacity>
 			</View>
 		</KeyboardAwareScrollView>
-	)
+	);
 }
 
 const styles = StyleSheet.create({
@@ -277,6 +287,7 @@ const styles = StyleSheet.create({
 
 	error: {
 		color: "red",
+		fontSize: 22,
 	},
 
 	button: {
@@ -309,4 +320,4 @@ const styles = StyleSheet.create({
 		textShadowOffset: { width: 0, height: 2 },
 		textShadowRadius: 5,
 	},
-})
+});

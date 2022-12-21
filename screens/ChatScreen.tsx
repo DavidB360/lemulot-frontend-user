@@ -9,6 +9,8 @@ import {
 	Platform,
 } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 export default function OralRequestScreen({ navigation }: any) {
 	return (
@@ -45,69 +47,100 @@ export default function OralRequestScreen({ navigation }: any) {
 			</View>
 			<View style={styles.chatContainer}>
 				<ScrollView>
-					<Text style={styles.chatText}>
-						Lorem ipsum dolor sit amet. Aut accusamus sequi a
-						eveniet expedita qui dolorum voluptas sit voluptatum
-						nihil. Aut beatae aliquam sit eaque autem ut repellendus
-						illo. Aut culpa voluptatem et illum quas ea tempora
-						laboriosam qui possimus commodi qui alias facilis et
-						laborum excepturi ad possimus praesentium. Sed quas
-						facilis et molestias libero vel odio voluptas et modi
-						tempora est consequatur amet. Eos totam facilis est
-						voluptate eius eum perferendis nemo ut doloribus placeat
-						et maiores consequatur et veritatis quod ut aliquid
-						consequatur. Ut veritatis quis quo voluptate suscipit
-						aut voluptatem harum et tempore dolorem. Ut Quis
-						similique ut quaerat deleniti cum enim quos et rerum
-						officiis et voluptas ducimus ut omnis voluptas. Quo
-						cumque veritatis est rerum quas in soluta dolores. Cum
-						culpa dolor et galisum odit ut placeat inventore ut
-						consequatur veniam vel eveniet omnis non nulla incidunt.
-						Quo soluta consequatur est omnis quia id inventore
-						repudiandae et tempore veniam non iste maiores.
-					</Text>
-					<Text>
-						Lorem ipsum dolor sit amet. Aut accusamus sequi a
-						eveniet expedita qui dolorum voluptas sit voluptatum
-						nihil. Aut beatae aliquam sit eaque autem ut repellendus
-						illo. Aut culpa voluptatem et illum quas ea tempora
-						laboriosam qui possimus commodi qui alias facilis et
-						laborum excepturi ad possimus praesentium. Sed quas
-						facilis et molestias libero vel odio voluptas et modi
-						tempora est consequatur amet. Eos totam facilis est
-						voluptate eius eum perferendis nemo ut doloribus placeat
-						et maiores consequatur et veritatis quod ut aliquid
-						consequatur. Ut veritatis quis quo voluptate suscipit
-						aut voluptatem harum et tempore dolorem. Ut Quis
-						similique ut quaerat deleniti cum enim quos et rerum
-						officiis et voluptas ducimus ut omnis voluptas. Quo
-						cumque veritatis est rerum quas in soluta dolores. Cum
-						culpa dolor et galisum odit ut placeat inventore ut
-						consequatur veniam vel eveniet omnis non nulla incidunt.
-						Quo soluta consequatur est omnis quia id inventore
-						repudiandae et tempore veniam non iste maiores.
-					</Text>
-					<Text>
-						Lorem ipsum dolor sit amet. Aut accusamus sequi a
-						eveniet expedita qui dolorum voluptas sit voluptatum
-						nihil. Aut beatae aliquam sit eaque autem ut repellendus
-						illo. Aut culpa voluptatem et illum quas ea tempora
-						laboriosam qui possimus commodi qui alias facilis et
-						laborum excepturi ad possimus praesentium. Sed quas
-						facilis et molestias libero vel odio voluptas et modi
-						tempora est consequatur amet. Eos totam facilis est
-						voluptate eius eum perferendis nemo ut doloribus placeat
-						et maiores consequatur et veritatis quod ut aliquid
-						consequatur. Ut veritatis quis quo voluptate suscipit
-						aut voluptatem harum et tempore dolorem. Ut Quis
-						similique ut quaerat deleniti cum enim quos et rerum
-						officiis et voluptas ducimus ut omnis voluptas. Quo
-						cumque veritatis est rerum quas in soluta dolores. Cum
-						culpa dolor et galisum odit ut placeat inventore ut
-						consequatur veniam vel eveniet omnis non nulla incidunt.
-						Quo soluta consequatur est omnis quia id inventore
-						repudiandae et tempore veniam non iste maiores.
-					</Text>
+					<View style={styles.chatUser}>
+						<View style={styles.chat}>
+							<View style={styles.iconUsers}>
+								<FontAwesomeIcon
+									icon={faUser}
+									size={28}
+									style={styles.icon}
+									color="#5db194"
+								/>
+							</View>
+							<Text style={styles.user}>
+								Lorem ipsum dolor sit amet.
+							</Text>
+						</View>
+					</View>
+					<View style={styles.chatHelper}>
+						<View style={styles.chat}>
+							<Text style={styles.helper}>
+								Aut accusamus sequi a eveniet expedita qui
+								dolorum voluptas sit voluptatum nihil.
+							</Text>
+							<View style={styles.iconUsers}>
+								<FontAwesomeIcon
+									icon={faUser}
+									size={28}
+									style={styles.icon}
+									color="#5db194"
+								/>
+							</View>
+						</View>
+					</View>
+					<View style={styles.chatUser}>
+						<View style={styles.chat}>
+							<View style={styles.iconUsers}>
+								<FontAwesomeIcon
+									icon={faUser}
+									size={28}
+									style={styles.icon}
+									color="#5db194"
+								/>
+							</View>
+							<Text style={styles.user}>
+								Aut culpa voluptatem et illum quas ea tempora
+								laboriosam qui possimus.
+							</Text>
+						</View>
+					</View>
+					<View style={styles.chatHelper}>
+						<View style={styles.chat}>
+							<Text style={styles.helper}>
+								Sed quas facilis et molestias libero vel odio
+								voluptas et modi tempora est consequatur amet.
+							</Text>
+							<View style={styles.iconUsers}>
+								<FontAwesomeIcon
+									icon={faUser}
+									size={28}
+									style={styles.icon}
+									color="#5db194"
+								/>
+							</View>
+						</View>
+					</View>
+					<View style={styles.chatUser}>
+						<View style={styles.chat}>
+							<View style={styles.iconUsers}>
+								<FontAwesomeIcon
+									icon={faUser}
+									size={28}
+									style={styles.icon}
+									color="#5db194"
+								/>
+							</View>
+							<Text style={styles.user}>
+								Aut accusamus sequi a eveniet expedita qui
+								dolorum voluptas sit voluptatum nihil.
+							</Text>
+						</View>
+					</View>
+					<View style={styles.chatHelper}>
+						<View style={styles.chat}>
+							<Text style={styles.helper}>
+								Lorem ipsum dolor sit amet.
+							</Text>
+							<View style={styles.iconUsers}>
+								<FontAwesomeIcon
+									icon={faUser}
+									size={28}
+									style={styles.icon}
+									color="#5db194"
+								/>
+							</View>
+						</View>
+					</View>
 				</ScrollView>
 			</View>
 			<View style={styles.messageContainer}>
@@ -135,7 +168,7 @@ export default function OralRequestScreen({ navigation }: any) {
 				>
 					<FontAwesome
 						name="camera-retro"
-						size={50}
+						size={60}
 						color="#fff"
 						style={styles.iconBottom}
 					/>
@@ -146,7 +179,7 @@ export default function OralRequestScreen({ navigation }: any) {
 				>
 					<FontAwesome
 						name="microphone"
-						size={50}
+						size={60}
 						color="#fff"
 						style={styles.iconBottom}
 					/>
@@ -157,10 +190,6 @@ export default function OralRequestScreen({ navigation }: any) {
 }
 
 const styles = StyleSheet.create({
-	// all: {
-	// 	marginBottom: 30,
-	// },
-
 	container: {
 		flex: 1,
 		flexDirection: "column",
@@ -254,10 +283,76 @@ const styles = StyleSheet.create({
 		height: "43%",
 	},
 
-	chatText: {
-		paddingLeft: 10,
-		paddingRight: 10,
-		paddingTop: 10,
+	chatUser: {
+		fontSize: 22,
+		alignSelf: "flex-end",
+		marginTop: 10,
+		marginBottom: 10,
+		borderWidth: 1,
+		borderRadius: 10,
+		backgroundColor: "#5db194",
+		height: "15%",
+		width: "80%",
+	},
+
+	chat: {
+		flexDirection: "row",
+		justifyContent: "center",
+		alignItems: "center",
+		height: "100%",
+		width: "100%",
+		paddingTop: 5,
+		paddingBottom: 5,
+	},
+
+	user: {
+		textAlign: "left",
+		marginLeft: 10,
+		fontSize: 18,
+		color: "#ffffff",
+		textShadowColor: "#000000",
+		textShadowOffset: { width: 0, height: 2 },
+		textShadowRadius: 5,
+		width: "80%",
+	},
+
+	iconUsers: {
+		justifyContent: "center",
+		alignItems: "center",
+		borderWidth: 1,
+		height: 40,
+		width: 40,
+		borderRadius: 20,
+		backgroundColor: "#fff",
+	},
+
+	icon: {
+		height: "100%",
+		width: "100%",
+		borderRadius: 20,
+	},
+
+	chatHelper: {
+		fontSize: 22,
+		alignSelf: "flex-start",
+		marginTop: 10,
+		marginBottom: 10,
+		borderWidth: 1,
+		borderRadius: 10,
+		backgroundColor: "#778ed4",
+		height: "15%",
+		width: "80%",
+	},
+
+	helper: {
+		textAlign: "left",
+		marginRight: 10,
+		fontSize: 18,
+		color: "#ffffff",
+		textShadowColor: "#000000",
+		textShadowOffset: { width: 0, height: 2 },
+		textShadowRadius: 5,
+		width: "80%",
 	},
 
 	title: {
@@ -354,8 +449,8 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 		alignItems: "center",
 		backgroundColor: "#778ed4",
-		width: "30%",
-		height: 70,
+		width: "35%",
+		height: 80,
 		borderColor: "#808080",
 		borderRadius: 6,
 		borderBottomWidth: 4,

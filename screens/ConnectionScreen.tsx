@@ -205,10 +205,6 @@ const styles = StyleSheet.create({
 		textShadowRadius: 5,
 	},
 
-	iconColor: {
-		color: "#778ed4",
-	},
-
 	icon: {
 		justifyContent: "center",
 		alignItems: "center",
@@ -217,6 +213,10 @@ const styles = StyleSheet.create({
 		height: "89%",
 		borderTopWidth: 1,
 		borderColor: "#a9a9a9",
+		color: "#778ed4",
+	},
+
+	iconColor: {
 		color: "#778ed4",
 	},
 });

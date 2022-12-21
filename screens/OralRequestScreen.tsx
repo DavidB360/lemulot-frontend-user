@@ -38,7 +38,7 @@ export default function OralRequestScreen({ navigation }: any) {
 					>
 						<FontAwesome
 							name="microphone"
-							size={80}
+							size={100}
 							color="#fff"
 							style={styles.iconMicrophone}
 						/>
@@ -53,30 +53,6 @@ export default function OralRequestScreen({ navigation }: any) {
 						<Text style={styles.textSend}>Vérification</Text>
 					</TouchableOpacity>
 				</View>
-			</View>
-			<View style={styles.camera}>
-				<Text style={styles.textCamera}>
-					Prendre une photo du problème
-				</Text>
-				<TouchableOpacity
-					style={styles.btnCamera}
-					onPress={() => navigation.navigate("Camera")}
-				>
-					<FontAwesome
-						name="camera-retro"
-						size={50}
-						color="#fff"
-						style={styles.iconCamera}
-					/>
-				</TouchableOpacity>
-			</View>
-			<View style={styles.btnBottom}>
-				<TouchableOpacity
-					style={styles.btnSend}
-					// onPress={() => }
-				>
-					<Text style={styles.textSend}>Envoyer</Text>
-				</TouchableOpacity>
 			</View>
 		</View>
 	);
@@ -165,10 +141,10 @@ const styles = StyleSheet.create({
 
 	request: {
 		flexDirection: "column",
-		justifyContent: "flex-start",
+		justifyContent: "space-around",
 		alignItems: "center",
 		width: "95%",
-		height: "40%",
+		height: "70%",
 	},
 
 	textRequest: {
@@ -188,13 +164,13 @@ const styles = StyleSheet.create({
 	btnMicrophone: {
 		justifyContent: "center",
 		alignItems: "center",
-		width: 150,
-		height: 150,
+		width: 200,
+		height: 200,
 		fontSize: 22,
 		fontWeight: "bold",
 		backgroundColor: "#778ed4",
 		borderColor: "#808080",
-		borderRadius: 80,
+		borderRadius: 100,
 		borderBottomWidth: 4,
 		borderLeftWidth: 2,
 		borderRightWidth: 2,
@@ -227,50 +203,6 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 		alignItems: "center",
 		width: "100%",
-	},
-
-	camera: {
-		marginBottom: 20,
-		flexDirection: "column",
-		justifyContent: "center",
-		alignItems: "center",
-		width: "100%",
-	},
-
-	textCamera: {
-		marginTop: 20,
-		marginBottom: 20,
-		fontSize: 22,
-		textShadowColor: "#808080",
-		textShadowOffset: { width: 0, height: 2 },
-		textShadowRadius: 5,
-	},
-
-	btnCamera: {
-		justifyContent: "center",
-		alignItems: "center",
-		backgroundColor: "#778ed4",
-		width: "40%",
-		height: 100,
-		borderColor: "#808080",
-		borderRadius: 6,
-		borderBottomWidth: 4,
-		borderLeftWidth: 2,
-		borderRightWidth: 2,
-		shadowOffset: {
-			width: -10,
-			height: 12,
-		},
-		shadowOpacity: 0.58,
-		shadowRadius: 16.0,
-
-		elevation: 25,
-	},
-
-	iconCamera: {
-		textShadowColor: "#000",
-		textShadowOffset: { width: 0, height: 2 },
-		textShadowRadius: 3,
 	},
 
 	btnBottom: {
