@@ -107,7 +107,7 @@ export default function TutoScreen({ navigation }: TutoScreenProps) {
 			return (
 				<View key={i} style={styles.imgContainer}>
 					<Image 
-						style={styles.img}
+						style={[styles.img, {width: '100%', height: '100%'}]} 
 						// source={require(obj.content)} // ne fonctionne pas
 						// source={require('../assets/creation_compte_google.jpg')} // fonctionne !?!
 						// on va chercher la photo stockée en ligne sur Cloudinary (url renseignée dans la base de données) :
@@ -184,11 +184,17 @@ export default function TutoScreen({ navigation }: TutoScreenProps) {
 			<View style={styles.btnBottom}>
 				<TouchableOpacity
 					style={styles.btnHelrequest}
-					onPress={() =>
-						navigation.navigate("TabNavigator", {
-							screen: "Demandes",
-						})
-					}
+					onPress={() => {
+						// navigation conditionnelle : si l'utilisateur est connecté, on va sur la page de demande écrite
+						// sinon on va sur la page de connexion
+						if (isUserConnected) {
+							navigation.navigate("TabNavigator2", {
+							screen: "Ecrite",
+							});
+						} else {
+							navigation.navigate("Connection");
+						}
+					}}
 				>
 					<Text style={styles.textBtnHelrequest}>
 						Demander de l'aide
@@ -428,8 +434,9 @@ const styles = StyleSheet.create({
 
 	img: {
 		marginBottom: 5,
-		height: "100%",
-		width: "100%",
+		// height: "100%",
+		// width: "100%",
+		resizeMode: 'contain',
 	},
 
 	scrollView: {
