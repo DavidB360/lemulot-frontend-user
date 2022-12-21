@@ -5,48 +5,49 @@ import {
 	StyleSheet,
 	TextInput,
 	ScrollView,
-} from "react-native";
-import { NavigationProp, ParamListBase } from "@react-navigation/native";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
-import { useSelector, useDispatch } from "react-redux";
-import { DeviceState } from "../reducers/device";
-import { CategoryState } from "../reducers/category";
-import React, { useState, useEffect } from "react";
-import { updateTuto } from "../reducers/tuto";
-import { BACKEND_URL } from "@env";
-import { updatePrevPage } from "../reducers/prevPage";
-import { UserState } from "../reducers/user";
+	Alert,
+	Modal,
+	Pressable,
+} from "react-native"
+import { NavigationProp, ParamListBase } from "@react-navigation/native"
+import FontAwesome from "react-native-vector-icons/FontAwesome"
+import { useSelector, useDispatch } from "react-redux"
+import { DeviceState } from "../reducers/device"
+import { CategoryState } from "../reducers/category"
+import React, { useState, useEffect } from "react"
+import { updateTuto } from "../reducers/tuto"
+import { BACKEND_URL } from "@env"
+import { updatePrevPage } from "../reducers/prevPage"
+import { UserState } from "../reducers/user"
 
 type ResearchScreenProps = {
-	navigation: NavigationProp<ParamListBase>;
-};
+	navigation: NavigationProp<ParamListBase>
+}
 
 export default function ResearchScreen({ navigation }: ResearchScreenProps) {
-	const dispatch = useDispatch();
+	const dispatch = useDispatch()
 
 	// intitiation d'un useState pour l'input de recherche
-	const [tutorialSearch, setTutorialSearch] = useState("");
+	const [tutorialSearch, setTutorialSearch] = useState("")
 
 	// on charge les reducers device et category pour connaître la navigation effectuée par
 	// l'utilisateur sur les pages de menu précédentes
-	const device = useSelector(
-		(state: { device: DeviceState }) => state.device.value
-	);
+	const device = useSelector((state: { device: DeviceState }) => state.device.value)
 	const category = useSelector(
 		(state: { category: CategoryState }) => state.category.value
-	);
+	)
 
 	// on charge le reducer user pour savoir si l'utilisateur est connecté
-	const user = useSelector((state: {user: UserState }) => state.user.value);
+	const user = useSelector((state: { user: UserState }) => state.user.value)
 	// l'utilisateur est-il connecté ?
-	const isUserConnected = (user.token !== null);
+	const isUserConnected = user.token !== null
 
 	// intitialisation d'un useState qui va stocker les tutoriels à afficher en fonction
 	// des reducers device et category
-	const [selectedTutorials, setSelectedTutorials] = useState<any>([]);
+	const [selectedTutorials, setSelectedTutorials] = useState<any>([])
 
 	// initialisation d'un useState pour gérer la recherche avec une regex
-	const [regexSearch, setRegexSearch] = useState("");
+	const [regexSearch, setRegexSearch] = useState("")
 
 	// tableau de tutoriels pour test
 	const tutorials = [
@@ -59,7 +60,7 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 			category: "internet",
 			difficulty: "easy",
 			content:
-			"[{ type: 'text', content: 'Nous allons créer une adresse gmail pas à pas avec toi ...'}]",
+				"[{ type: 'text', content: 'Nous allons créer une adresse gmail pas à pas avec toi ...'}]",
 		},
 		{
 			_id: "2",
@@ -70,7 +71,7 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 			category: "system",
 			difficulty: "easy",
 			content:
-			"[{ type: 'text', content: 'Cliquer sur l\'icone à droite de votre barre des tâches ...' }]",
+				"[{ type: 'text', content: 'Cliquer sur l'icone à droite de votre barre des tâches ...' }]",
 		},
 		{
 			_id: "3",
@@ -81,7 +82,7 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 			category: "software",
 			difficulty: "easy",
 			content:
-			"[{ type: 'text', content: 'En bas de votre écran, appuyer sur le bouton en forme d\'appareil photo ...' }]",
+				"[{ type: 'text', content: 'En bas de votre écran, appuyer sur le bouton en forme d'appareil photo ...' }]",
 		},
 		{
 			_id: "4",
@@ -92,7 +93,7 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 			category: "system",
 			difficulty: "advanced",
 			content:
-			"[{ type: 'text', content: 'Télécharger l\'application ccleaner à l'adresse suivante...' }]",
+				"[{ type: 'text', content: 'Télécharger l'application ccleaner à l'adresse suivante...' }]",
 		},
 		{
 			_id: "5",
@@ -103,7 +104,7 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 			category: "internet",
 			difficulty: "intermediate",
 			content:
-			"[{ type: 'text', content: 'Vérifier l'objet du message, l\'email de l\'émetteur et du destinataire... ' }]",
+				"[{ type: 'text', content: 'Vérifier l'objet du message, l'email de l'émetteur et du destinataire... ' }]",
 		},
 		{
 			_id: "6",
@@ -114,9 +115,11 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 			category: "system",
 			difficulty: "easy",
 			content:
-			"[{ type: 'text', content: 'Cliquer sur l'icone à droite de votre barre des tâches ...' }]",
+				"[{ type: 'text', content: 'Cliquer sur l'icone à droite de votre barre des tâches ...' }]",
 		},
-	];
+	]
+
+	const [modalVisible, setModalVisible] = useState(false)
 
 	// useEffect qui ne s'applique qu'au chargement de la page pour ne pas lancer le setter de SelectedTutorials à l'infini
 	useEffect(() => {
@@ -128,99 +131,89 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 		// }
 
 		// Code pour travailler avec la base de données :
-		const urlEnd: string = category !== null ? "/" + category : ""; // si category n'est pas null on l'ajoute en params à la route
+		const urlEnd: string = category !== null ? "/" + category : "" // si category n'est pas null on l'ajoute en params à la route
 		// console.log(BACKEND_URL + "tutorials/filter/" + device + urlEnd);
 		fetch(BACKEND_URL + "tutorials/filter/" + device + urlEnd)
 			.then((response) => response.json())
 			.then((data) => {
 				if (data.result === true) {
 					// console.log(data.tutorials);
-					setSelectedTutorials(data.tutorials);
+					setSelectedTutorials(data.tutorials)
 				}
-			});
-	}, []);
+			})
+	}, [])
 
 	// automatisation de l'affichage des tutoriels : on crée le contenu à partir du tableau de tutoriels avec un "map"
-	const displayedTutorials = selectedTutorials.map(
-		(tutorial: any, i: any) => {
-			// préparation d'une regex pour permettre la recherche par mot clé dans le titre des tutoriels
-			const pattern = new RegExp(regexSearch, "i");
-			// on charge la date dans un objet Date pour pouvoir formater l'affichage de la date à notre façon
-			const date = new Date(tutorial.creationDate);
+	const displayedTutorials = selectedTutorials.map((tutorial: any, i: any) => {
+		// préparation d'une regex pour permettre la recherche par mot clé dans le titre des tutoriels
+		const pattern = new RegExp(regexSearch, "i")
+		// on charge la date dans un objet Date pour pouvoir formater l'affichage de la date à notre façon
+		const date = new Date(tutorial.creationDate)
 
-			if (pattern.test(tutorial.title)) {
-				return (
-					<TouchableOpacity
-						key={i}
-						onPress={() => {
-							dispatch(updateTuto(tutorial._id));
-							dispatch(updatePrevPage("Research"));
-							navigation.navigate("Tuto");
-						}}
-					>
-						<View style={styles.tuto}>
-							<View style={styles.tutoText}>
-								<Text style={styles.textTitle}>
-									Titre : {tutorial.title}
-								</Text>
-								<Text style={styles.textDate}>
-									Date de création :{" "}
-									{date.getDate() +
-										"/" +
-										(date.getMonth() + 1) +
-										"/" +
-										date.getFullYear()}
-								</Text>
-								<Text style={styles.textAuthor}>
-									Auteur : {tutorial.author}
-								</Text>
-							</View>
-
-							{/* Affichage des icones "difficulté" fonction du paramètre difficulty */}
-							{tutorial.difficulty === "easy" && (
-								<View style={styles.difficulty}>
-									<FontAwesome
-										name="thermometer-empty"
-										size={40}
-										color={"#5db194"}
-									/>
-									<Text style={styles.textDifficulty}>
-										Facile
-									</Text>
-								</View>
-							)}
-
-							{tutorial.difficulty === "intermediate" && (
-								<View style={styles.difficulty}>
-									<FontAwesome
-										name="thermometer-half"
-										size={40}
-										color={"#ffd700"}
-									/>
-									<Text style={styles.textDifficulty}>
-										Moyen
-									</Text>
-								</View>
-							)}
-
-							{tutorial.difficulty === "advanced" && (
-								<View style={styles.difficulty}>
-									<FontAwesome
-										name="thermometer-full"
-										size={40}
-										color={"#ff4500"}
-									/>
-									<Text style={styles.textDifficulty}>
-										Avancé
-									</Text>
-								</View>
-							)}
+		if (pattern.test(tutorial.title)) {
+			return (
+				<TouchableOpacity
+					key={i}
+					onPress={() => {
+						dispatch(updateTuto(tutorial._id))
+						dispatch(updatePrevPage("Research"))
+						navigation.navigate("Tuto")
+					}}
+				>
+					<View style={styles.tuto}>
+						<View style={styles.tutoText}>
+							<Text style={styles.textTitle}>Titre : {tutorial.title}</Text>
+							<Text style={styles.textDate}>
+								Date de création :{" "}
+								{date.getDate() +
+									"/" +
+									(date.getMonth() + 1) +
+									"/" +
+									date.getFullYear()}
+							</Text>
+							<Text style={styles.textAuthor}>
+								Auteur : {tutorial.author}
+							</Text>
 						</View>
-					</TouchableOpacity>
-				);
-			}
+
+						{/* Affichage des icones "difficulté" fonction du paramètre difficulty */}
+						{tutorial.difficulty === "easy" && (
+							<View style={styles.difficulty}>
+								<FontAwesome
+									name="thermometer-empty"
+									size={40}
+									color={"#5db194"}
+								/>
+								<Text style={styles.textDifficulty}>Facile</Text>
+							</View>
+						)}
+
+						{tutorial.difficulty === "intermediate" && (
+							<View style={styles.difficulty}>
+								<FontAwesome
+									name="thermometer-half"
+									size={40}
+									color={"#ffd700"}
+								/>
+								<Text style={styles.textDifficulty}>Moyen</Text>
+							</View>
+						)}
+
+						{tutorial.difficulty === "advanced" && (
+							<View style={styles.difficulty}>
+								<FontAwesome
+									name="thermometer-full"
+									size={40}
+									color={"#ff4500"}
+								/>
+								<Text style={styles.textDifficulty}>Avancé</Text>
+							</View>
+						)}
+					</View>
+				</TouchableOpacity>
+			)
 		}
-	);
+	})
 
 	//	  ()_|)
 	//	   |oo|	   |			|\  /|
@@ -230,6 +223,28 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 
 	return (
 		<View style={styles.container}>
+			<Modal
+				animationType="slide"
+				transparent={true}
+				visible={modalVisible}
+				onRequestClose={() => {
+					Alert.alert("Modal has been closed.")
+					setModalVisible(!modalVisible)
+				}}
+			>
+				<View style={styles.centeredView}>
+					<Pressable
+						style={[styles.btnAide, styles.button]}
+						onPress={() => setModalVisible(!modalVisible)}
+					>
+						<Text style={styles.textBtnAide}>X</Text>
+					</Pressable>
+					<View style={styles.modalView}>
+						<Text style={styles.modalText}>C'est comme ca qu'on fait</Text>
+					</View>
+				</View>
+			</Modal>
+
 			<View style={styles.btnTop}>
 				<TouchableOpacity
 					style={styles.btnRetour}
@@ -251,9 +266,7 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 						{device === "tablet" && "Tablette"}
 					</Text>
 
-					{category === "system" && (
-						<Text style={styles.title}>Système</Text>
-					)}
+					{category === "system" && <Text style={styles.title}>Système</Text>}
 					{category === "internet" && (
 						<Text style={styles.title}>Internet</Text>
 					)}
@@ -264,7 +277,7 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 
 				<TouchableOpacity
 					style={styles.btnAide}
-					// onPress={() => navigation.navigate("Type")}
+					onPress={() => setModalVisible(!modalVisible)}
 				>
 					<Text style={styles.textBtnAide}>?</Text>
 				</TouchableOpacity>
@@ -296,7 +309,7 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 			<View style={styles.resultResearch}>
 				<ScrollView>{displayedTutorials}</ScrollView>
 			</View>
-			
+
 			<View style={styles.btnBottom}>
 				<TouchableOpacity
 					style={styles.btnDico}
@@ -310,20 +323,18 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 					onPress={() => {
 						if (isUserConnected) {
 							navigation.navigate("TabNavigator2", {
-							screen: "Ecrite",
-							});
+								screen: "Ecrite",
+							})
 						} else {
-							navigation.navigate("Connection");
+							navigation.navigate("Connection")
 						}
 					}}
 				>
-					<Text style={styles.textBtnHelrequest}>
-						Demander de l'aide
-					</Text>
+					<Text style={styles.textBtnHelrequest}>Demander de l'aide</Text>
 				</TouchableOpacity>
 			</View>
 		</View>
-	);
+	)
 }
 
 const styles = StyleSheet.create({
@@ -331,6 +342,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		flexDirection: "column",
 		alignItems: "center",
+		marginStart: 0,
 		justifyContent: "flex-start",
 		backgroundColor: "#ffffff",
 	},
@@ -628,4 +640,57 @@ const styles = StyleSheet.create({
 		fontSize: 22,
 		color: "#000000",
 	},
-});
+
+	//MODAL
+	centeredView: {
+		flex: 1,
+		marginTop: 30,
+		backgroundColor: "#fff",
+		opacity: 0,
+	},
+	modalView: {
+		margin: 20,
+		backgroundColor: "black",
+		borderRadius: 20,
+		padding: 35,
+		alignItems: "center",
+		shadowColor: "#000",
+		shadowOffset: {
+			width: 0,
+			height: 2,
+		},
+		shadowOpacity: 0.25,
+		shadowRadius: 4,
+		elevation: 5,
+		height: "40%",
+		opacity: 0.5,
+	},
+	button: {
+		marginLeft: "74%",
+		marginTop: "5%",
+		borderRadius: 40,
+		width: "21%",
+		height: "10%",
+		padding: 10,
+		elevation: 2,
+		justifyContent: "center",
+		opacity: 1,
+		backgroundColor: "yellow",
+	},
+	buttonOpen: {
+		backgroundColor: "#F194FF",
+	},
+	buttonClose: {
+		backgroundColor: "#2196F3",
+	},
+	textStyle: {
+		color: "white",
+		fontWeight: "bold",
+		textAlign: "center",
+	},
+	modalText: {
+		marginBottom: 15,
+		textAlign: "center",
+		color: "white",
+	},
+})
