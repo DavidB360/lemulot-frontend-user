@@ -53,6 +53,7 @@ export default function SignIn({ navigation }: any) {
 								firstName: data.firstName,
 								lastName: data.lastName,
 								favoriteLessons: data.favoriteLessons,
+								avatar: data.avatar
 							})
 						);
 						navigation.navigate("TabNavigator", {
