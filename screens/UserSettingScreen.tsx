@@ -6,12 +6,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../reducers/user";
 import { UserState } from "../reducers/user";
 
-
 export default function UserSettingScreen({ navigation }: any) {
 	const dispatch = useDispatch();
 
 	// on charge le reducer user pour afficher son prénom
-	const user = useSelector((state: {user: UserState }) => state.user.value);
+	const user = useSelector((state: { user: UserState }) => state.user.value);
 
 	return (
 		<View style={styles.container}>
@@ -28,18 +27,16 @@ export default function UserSettingScreen({ navigation }: any) {
 			<View style={styles.btnContainer}>
 				<TouchableOpacity
 					style={styles.btnSetting}
-					onPress={() => navigation.navigate("Profile")}
+					onPress={() => navigation.navigate("Picture")}
 				>
 					<Text style={styles.textBtnSetting}>
 						Changer ma photo de profil
 					</Text>
 				</TouchableOpacity>
-				<View style={styles.user}>
-					{/* <FontAwesomeIcon
-						icon={faUser}
-						size={100}
-						style={styles.iconUser}
-					/> */}
+				<View style={styles.photoProfile}>
+					{/* <View style={styles.photoProfile}>
+				{image && <Image source={{ uri: image }} style={styles.user} />}
+			</View> */}
 				</View>
 				<TouchableOpacity
 					style={styles.btnSetting}
@@ -164,9 +161,14 @@ const styles = StyleSheet.create({
 		textShadowRadius: 5,
 	},
 
-	user: {
+	photoProfile: {
+		justifyContent: "center",
+		alignItems: "center",
+		width: 160,
+		height: 160,
 		borderRadius: 80,
 		borderColor: "#808080",
+		backgroundColor: "#5db194",
 		borderTopWidth: 1,
 		borderBottomWidth: 4,
 		borderLeftWidth: 2,
@@ -179,9 +181,12 @@ const styles = StyleSheet.create({
 		shadowRadius: 16.0,
 
 		elevation: 25,
-		width: 150,
-		height: 150,
-		backgroundColor: "#5db194",
+	},
+
+	user: {
+		borderRadius: 80,
+		width: "100%",
+		height: "100%",
 		justifyContent: "center",
 		alignItems: "center",
 	},

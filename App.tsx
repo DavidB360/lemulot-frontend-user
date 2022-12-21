@@ -23,9 +23,10 @@ import UserHelpScreen from "./screens/UserHelpScreen";
 
 import WrittenRequestScreen from "./screens/WrittenRequestScreen";
 import OralRequestScreen from "./screens/OralRequestScreen";
-import ProfileScreen from "./screens/ProfileScreen";
+import PictureScreen from "./screens/PictureScreen";
 import CameraScreen from "./screens/CameraScreen";
 import ChatScreen from "./screens/ChatScreen";
+import PictureRequestScreen from "./screens/PictureRequestScreen";
 
 import { Provider } from "react-redux";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
@@ -140,8 +141,12 @@ export default function App() {
 						<Stack.Screen name="Dico" component={DicoScreen} />
 						<Stack.Screen name="Tuto" component={TutoScreen} />
 						<Stack.Screen
-							name="Profile"
-							component={ProfileScreen}
+							name="PictureRequest"
+							component={PictureRequestScreen}
+						/>
+						<Stack.Screen
+							name="Picture"
+							component={PictureScreen}
 						/>
 						<Stack.Screen name="Camera" component={CameraScreen} />
 						<Stack.Screen name="Chat" component={ChatScreen} />

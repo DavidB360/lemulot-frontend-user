@@ -59,9 +59,6 @@ export default function CameraScreen({ navigation }: any) {
 					<Text style={styles.textBtnAide}>?</Text>
 				</TouchableOpacity>
 			</View>
-			<View style={styles.photoProfile}>
-				{image && <Image source={{ uri: image }} style={styles.user} />}
-			</View>
 			<View style={styles.profile}>
 				<TouchableOpacity style={styles.btnProfile} onPress={PickImage}>
 					<Text style={styles.textBtnProfile}>
@@ -84,7 +81,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		flexDirection: "column",
 		alignItems: "center",
-		justifyContent: "flex-start",
+		justifyContent: "space-between",
 		backgroundColor: "#ffffff",
 	},
 
@@ -164,36 +161,6 @@ const styles = StyleSheet.create({
 		textShadowColor: "#000000",
 		textShadowOffset: { width: 0, height: 2 },
 		textShadowRadius: 5,
-	},
-
-	photoProfile: {
-		justifyContent: "center",
-		alignItems: "center",
-		width: 160,
-		height: 160,
-		borderRadius: 80,
-		borderColor: "#808080",
-		backgroundColor: "#5db194",
-		borderTopWidth: 1,
-		borderBottomWidth: 4,
-		borderLeftWidth: 2,
-		borderRightWidth: 2,
-		shadowOffset: {
-			width: -10,
-			height: 12,
-		},
-		shadowOpacity: 0.58,
-		shadowRadius: 16.0,
-
-		elevation: 25,
-	},
-
-	user: {
-		borderRadius: 80,
-		width: "100%",
-		height: "100%",
-		justifyContent: "center",
-		alignItems: "center",
 	},
 
 	iconUsers: {
