@@ -305,6 +305,7 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 					<Text style={styles.textBtnDico}>Dictionnaire</Text>
 				</TouchableOpacity>
 				<TouchableOpacity
+					style={styles.btnHelrequest}
 					// navigation conditionnelle : si l'utilisateur est connecté, on va sur la page de demande écrite
 					// sinon on va sur la page de connexion
 					onPress={() => {
