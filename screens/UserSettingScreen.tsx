@@ -33,7 +33,7 @@ export default function UserSettingScreen({ navigation }: any) {
 						Changer ma photo de profil
 					</Text>
 				</TouchableOpacity>
-				<View style={styles.user}>
+				<View style={styles.photoProfile}>
 					
 					{/* Si l'utilisateur n'est pas connecté ou n'a pas de photo de profil, 
 					on affiche une icone utilisateur générique : */}
@@ -48,7 +48,7 @@ export default function UserSettingScreen({ navigation }: any) {
 					{/* Si l'utilisateur est connecté et a une photo de profil, 
 					on l'affiche */}
 					{user.avatar &&
-					<Image style={styles.avatar}
+					<Image style={styles.user}
 						source={{ uri: user.avatar}}
 					/>
 					}
@@ -209,12 +209,6 @@ const styles = StyleSheet.create({
 
 	iconUser: {
 		color: "#5db194",
-	},
-
-	avatar: {
-		width: "100%",
-		height: "100%",
-		borderRadius: 75,
 	},
 
 	btnLogout: {
