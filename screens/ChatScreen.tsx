@@ -11,8 +11,12 @@ import {
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { updateProcess } from "../reducers/process";
+import { useDispatch } from "react-redux";
 
 export default function OralRequestScreen({ navigation }: any) {
+	const dispatch = useDispatch();
+
 	return (
 		<KeyboardAvoidingView
 			keyboardVerticalOffset={Platform.select({ ios: 0, android: -250 })}
@@ -164,7 +168,10 @@ export default function OralRequestScreen({ navigation }: any) {
 			<View style={styles.bottom}>
 				<TouchableOpacity
 					style={styles.btnBottom}
-					onPress={() => navigation.navigate("Picture")}
+					onPress={() => {
+						dispatch(updateProcess('chat'))
+						navigation.navigate("Picture")
+					}}
 				>
 					<FontAwesome
 						name="camera-retro"

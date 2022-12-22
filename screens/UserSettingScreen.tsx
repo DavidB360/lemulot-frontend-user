@@ -5,6 +5,7 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../reducers/user";
 import { UserState } from "../reducers/user";
+import { updateProcess } from "../reducers/process";
 
 export default function UserSettingScreen({ navigation }: any) {
 	const dispatch = useDispatch();
@@ -27,7 +28,10 @@ export default function UserSettingScreen({ navigation }: any) {
 			<View style={styles.btnContainer}>
 				<TouchableOpacity
 					style={styles.btnSetting}
-					onPress={() => navigation.navigate("Picture")}
+					onPress={() => {
+						dispatch(updateProcess('profilePicture'))
+						navigation.navigate("Picture")
+					}}
 				>
 					<Text style={styles.textBtnSetting}>
 						Changer ma photo de profil

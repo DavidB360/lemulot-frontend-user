@@ -1,7 +1,11 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import {useDispatch } from "react-redux";
+import { updateProcess } from "../reducers/process";
 
 export default function PictureRequestScreen({ navigation }: any) {
+	const dispatch = useDispatch()
+
 	return (
 		<View style={styles.container}>
 			<View style={styles.btnTop}>
@@ -35,7 +39,10 @@ export default function PictureRequestScreen({ navigation }: any) {
 					</Text>
 					<TouchableOpacity
 						style={styles.iconbtn}
-						onPress={() => navigation.navigate("Picture")}
+						onPress={() => {
+							dispatch(updateProcess('helpRequest'))
+							navigation.navigate("Picture")
+						}}
 					>
 						<FontAwesome
 							name="camera-retro"
