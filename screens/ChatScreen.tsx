@@ -392,7 +392,6 @@ const styles = StyleSheet.create({
 		alignSelf: "center",
 		textAlign: "left",
 		marginLeft: 10,
-		marginRight: 10,
 		fontSize: 18,
 		color: "#ffffff",
 		textShadowColor: "#000000",
