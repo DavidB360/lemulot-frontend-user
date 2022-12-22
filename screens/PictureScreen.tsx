@@ -60,14 +60,18 @@ export default function CameraScreen({ navigation }: any) {
 					<Text style={styles.textBtnAide}>?</Text>
 				</TouchableOpacity>
 			</View>
-			<View style={styles.photoProfile}>
-				{image && <Image source={{ uri: image }} style={styles.user} />}
-			</View>
 			<View style={styles.profile}>
 				<TouchableOpacity style={styles.btnProfile} onPress={PickImage}>
 					<Text style={styles.textBtnProfile}>
-						Télécharger mon image
+						Utiliser mon image
 					</Text>
+					<View style={styles.icon}>
+						<FontAwesome
+							name="picture-o"
+							style={styles.iconColor}
+							size={130}
+						/>
+					</View>
 				</TouchableOpacity>
 				<TouchableOpacity
 					style={styles.btnProfile}
@@ -77,6 +81,13 @@ export default function CameraScreen({ navigation }: any) {
 					}}
 				>
 					<Text style={styles.textBtnProfile}>Prendre une photo</Text>
+					<View style={styles.icon}>
+						<FontAwesome
+							name="camera-retro"
+							style={styles.iconColor}
+							size={130}
+						/>
+					</View>
 				</TouchableOpacity>
 			</View>
 		</View>
@@ -170,36 +181,6 @@ const styles = StyleSheet.create({
 		textShadowRadius: 5,
 	},
 
-	photoProfile: {
-		justifyContent: "center",
-		alignItems: "center",
-		width: 160,
-		height: 160,
-		borderRadius: 80,
-		borderColor: "#808080",
-		backgroundColor: "#5db194",
-		borderTopWidth: 1,
-		borderBottomWidth: 4,
-		borderLeftWidth: 2,
-		borderRightWidth: 2,
-		shadowOffset: {
-			width: -10,
-			height: 12,
-		},
-		shadowOpacity: 0.58,
-		shadowRadius: 16.0,
-
-		elevation: 25,
-	},
-
-	user: {
-		borderRadius: 80,
-		width: "100%",
-		height: "100%",
-		justifyContent: "center",
-		alignItems: "center",
-	},
-
 	iconUsers: {
 		flexDirection: "column",
 		justifyContent: "space-around",
@@ -209,24 +190,28 @@ const styles = StyleSheet.create({
 	},
 
 	profile: {
+		marginTop: 50,
 		flexDirection: "column",
-		justifyContent: "space-around",
-		width: "90%",
-		height: "40%",
+		justifyContent: "center",
+		alignItems: "center",
+		height: "60%",
+		width: "80%",
 	},
 
 	btnProfile: {
-		backgroundColor: "#778ed4",
-		width: "100%",
-		height: 60,
-		flexDirection: "row",
-		alignItems: "center",
+		marginBottom: 50,
+		flexDirection: "column",
 		justifyContent: "center",
-		borderRadius: 10,
-		borderColor: "#808080",
-		borderBottomWidth: 4,
-		borderLeftWidth: 2,
-		borderRightWidth: 2,
+		alignItems: "center",
+		width: "65%",
+		height: "45%",
+		borderColor: "#a9a9a9",
+		borderBottomWidth: 6,
+		borderLeftWidth: 4,
+		borderRightWidth: 4,
+		borderRadius: 5,
+		backgroundColor: "#778ed4",
+		shadowColor: "#000000",
 		shadowOffset: {
 			width: -10,
 			height: 12,
@@ -238,11 +223,25 @@ const styles = StyleSheet.create({
 	},
 
 	textBtnProfile: {
-		// paddingBottom: 20,
 		fontSize: 22,
-		color: "#ffffff",
+		color: "#fff",
 		textShadowColor: "#000000",
 		textShadowOffset: { width: 0, height: 2 },
 		textShadowRadius: 5,
+	},
+
+	icon: {
+		justifyContent: "center",
+		alignItems: "center",
+		backgroundColor: "#fff",
+		width: "100%",
+		height: "89%",
+		borderTopWidth: 1,
+		borderColor: "#a9a9a9",
+		color: "#778ed4",
+	},
+
+	iconColor: {
+		color: "#778ed4",
 	},
 });
