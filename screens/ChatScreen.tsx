@@ -7,15 +7,19 @@ import {
 	ScrollView,
 	KeyboardAvoidingView,
 	Platform,
+	Image,
 } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { updateProcess } from "../reducers/process";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { UserState } from "../reducers/user";
 
 export default function OralRequestScreen({ navigation }: any) {
 	const dispatch = useDispatch();
+
+	const user = useSelector((state: { user: UserState }) => state.user.value);
 
 	return (
 		<KeyboardAvoidingView
@@ -47,100 +51,160 @@ export default function OralRequestScreen({ navigation }: any) {
 				</TouchableOpacity>
 			</View>
 			<View style={styles.title}>
-				<Text style={styles.titleChat}>Scanner un document</Text>
+				<Text style={styles.titleChat}>Imprimer un document</Text>
 			</View>
 			<View style={styles.chatContainer}>
 				<ScrollView>
+					<Text style={styles.nameUser}>Hyrule Zelda</Text>
 					<View style={styles.chatUser}>
-						<View style={styles.chat}>
-							<View style={styles.iconUsers}>
-								<FontAwesomeIcon
-									icon={faUser}
-									size={28}
-									style={styles.icon}
-									color="#5db194"
-								/>
+						<View style={styles.iconContainer}>
+							<View style={styles.iconChat}>
+								{user.avatar === null && (
+									<FontAwesomeIcon
+										icon={faUser}
+										size={28}
+										style={styles.icon}
+										color="#5db194"
+									/>
+								)}
+								{user.avatar && (
+									<Image
+										style={styles.icon}
+										source={{ uri: user.avatar }}
+									/>
+								)}
 							</View>
-							<Text style={styles.user}>
-								Lorem ipsum dolor sit amet.
-							</Text>
 						</View>
+						<Text style={styles.textChat}>
+							Bonjour, je n'arrive pas à imprimer un document.
+						</Text>
 					</View>
+					<Text style={styles.nameHelper}>Gerudo Ganondorf</Text>
 					<View style={styles.chatHelper}>
-						<View style={styles.chat}>
-							<Text style={styles.helper}>
-								Aut accusamus sequi a eveniet expedita qui
-								dolorum voluptas sit voluptatum nihil.
-							</Text>
-							<View style={styles.iconUsers}>
-								<FontAwesomeIcon
-									icon={faUser}
-									size={28}
+						<Text style={styles.textChat}>
+							Pouvez-vous m'en dire plus ?
+						</Text>
+						<View style={styles.iconContainer}>
+							<View style={styles.iconChat}>
+								<Image
 									style={styles.icon}
-									color="#5db194"
+									source={require("../assets/mulot_assistant.jpg")}
 								/>
 							</View>
 						</View>
 					</View>
+					<Text style={styles.nameUser}>Hyrule Zelda</Text>
 					<View style={styles.chatUser}>
-						<View style={styles.chat}>
-							<View style={styles.iconUsers}>
-								<FontAwesomeIcon
-									icon={faUser}
-									size={28}
-									style={styles.icon}
-									color="#5db194"
-								/>
+						<View style={styles.iconContainer}>
+							<View style={styles.iconChat}>
+								{user.avatar === null && (
+									<FontAwesomeIcon
+										icon={faUser}
+										size={28}
+										style={styles.icon}
+										color="#5db194"
+									/>
+								)}
+								{user.avatar && (
+									<Image
+										style={styles.icon}
+										source={{ uri: user.avatar }}
+									/>
+								)}
 							</View>
-							<Text style={styles.user}>
-								Aut culpa voluptatem et illum quas ea tempora
-								laboriosam qui possimus.
-							</Text>
 						</View>
+						<Text style={styles.textChat}>
+							Je ne sais pas comment faire. Aidez-moi !
+						</Text>
 					</View>
+					<Text style={styles.nameHelper}>Gerudo Ganondorf</Text>
 					<View style={styles.chatHelper}>
-						<View style={styles.chat}>
-							<Text style={styles.helper}>
-								Sed quas facilis et molestias libero vel odio
-								voluptas et modi tempora est consequatur amet.
-							</Text>
-							<View style={styles.iconUsers}>
-								<FontAwesomeIcon
-									icon={faUser}
-									size={28}
+						<Text style={styles.textChat}>
+							Avez-vous regardé le tuto dédié à l'impression de
+							ducument ?
+						</Text>
+						<View style={styles.iconContainer}>
+							<View style={styles.iconChat}>
+								<Image
 									style={styles.icon}
-									color="#5db194"
+									source={require("../assets/mulot_assistant.jpg")}
 								/>
 							</View>
 						</View>
 					</View>
+					<Text style={styles.nameUser}>Hyrule Zelda</Text>
 					<View style={styles.chatUser}>
-						<View style={styles.chat}>
-							<View style={styles.iconUsers}>
-								<FontAwesomeIcon
-									icon={faUser}
-									size={28}
+						<View style={styles.iconContainer}>
+							<View style={styles.iconChat}>
+								{user.avatar === null && (
+									<FontAwesomeIcon
+										icon={faUser}
+										size={28}
+										style={styles.icon}
+										color="#5db194"
+									/>
+								)}
+								{user.avatar && (
+									<Image
+										style={styles.icon}
+										source={{ uri: user.avatar }}
+									/>
+								)}
+							</View>
+						</View>
+						<Text style={styles.textChat}>
+							Oui mais ça marche pas !
+						</Text>
+					</View>
+					<Text style={styles.nameHelper}>Gerudo Ganondorf</Text>
+					<View style={styles.chatHelper}>
+						<Text style={styles.textChat}>
+							Avez-vous mit de l'encre dans votre imprimante ?
+						</Text>
+						<View style={styles.iconContainer}>
+							<View style={styles.iconChat}>
+								<Image
 									style={styles.icon}
-									color="#5db194"
+									source={require("../assets/mulot_assistant.jpg")}
 								/>
 							</View>
-							<Text style={styles.user}>
-								Aut accusamus sequi a eveniet expedita qui
-								dolorum voluptas sit voluptatum nihil.
-							</Text>
 						</View>
 					</View>
+					<Text style={styles.nameUser}>Hyrule Zelda</Text>
+					<View style={styles.chatUser}>
+						<View style={styles.iconContainer}>
+							<View style={styles.iconChat}>
+								{user.avatar === null && (
+									<FontAwesomeIcon
+										icon={faUser}
+										size={28}
+										style={styles.icon}
+										color="#5db194"
+									/>
+								)}
+								{user.avatar && (
+									<Image
+										style={styles.icon}
+										source={{ uri: user.avatar }}
+									/>
+								)}
+							</View>
+						</View>
+						<Text style={styles.textChat}>
+							Ah non mince, j'y ai pas pensé. Merci de votre aide.
+							Bonne journée.
+						</Text>
+					</View>
+					<Text style={styles.nameHelper}>Gerudo Ganondorf</Text>
 					<View style={styles.chatHelper}>
-						<View style={styles.chat}>
-							<Text style={styles.helper}>
-								Lorem ipsum dolor sit amet.
-							</Text>
-							<View style={styles.iconUsers}>
-								<FontAwesomeIcon
-									icon={faUser}
-									size={28}
+						<Text style={styles.textChat}>
+							Avec plaisir. Bonne journée à vous :)
+						</Text>
+						<View style={styles.iconContainer}>
+							<View style={styles.iconChat}>
+								<Image
 									style={styles.icon}
-									color="#5db194"
+									source={require("../assets/mulot_assistant.jpg")}
 								/>
 							</View>
 						</View>
@@ -169,8 +233,8 @@ export default function OralRequestScreen({ navigation }: any) {
 				<TouchableOpacity
 					style={styles.btnBottom}
 					onPress={() => {
-						dispatch(updateProcess('chat'))
-						navigation.navigate("Picture")
+						dispatch(updateProcess("chat"));
+						navigation.navigate("Picture");
 					}}
 				>
 					<FontAwesome
@@ -283,6 +347,8 @@ const styles = StyleSheet.create({
 	},
 
 	chatContainer: {
+		flexDirection: "column",
+		justifyContent: "flex-start",
 		borderWidth: 1,
 		borderRadius: 5,
 		borderColor: "#808080",
@@ -290,40 +356,57 @@ const styles = StyleSheet.create({
 		height: "43%",
 	},
 
-	chatUser: {
-		fontSize: 22,
+	nameUser: {
 		alignSelf: "flex-end",
 		marginTop: 10,
+		marginRight: 10,
+		width: "85%",
+		fontSize: 15,
+	},
+
+	nameHelper: {
+		textAlign: "right",
+		alignSelf: "flex-start",
+		marginTop: 10,
+		marginLeft: 10,
+		width: "85%",
+		fontSize: 15,
+	},
+
+	chatUser: {
+		alignSelf: "flex-end",
 		marginBottom: 10,
+		marginRight: 10,
 		borderWidth: 1,
 		borderRadius: 10,
 		backgroundColor: "#5db194",
-		height: "15%",
-		width: "80%",
-	},
-
-	chat: {
 		flexDirection: "row",
-		justifyContent: "center",
-		alignItems: "center",
-		height: "100%",
-		width: "100%",
+		justifyContent: "flex-end",
+		alignItems: "flex-start",
 		paddingTop: 5,
 		paddingBottom: 5,
+		width: "85%",
 	},
 
-	user: {
+	textChat: {
+		alignSelf: "center",
 		textAlign: "left",
 		marginLeft: 10,
+		marginRight: 10,
 		fontSize: 18,
 		color: "#ffffff",
 		textShadowColor: "#000000",
 		textShadowOffset: { width: 0, height: 2 },
 		textShadowRadius: 5,
-		width: "80%",
+		width: "77%",
 	},
 
-	iconUsers: {
+	iconContainer: {
+		justifyContent: "center",
+		alignItems: "center",
+	},
+
+	iconChat: {
 		justifyContent: "center",
 		alignItems: "center",
 		borderWidth: 1,
@@ -331,6 +414,8 @@ const styles = StyleSheet.create({
 		width: 40,
 		borderRadius: 20,
 		backgroundColor: "#fff",
+		marginLeft: 10,
+		marginRight: 10,
 	},
 
 	icon: {
@@ -340,26 +425,18 @@ const styles = StyleSheet.create({
 	},
 
 	chatHelper: {
-		fontSize: 22,
 		alignSelf: "flex-start",
-		marginTop: 10,
 		marginBottom: 10,
+		marginLeft: 10,
 		borderWidth: 1,
 		borderRadius: 10,
 		backgroundColor: "#778ed4",
-		height: "15%",
-		width: "80%",
-	},
-
-	helper: {
-		textAlign: "left",
-		marginRight: 10,
-		fontSize: 18,
-		color: "#ffffff",
-		textShadowColor: "#000000",
-		textShadowOffset: { width: 0, height: 2 },
-		textShadowRadius: 5,
-		width: "80%",
+		flexDirection: "row",
+		justifyContent: "flex-start",
+		alignItems: "flex-start",
+		paddingTop: 5,
+		paddingBottom: 5,
+		width: "85%",
 	},
 
 	title: {

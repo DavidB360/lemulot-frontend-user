@@ -46,7 +46,7 @@ export default function SnapScreen({ navigation }: any) {
 			<View style={styles.btnTop}>
 				<TouchableOpacity
 					style={styles.btnRetour}
-					onPress={() => navigation.navigate("Profile")}
+					onPress={() => navigation.navigate("Picture")}
 				>
 					<FontAwesome
 						name="arrow-circle-left"
