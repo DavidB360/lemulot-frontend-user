@@ -1,22 +1,35 @@
 import React from "react";
-import { StyleSheet, View, Button, TouchableOpacity, Text } from "react-native";
+import { StyleSheet, View, TouchableOpacity, Text } from "react-native";
 import { Camera, CameraType, FlashMode } from "expo-camera";
 import { useEffect, useState, useRef } from "react";
 import { useIsFocused } from "@react-navigation/native";
-// import { addPhoto } from "../reducers/user";
-import { useDispatch } from "react-redux";
+import { updateAvatar } from "../reducers/user";
+import { useSelector, useDispatch } from "react-redux";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCameraRotate } from "@fortawesome/free-solid-svg-icons";
+import { ProcessusState } from "../reducers/processus";
+import { UserState } from "../reducers/user";
+import { BACKEND_URL } from "@env";
 
-export default function SnapScreen({ navigation }: any) {
-	// const dispatch = useDispatch();
+export default function CameraScreen({ navigation }: any) {
+	const dispatch = useDispatch();
+
+	const isFocused = useIsFocused();
 
 	const [permission, setPermission] = useState(false);
 	const [flashMode, setFlashMode] = useState(FlashMode.off);
-	const [type, setType] = useState(CameraType.back);
-	const isFocused = useIsFocused();
 
+	const [type, setType] = useState(CameraType.back);
+	// on charge le reducer processus pour gérer la caméra à activer par défaut (back ou front)
+	const processus = useSelector((state: {processus: ProcessusState }) => state.processus.value);
+	if (processus === "Paramètre") {
+		setType(CameraType.front);
+	}
+
+	// on charge le reducer user pour avoir accès à son token pour permettre la mise à jour de son avatar
+	const user = useSelector((state: {user: UserState }) => state.user.value);
+	
 	let cameraRef: any = useRef(null);
 
 	useEffect(() => {
@@ -27,9 +40,37 @@ export default function SnapScreen({ navigation }: any) {
 	}, []);
 
 	const takePicture = async () => {
+		// on prend la photo
 		const photo = await cameraRef.takePictureAsync({ quality: 0.3 });
-		// dispatch(addPhoto(photo.uri));
-		// console.log(photo);
+
+		// puis préparation de l'envoi de la photo prise au backend
+		const formData = new FormData();
+
+		formData.append('photoFromFront', JSON.parse(JSON.stringify({
+			uri: photo.uri,
+			name: 'photo.jpg',
+			type: 'image/jpeg',
+		})));
+
+		// envoi de la photo au backend, on commence par uploader dans cloudinary
+		console.log(BACKEND_URL + 'uploadPic');
+		fetch(BACKEND_URL + 'uploadPic', {
+			method: 'POST',
+			body: formData,
+		})
+		.then((response) => response.json())
+		.then((data) => {
+			// on récupère de la route précédente l'url cloudinary
+			// et on l'enregistre de la photo dans la base de données mongoDB du projet
+			// si la photo est une photo de profil
+			if (processus === "Paramètres") {
+				fetch(BACKEND_URL + 'users/updateAvatar/'+ user.token +'/'+ data.url)
+				.then((response) => response.json())
+				.then((doc) => {
+					dispatch(updateAvatar(doc.url))
+				})
+			}	
+		});
 	};
 
 	if (!permission || !isFocused) {

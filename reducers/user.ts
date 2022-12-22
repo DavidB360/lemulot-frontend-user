@@ -71,6 +71,6 @@ export const userSlice = createSlice({
 	},
 });
 
-export const { login, addToFavoriteLessons, removeFromFavoriteLessons, logout } =
+export const { login, addToFavoriteLessons, removeFromFavoriteLessons, logout, updateAvatar } =
 	userSlice.actions;
 export default userSlice.reducer;
