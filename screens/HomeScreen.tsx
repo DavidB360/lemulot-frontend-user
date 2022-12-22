@@ -1,20 +1,40 @@
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { useSelector } from "react-redux";
+import { UserState } from "../reducers/user";
 
 export default function HomeScreen({ navigation }: any) {
+
+	// on charge le reducer user pour afficher la photo de profil
+	const user = useSelector((state: {user: UserState }) => state.user.value);
+
 	return (
 		<View style={styles.container}>
 			<View style={styles.btnTop}>
 				<TouchableOpacity
 					style={styles.btnUsers}
 					onPress={() => navigation.navigate("Connection")}
-				>
+				>	
+					{/* Si l'utilisateur n'est pas connecté ou n'a pas de photo de profil, 
+					on affiche une icone utilisateur générique : */}
+					{user.avatar === null &&
 					<FontAwesomeIcon
 						icon={faUser}
 						size={50}
 						style={styles.iconUsers}
 					/>
+					}
+
+					{/* Si l'utilisateur est connecté et a une photo de profil, 
+					on l'affiche */}
+					{user.avatar &&
+					<Image style={styles.avatar}
+						source={{ uri: user.avatar}}
+					/>
+					}
+
+
 				</TouchableOpacity>
 				<TouchableOpacity
 					style={styles.btnAide}
@@ -90,6 +110,12 @@ const styles = StyleSheet.create({
 
 	iconUsers: {
 		color: "#5db194",
+	},
+
+	avatar: {
+		width: "100%",
+		height: "100%",
+		borderRadius: 40,
 	},
 
 	btnAide: {

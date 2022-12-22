@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { useSelector, useDispatch } from "react-redux";
@@ -35,11 +35,25 @@ export default function UserSettingScreen({ navigation }: any) {
 					</Text>
 				</TouchableOpacity>
 				<View style={styles.user}>
-					{/* <FontAwesomeIcon
+					
+					{/* Si l'utilisateur n'est pas connecté ou n'a pas de photo de profil, 
+					on affiche une icone utilisateur générique : */}
+					{user.avatar === null &&
+					<FontAwesomeIcon
 						icon={faUser}
 						size={100}
 						style={styles.iconUser}
-					/> */}
+					/>
+					}
+
+					{/* Si l'utilisateur est connecté et a une photo de profil, 
+					on l'affiche */}
+					{user.avatar &&
+					<Image style={styles.avatar}
+						source={{ uri: user.avatar}}
+					/>
+					}
+
 				</View>
 				<TouchableOpacity
 					style={styles.btnSetting}
@@ -188,6 +202,12 @@ const styles = StyleSheet.create({
 
 	iconUser: {
 		color: "#5db194",
+	},
+
+	avatar: {
+		width: "100%",
+		height: "100%",
+		borderRadius: 75,
 	},
 
 	btnLogout: {

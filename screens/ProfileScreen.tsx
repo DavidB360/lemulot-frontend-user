@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { useDispatch } from "react-redux";
 import * as ImagePicker from "expo-image-picker";
+import { updateProcess } from "../reducers/process";
 
 export default function CameraScreen({ navigation }: any) {
 	const dispatch = useDispatch();
@@ -70,7 +71,10 @@ export default function CameraScreen({ navigation }: any) {
 				</TouchableOpacity>
 				<TouchableOpacity
 					style={styles.btnProfile}
-					onPress={() => navigation.navigate("Camera")}
+					onPress={() => {
+						dispatch(updateProcess('profilePicture'))
+						navigation.navigate("Camera")
+					}}
 				>
 					<Text style={styles.textBtnProfile}>Prendre une photo</Text>
 				</TouchableOpacity>

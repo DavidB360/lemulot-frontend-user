@@ -22,7 +22,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faHeartCirclePlus } from "@fortawesome/free-solid-svg-icons";
 import { BACKEND_URL } from "@env";
 import { Types } from 'mongoose';
-import { autoBatchEnhancer } from "@reduxjs/toolkit";
 
 type TutoScreenProps = {
 	navigation: NavigationProp<ParamListBase>;

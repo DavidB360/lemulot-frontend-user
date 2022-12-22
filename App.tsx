@@ -37,8 +37,9 @@ import device from "./reducers/device";
 import category from "./reducers/category";
 import tuto from "./reducers/tuto";
 import prevPage from "./reducers/prevPage";
+import process from "./reducers/process";
 
-const reducers = combineReducers({ user, device, category, tuto, prevPage });
+const reducers = combineReducers({ user, device, category, tuto, prevPage, process });
 const persistConfig = { key: "lemulot", storage: AsyncStorage };
 
 const store = configureStore({
