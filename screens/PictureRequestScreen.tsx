@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import {useDispatch } from "react-redux";
-import { updateProcess } from "../reducers/process";
+import { updateProcessus } from "../reducers/processus";
 
 export default function PictureRequestScreen({ navigation }: any) {
 	const dispatch = useDispatch()
@@ -40,7 +40,7 @@ export default function PictureRequestScreen({ navigation }: any) {
 					<TouchableOpacity
 						style={styles.iconbtn}
 						onPress={() => {
-							dispatch(updateProcess('helpRequest'))
+							dispatch(updateProcessus("PictureRequest"))
 							navigation.navigate("Picture")
 						}}
 					>

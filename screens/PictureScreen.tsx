@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import * as ImagePicker from "expo-image-picker";
+import {ProcessusState } from "../reducers/processus";
 
 export default function CameraScreen({ navigation }: any) {
 	const dispatch = useDispatch();
 
+	// on charge le reducer processus pour gérer la navigation du bouton retour
+	const processus = useSelector((state: {processus: ProcessusState }) => state.processus.value);
+
+	// demande permission d'accès à la galerie d'image pour la fonctionnalité image-picker
 	const [hasGalleryPermission, setHasGalleryPermission] = useState(false);
 	const [image, setImage] = useState<string | undefined>(undefined);
 
@@ -40,9 +45,7 @@ export default function CameraScreen({ navigation }: any) {
 				<TouchableOpacity
 					style={styles.btnRetour}
 					onPress={() =>
-						navigation.navigate("TabNavigator", {
-							screen: "Paramètre",
-						})
+						navigation.navigate(processus)
 					}
 				>
 					<FontAwesome

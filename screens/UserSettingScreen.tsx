@@ -5,7 +5,7 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../reducers/user";
 import { UserState } from "../reducers/user";
-import { updateProcess } from "../reducers/process";
+import { updateProcessus } from "../reducers/processus";
 
 export default function UserSettingScreen({ navigation }: any) {
 	const dispatch = useDispatch();
@@ -29,7 +29,7 @@ export default function UserSettingScreen({ navigation }: any) {
 				<TouchableOpacity
 					style={styles.btnSetting}
 					onPress={() => {
-						dispatch(updateProcess('profilePicture'))
+						dispatch(updateProcessus("Paramètre"))
 						navigation.navigate("Picture")
 					}}
 				>

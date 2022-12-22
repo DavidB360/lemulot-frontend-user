@@ -11,7 +11,7 @@ import {
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
-import { updateProcess } from "../reducers/process";
+import { updateProcessus } from "../reducers/processus";
 import { useDispatch } from "react-redux";
 
 export default function OralRequestScreen({ navigation }: any) {
@@ -169,7 +169,7 @@ export default function OralRequestScreen({ navigation }: any) {
 				<TouchableOpacity
 					style={styles.btnBottom}
 					onPress={() => {
-						dispatch(updateProcess('chat'))
+						dispatch(updateProcessus("Chat"))
 						navigation.navigate("Picture")
 					}}
 				>
