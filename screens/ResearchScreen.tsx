@@ -239,9 +239,10 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 					>
 						<Text style={styles.textBtnAide}>X</Text>
 					</Pressable>
-					<View style={styles.modalView}>
-						<Text style={styles.modalText}>C'est comme ca qu'on fait</Text>
-					</View>
+					<Text style={styles.modalText}>
+						Tu retrouves ici différents tutos qui pourrait t'aider...
+					</Text>
+					<View style={styles.modalView}></View>
 				</View>
 			</Modal>
 
@@ -643,39 +644,30 @@ const styles = StyleSheet.create({
 
 	//MODAL
 	centeredView: {
+		backgroundColor: "rgba(555, 551, 0, 0.2)",
 		flex: 1,
-		marginTop: 30,
-		backgroundColor: "#fff",
-		opacity: 0,
+		marginTop: 0,
 	},
 	modalView: {
+		marginTop: "1%",
+		borderWidth: 7,
+		borderColor: "black",
 		margin: 20,
-		backgroundColor: "black",
-		borderRadius: 20,
+		borderRadius: 6,
 		padding: 35,
 		alignItems: "center",
-		shadowColor: "#000",
-		shadowOffset: {
-			width: 0,
-			height: 2,
-		},
-		shadowOpacity: 0.25,
-		shadowRadius: 4,
 		elevation: 5,
-		height: "40%",
-		opacity: 0.5,
+		height: "45%",
 	},
 	button: {
 		marginLeft: "74%",
-		marginTop: "5%",
+		marginTop: "13%",
 		borderRadius: 40,
 		width: "21%",
 		height: "10%",
 		padding: 10,
 		elevation: 2,
 		justifyContent: "center",
-		opacity: 1,
-		backgroundColor: "yellow",
 	},
 	buttonOpen: {
 		backgroundColor: "#F194FF",
@@ -684,13 +676,17 @@ const styles = StyleSheet.create({
 		backgroundColor: "#2196F3",
 	},
 	textStyle: {
-		color: "white",
+		color: "black",
 		fontWeight: "bold",
 		textAlign: "center",
 	},
 	modalText: {
+		marginTop: "10%",
+		marginLeft: "2%",
 		marginBottom: 15,
-		textAlign: "center",
-		color: "white",
+		fontSize: 20,
+		fontWeight: "bold",
+		color: "black",
+		backgroundColor: "rgba(555, 551, 0, 1)",
 	},
 })
