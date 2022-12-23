@@ -3,13 +3,20 @@ import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { useSelector, useDispatch } from "react-redux";
 import * as ImagePicker from "expo-image-picker";
-import {ProcessusState } from "../reducers/processus";
+import { ProcessusState } from "../reducers/processus";
+import { UserState } from "../reducers/user";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 export default function CameraScreen({ navigation }: any) {
+	const user = useSelector((state: { user: UserState }) => state.user.value);
+
 	const dispatch = useDispatch();
 
 	// on charge le reducer processus pour gérer la navigation du bouton retour
-	const processus = useSelector((state: {processus: ProcessusState }) => state.processus.value);
+	const processus = useSelector(
+		(state: { processus: ProcessusState }) => state.processus.value
+	);
 
 	// demande permission d'accès à la galerie d'image pour la fonctionnalité image-picker
 	const [hasGalleryPermission, setHasGalleryPermission] = useState(false);
@@ -44,9 +51,7 @@ export default function CameraScreen({ navigation }: any) {
 			<View style={styles.btnTop}>
 				<TouchableOpacity
 					style={styles.btnRetour}
-					onPress={() =>
-						navigation.navigate(processus)
-					}
+					onPress={() => navigation.navigate(processus)}
 				>
 					<FontAwesome
 						name="long-arrow-left"
@@ -54,6 +59,30 @@ export default function CameraScreen({ navigation }: any) {
 						style={styles.iconArrow}
 					/>
 					<Text style={styles.textBtnRetour}>Retour</Text>
+				</TouchableOpacity>
+				<TouchableOpacity
+					style={styles.btnUsers}
+					onPress={() =>
+						navigation.navigate("TabNavigator", {
+							screen: "Paramètre",
+						})
+					}
+				>
+					{/* Si l'utilisateur n'est pas connecté ou n'a pas de photo de profil, 
+					on affiche une icone utilisateur générique : */}
+					{user.avatar === null && (
+						<FontAwesomeIcon
+							icon={faUser}
+							size={50}
+							style={styles.iconUsers}
+						/>
+					)}
+
+					{/* Si l'utilisateur est connecté et a une photo de profil, 
+					on l'affiche */}
+					{image && (
+						<Image source={{ uri: image }} style={styles.avatar} />
+					)}
 				</TouchableOpacity>
 				<TouchableOpacity
 					style={styles.btnAide}
@@ -78,7 +107,7 @@ export default function CameraScreen({ navigation }: any) {
 				<TouchableOpacity
 					style={styles.btnProfile}
 					onPress={() => {
-						navigation.navigate("Camera")
+						navigation.navigate("Camera");
 					}}
 				>
 					<Text style={styles.textBtnProfile}>Prendre une photo</Text>
@@ -142,10 +171,10 @@ const styles = StyleSheet.create({
 	},
 
 	btnRetour: {
+		marginLeft: 20,
 		flexDirection: "column",
 		alignItems: "center",
 		justifyContent: "center",
-		marginLeft: 20,
 		backgroundColor: "#5db194",
 		width: 80,
 		height: 80,
@@ -182,12 +211,40 @@ const styles = StyleSheet.create({
 		textShadowRadius: 5,
 	},
 
+	btnUsers: {
+		flexDirection: "column",
+		alignItems: "center",
+		justifyContent: "center",
+		backgroundColor: "#fff",
+		width: 80,
+		height: 80,
+		borderRadius: 40,
+		borderColor: "#808080",
+		borderBottomWidth: 4,
+		borderLeftWidth: 2,
+		borderRightWidth: 2,
+		shadowOffset: {
+			width: -10,
+			height: 12,
+		},
+		shadowOpacity: 0.58,
+		shadowRadius: 16.0,
+
+		elevation: 25,
+	},
+
 	iconUsers: {
 		flexDirection: "column",
 		justifyContent: "space-around",
 		width: "90%",
 		height: "40%",
 		color: "#5db194",
+	},
+
+	avatar: {
+		width: "100%",
+		height: "100%",
+		borderRadius: 40,
 	},
 
 	profile: {

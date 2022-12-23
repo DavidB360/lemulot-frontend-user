@@ -25,7 +25,6 @@ type UserHelpScreenProps = {
 };
 
 export default function UserHelpScreen({ navigation }: UserHelpScreenProps) {
-
 	// intitiation d'un useState pour l'input de recherche
 	const [tutorialSearch, setTutorialSearch] = useState("");
 
@@ -36,7 +35,7 @@ export default function UserHelpScreen({ navigation }: UserHelpScreenProps) {
 	const [regexSearch, setRegexSearch] = useState("");
 
 	// on charge le reducer user pour afficher son prénom
-	const user = useSelector((state: {user: UserState }) => state.user.value);
+	const user = useSelector((state: { user: UserState }) => state.user.value);
 
 	return (
 		<View style={styles.container}>
@@ -51,22 +50,22 @@ export default function UserHelpScreen({ navigation }: UserHelpScreenProps) {
 				>
 					{/* Si l'utilisateur n'est pas connecté ou n'a pas de photo de profil, 
 					on affiche une icone utilisateur générique : */}
-					{user.avatar === null &&
-					<FontAwesomeIcon
-						icon={faUser}
-						size={50}
-						style={styles.iconUsers}
-					/>
-					}
+					{user.avatar === null && (
+						<FontAwesomeIcon
+							icon={faUser}
+							size={50}
+							style={styles.iconUsers}
+						/>
+					)}
 
 					{/* Si l'utilisateur est connecté et a une photo de profil, 
 					on l'affiche */}
-					{user.avatar &&
-					<Image style={styles.avatar}
-						source={{ uri: user.avatar}}
-					/>
-					}
-
+					{user.avatar && (
+						<Image
+							style={styles.avatar}
+							source={{ uri: user.avatar }}
+						/>
+					)}
 				</TouchableOpacity>
 
 				<Text style={styles.title}>Bonjour {user.firstName}</Text>
@@ -234,11 +233,7 @@ export default function UserHelpScreen({ navigation }: UserHelpScreenProps) {
 			<View style={styles.helprequest}>
 				<TouchableOpacity
 					style={styles.btnHelrequest}
-					onPress={() =>
-						navigation.navigate("TabNavigator2", {
-							screen: "Ecrite",
-						})
-					}
+					onPress={() => navigation.navigate("Request")}
 				>
 					<Text style={styles.textBtnHelrequest}>
 						Nouvelle demande d'aide

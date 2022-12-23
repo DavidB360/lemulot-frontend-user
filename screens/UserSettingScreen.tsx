@@ -29,8 +29,8 @@ export default function UserSettingScreen({ navigation }: any) {
 				<TouchableOpacity
 					style={styles.btnSetting}
 					onPress={() => {
-						dispatch(updateProcessus("Paramètre"))
-						navigation.navigate("Picture")
+						dispatch(updateProcessus("Paramètre"));
+						navigation.navigate("Picture");
 					}}
 				>
 					<Text style={styles.textBtnSetting}>
@@ -38,25 +38,25 @@ export default function UserSettingScreen({ navigation }: any) {
 					</Text>
 				</TouchableOpacity>
 				<View style={styles.photoProfile}>
-					
 					{/* Si l'utilisateur n'est pas connecté ou n'a pas de photo de profil, 
 					on affiche une icone utilisateur générique : */}
-					{user.avatar === null &&
-					<FontAwesomeIcon
-						icon={faUser}
-						size={100}
-						style={styles.iconUser}
-					/>
-					}
+					{user.avatar === null && (
+						<FontAwesomeIcon
+							icon={faUser}
+							size={100}
+							style={styles.iconUser}
+						/>
+					)}
 
 					{/* Si l'utilisateur est connecté et a une photo de profil, 
 					on l'affiche */}
-					{user.avatar &&
-					<Image style={styles.user}
-						source={{ uri: user.avatar}}
-					/>
-					}
-
+					{user.avatar && (
+						<Image
+							style={styles.user}
+							source={{ uri: user.avatar }}
+						/>
+					)}
+					{/* {image && <Image source={{ uri: image }} style={styles.user} />} */}
 				</View>
 				<TouchableOpacity
 					style={styles.btnSetting}
