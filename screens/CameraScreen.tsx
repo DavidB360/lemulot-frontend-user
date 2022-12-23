@@ -21,11 +21,16 @@ export default function CameraScreen({ navigation }: any) {
 	const [flashMode, setFlashMode] = useState(FlashMode.off);
 
 	const [type, setType] = useState(CameraType.back);
+
 	// on charge le reducer processus pour gérer la caméra à activer par défaut (back ou front)
 	const processus = useSelector((state: {processus: ProcessusState }) => state.processus.value);
-	if (processus === "Paramètre") {
-		setType(CameraType.front);
-	}
+	
+	// useEffect au chargement de la page
+	useEffect(() => {
+		if (processus === "Paramètre") {
+			setType(CameraType.front);
+		}
+	}, []);
 
 	// on charge le reducer user pour avoir accès à son token pour permettre la mise à jour de son avatar
 	const user = useSelector((state: {user: UserState }) => state.user.value);
