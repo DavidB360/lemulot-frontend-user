@@ -37,9 +37,9 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 	);
 
 	// on charge le reducer user pour savoir si l'utilisateur est connecté
-	const user = useSelector((state: {user: UserState }) => state.user.value);
+	const user = useSelector((state: { user: UserState }) => state.user.value);
 	// l'utilisateur est-il connecté ?
-	const isUserConnected = (user.token !== null);
+	const isUserConnected = user.token !== null;
 
 	// intitialisation d'un useState qui va stocker les tutoriels à afficher en fonction
 	// des reducers device et category
@@ -59,7 +59,7 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 			category: "internet",
 			difficulty: "easy",
 			content:
-			"[{ type: 'text', content: 'Nous allons créer une adresse gmail pas à pas avec toi ...'}]",
+				"[{ type: 'text', content: 'Nous allons créer une adresse gmail pas à pas avec toi ...'}]",
 		},
 		{
 			_id: "2",
@@ -70,7 +70,7 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 			category: "system",
 			difficulty: "easy",
 			content:
-			"[{ type: 'text', content: 'Cliquer sur l\'icone à droite de votre barre des tâches ...' }]",
+				"[{ type: 'text', content: 'Cliquer sur l'icone à droite de votre barre des tâches ...' }]",
 		},
 		{
 			_id: "3",
@@ -81,7 +81,7 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 			category: "software",
 			difficulty: "easy",
 			content:
-			"[{ type: 'text', content: 'En bas de votre écran, appuyer sur le bouton en forme d\'appareil photo ...' }]",
+				"[{ type: 'text', content: 'En bas de votre écran, appuyer sur le bouton en forme d'appareil photo ...' }]",
 		},
 		{
 			_id: "4",
@@ -92,7 +92,7 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 			category: "system",
 			difficulty: "advanced",
 			content:
-			"[{ type: 'text', content: 'Télécharger l\'application ccleaner à l'adresse suivante...' }]",
+				"[{ type: 'text', content: 'Télécharger l'application ccleaner à l'adresse suivante...' }]",
 		},
 		{
 			_id: "5",
@@ -103,7 +103,7 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 			category: "internet",
 			difficulty: "intermediate",
 			content:
-			"[{ type: 'text', content: 'Vérifier l'objet du message, l\'email de l\'émetteur et du destinataire... ' }]",
+				"[{ type: 'text', content: 'Vérifier l'objet du message, l'email de l'émetteur et du destinataire... ' }]",
 		},
 		{
 			_id: "6",
@@ -114,7 +114,7 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 			category: "system",
 			difficulty: "easy",
 			content:
-			"[{ type: 'text', content: 'Cliquer sur l'icone à droite de votre barre des tâches ...' }]",
+				"[{ type: 'text', content: 'Cliquer sur l'icone à droite de votre barre des tâches ...' }]",
 		},
 	];
 
@@ -296,7 +296,7 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 			<View style={styles.resultResearch}>
 				<ScrollView>{displayedTutorials}</ScrollView>
 			</View>
-			
+
 			<View style={styles.btnBottom}>
 				<TouchableOpacity
 					style={styles.btnDico}
@@ -310,9 +310,7 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 					// sinon on va sur la page de connexion
 					onPress={() => {
 						if (isUserConnected) {
-							navigation.navigate("TabNavigator2", {
-							screen: "Ecrite",
-							});
+							navigation.navigate("Request");
 						} else {
 							navigation.navigate("Connection");
 						}

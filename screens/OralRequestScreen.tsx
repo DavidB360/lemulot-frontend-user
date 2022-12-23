@@ -1,25 +1,23 @@
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
+// import React, { useState } from "react";
 
 export default function OralRequestScreen({ navigation }: any) {
+	// const [disable, setDisable] = React.useState(true);
+
 	return (
 		<View style={styles.container}>
 			<View style={styles.btnTop}>
 				<TouchableOpacity
-					style={styles.btnUsers}
-					onPress={() =>
-						navigation.navigate("TabNavigator", {
-							screen: "Paramètre",
-						})
-					}
+					style={styles.btnRetour}
+					onPress={() => navigation.navigate("Request")}
 				>
-					<FontAwesomeIcon
-						icon={faUser}
+					<FontAwesome
+						name="long-arrow-left"
 						size={50}
-						style={styles.iconUsers}
+						style={styles.iconArrow}
 					/>
+					<Text style={styles.textBtnRetour}>Retour</Text>
 				</TouchableOpacity>
 				<Text style={styles.title}>Demande d'aide</Text>
 				<TouchableOpacity
@@ -45,12 +43,22 @@ export default function OralRequestScreen({ navigation }: any) {
 						<Text style={styles.textBtnMicrophone}>Appuyer</Text>
 					</TouchableOpacity>
 				</View>
-				<View style={styles.chek}>
+				<View style={styles.bottom}>
+					<TouchableOpacity style={styles.btnCheck}>
+						{/* <TouchableOpacity
+						disabled={disable}
+						onPress={() => setDisable(false)}
+
+						activeOpacity={disable ? 1 : 0.7}
+						onPress={!disable && onPress}
+					> */}
+						<Text style={styles.textBottom}>Vérification</Text>
+					</TouchableOpacity>
 					<TouchableOpacity
-						style={styles.btnSend}
-						// onPress={() => navigation.navigate("Type")}
+						style={styles.btnNext}
+						onPress={() => navigation.navigate("PictureRequest")}
 					>
-						<Text style={styles.textSend}>Vérification</Text>
+						<Text style={styles.textBottom}>Continuer</Text>
 					</TouchableOpacity>
 				</View>
 			</View>
@@ -76,12 +84,12 @@ const styles = StyleSheet.create({
 		marginTop: 50,
 	},
 
-	btnUsers: {
+	btnRetour: {
 		flexDirection: "column",
 		alignItems: "center",
 		justifyContent: "center",
 		marginLeft: 20,
-		backgroundColor: "#fff",
+		backgroundColor: "#5db194",
 		width: 80,
 		height: 80,
 		borderRadius: 40,
@@ -99,8 +107,22 @@ const styles = StyleSheet.create({
 		elevation: 25,
 	},
 
-	iconUsers: {
-		color: "#5db194",
+	iconArrow: {
+		paddingRight: 5,
+		marginBottom: -15,
+		color: "#ffffff",
+		textShadowColor: "#000000",
+		textShadowOffset: { width: 0, height: 2 },
+		textShadowRadius: 5,
+	},
+
+	textBtnRetour: {
+		paddingBottom: 5,
+		color: "#ffffff",
+		fontSize: 15,
+		textShadowColor: "#000000",
+		textShadowOffset: { width: 0, height: 2 },
+		textShadowRadius: 5,
 	},
 
 	title: {
@@ -140,17 +162,18 @@ const styles = StyleSheet.create({
 	},
 
 	request: {
+		marginTop: 50,
 		flexDirection: "column",
-		justifyContent: "space-around",
+		justifyContent: "space-between",
 		alignItems: "center",
 		width: "95%",
-		height: "70%",
+		height: "60%",
 	},
 
 	textRequest: {
 		marginLeft: 10,
 		marginBottom: 20,
-		fontSize: 22,
+		fontSize: 25,
 		textShadowColor: "#808080",
 		textShadowOffset: { width: 0, height: 2 },
 		textShadowRadius: 5,
@@ -198,20 +221,15 @@ const styles = StyleSheet.create({
 		textShadowRadius: 5,
 	},
 
-	chek: {
+	bottom: {
 		marginTop: 20,
-		justifyContent: "center",
+		justifyContent: "space-between",
 		alignItems: "center",
 		width: "100%",
+		height: "50%",
 	},
 
-	btnBottom: {
-		justifyContent: "center",
-		alignItems: "center",
-		width: "100%",
-	},
-
-	btnSend: {
+	btnCheck: {
 		backgroundColor: "#5db194",
 		width: "60%",
 		height: 60,
@@ -233,11 +251,33 @@ const styles = StyleSheet.create({
 		elevation: 25,
 	},
 
-	textSend: {
+	textBottom: {
 		fontSize: 22,
 		color: "#ffffff",
 		textShadowColor: "#000000",
 		textShadowOffset: { width: 0, height: 2 },
 		textShadowRadius: 5,
+	},
+
+	btnNext: {
+		width: "90%",
+		height: 60,
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "center",
+		borderRadius: 10,
+		borderColor: "#808080",
+		backgroundColor: "#5db194",
+		borderBottomWidth: 4,
+		borderLeftWidth: 2,
+		borderRightWidth: 2,
+		shadowOffset: {
+			width: -10,
+			height: 12,
+		},
+		shadowOpacity: 0.58,
+		shadowRadius: 16.0,
+
+		elevation: 25,
 	},
 });

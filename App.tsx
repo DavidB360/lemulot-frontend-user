@@ -23,6 +23,8 @@ import UserHelpScreen from "./screens/UserHelpScreen";
 
 import WrittenRequestScreen from "./screens/WrittenRequestScreen";
 import OralRequestScreen from "./screens/OralRequestScreen";
+import RequestScreen from "./screens/RequestScreen";
+
 import PictureScreen from "./screens/PictureScreen";
 import CameraScreen from "./screens/CameraScreen";
 import ChatScreen from "./screens/ChatScreen";
@@ -40,7 +42,14 @@ import tuto from "./reducers/tuto";
 import prevPage from "./reducers/prevPage";
 import processus from "./reducers/processus";
 
-const reducers = combineReducers({ user, device, category, tuto, prevPage, processus });
+const reducers = combineReducers({
+	user,
+	device,
+	category,
+	tuto,
+	prevPage,
+	processus,
+});
 const persistConfig = { key: "lemulot", storage: AsyncStorage };
 
 const store = configureStore({
@@ -151,6 +160,10 @@ export default function App() {
 						/>
 						<Stack.Screen name="Camera" component={CameraScreen} />
 						<Stack.Screen name="Chat" component={ChatScreen} />
+						<Stack.Screen
+							name="Request"
+							component={RequestScreen}
+						/>
 						<Stack.Screen
 							name="TabNavigator"
 							component={TabNavigator}

@@ -4,71 +4,79 @@ import {
 	TouchableOpacity,
 	StyleSheet,
 	TextInput,
+	Image,
 } from "react-native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
-export default function WrittenRequestScreen({ navigation }: any) {
+export default function OralRequestScreen({ navigation }: any) {
 	return (
-		<KeyboardAwareScrollView style={styles.all}>
-			<View style={styles.container}>
-				<View style={styles.btnTop}>
-					<TouchableOpacity
-						style={styles.btnRetour}
-						onPress={() => navigation.navigate("Request")}
-					>
-						<FontAwesome
-							name="long-arrow-left"
-							size={50}
-							style={styles.iconArrow}
-						/>
-						<Text style={styles.textBtnRetour}>Retour</Text>
-					</TouchableOpacity>
-					<Text style={styles.title}>Demande d'aide</Text>
-					<TouchableOpacity
-						style={styles.btnAide}
-						// onPress={() => navigation.navigate("Type")}
-					>
-						<Text style={styles.textBtnAide}>?</Text>
-					</TouchableOpacity>
-				</View>
-				<View style={styles.request}>
-					<Text style={styles.textRequest}>
-						Faire une demande écrite
-					</Text>
+		<View style={styles.container}>
+			<View style={styles.btnTop}>
+				<TouchableOpacity
+					style={styles.btnRetour}
+					onPress={() =>
+						navigation.navigate("TabNavigator", {
+							screen: "Demandes",
+						})
+					}
+				>
+					<FontAwesome
+						name="long-arrow-left"
+						size={50}
+						style={styles.iconArrow}
+					/>
+					<Text style={styles.textBtnRetour}>Retour</Text>
+				</TouchableOpacity>
+				<Text style={styles.title}>Demande d'aide</Text>
+				<TouchableOpacity
+					style={styles.btnAide}
+					// onPress={() => navigation.navigate("Type")}
+				>
+					<Text style={styles.textBtnAide}>?</Text>
+				</TouchableOpacity>
+			</View>
+			<View style={styles.titleRequest}>
+				<Text style={styles.textRequest}>
+					Indiquez la nature de votre demande
+				</Text>
+				<View style={styles.checkContainer}>
 					<TextInput
-						style={styles.inputRequest}
-						//onChangeText={(e) => setTutorial(e.target.value)}
-						//value={tutorial}
-						placeholder="Demande"
+						style={styles.inputTitleRequest}
+						// on envoie le texte tapé dans le useState tutorialSearch à chaque changement
+						// onChangeText={(value) => setTutorialSearch(value)}
+						// value={tutorialSearch}
+						placeholder="Titre"
 						placeholderTextColor="#808080"
-						maxLength={280}
+						maxLength={33}
 						multiline={true}
-						numberOfLines={6}
 					/>
 				</View>
-				<View style={styles.btnBottom}>
-					<TouchableOpacity
-						style={styles.btnSend}
-						onPress={() => navigation.navigate("PictureRequest")}
-					>
-						<Text style={styles.textSend}>Continuer</Text>
-					</TouchableOpacity>
-				</View>
 			</View>
-		</KeyboardAwareScrollView>
+			<View style={styles.bottom}>
+				<Text style={styles.textRequest}>
+					Appuyer sur continuer afin de poursuivre votre demande
+				</Text>
+				<TouchableOpacity
+					style={styles.btnNext}
+					onPress={() =>
+						navigation.navigate("TabNavigator2", {
+							screen: "Ecrite",
+						})
+					}
+				>
+					<Text style={styles.textBottom}>Continuer</Text>
+				</TouchableOpacity>
+			</View>
+		</View>
 	);
 }
 
 const styles = StyleSheet.create({
 	container: {
-		justifyContent: "flex-start",
-		alignItems: "center",
-	},
-
-	all: {
 		flex: 1,
 		flexDirection: "column",
+		alignItems: "center",
+		justifyContent: "flex-start",
 		backgroundColor: "#ffffff",
 	},
 
@@ -158,15 +166,16 @@ const styles = StyleSheet.create({
 		opacity: 0.6,
 	},
 
-	request: {
-		marginBottom: 10,
+	titleRequest: {
+		marginTop: 20,
 		flexDirection: "column",
-		justifyContent: "flex-start",
-		width: "95%",
-		height: "48%",
+		alignItems: "center",
+		width: "90%",
+		height: "40%",
 	},
 
 	textRequest: {
+		textAlign: "center",
 		marginLeft: 10,
 		marginBottom: 20,
 		fontSize: 22,
@@ -175,15 +184,23 @@ const styles = StyleSheet.create({
 		textShadowRadius: 5,
 	},
 
-	inputRequest: {
-		marginLeft: 10,
-		paddingLeft: 10,
-		width: "95%",
-		height: "80%",
-		textAlign: "center",
+	checkContainer: {
+		marginTop: 50,
+		flexDirection: "column",
+		justifyContent: "space-between",
+		alignItems: "center",
+		width: "90%",
+		height: "60%",
+	},
+
+	inputTitleRequest: {
+		paddingLeft: 5,
+		marginRight: 15,
 		fontSize: 22,
 		fontWeight: "bold",
 		backgroundColor: "#ffffff",
+		width: "100%",
+		height: 50,
 		borderColor: "#808080",
 		borderRadius: 6,
 		borderBottomWidth: 4,
@@ -199,16 +216,47 @@ const styles = StyleSheet.create({
 		elevation: 25,
 	},
 
-	btnBottom: {
-		marginBottom: 180,
-		flexDirection: "column",
-		justifyContent: "center",
+	btnCheck: {
+		marginTop: 20,
+		backgroundColor: "#5db194",
+		width: "60%",
+		height: 60,
+		flexDirection: "row",
 		alignItems: "center",
-		width: "100%",
+		justifyContent: "center",
+		borderRadius: 10,
+		borderColor: "#808080",
+		borderBottomWidth: 4,
+		borderLeftWidth: 2,
+		borderRightWidth: 2,
+		shadowOffset: {
+			width: -10,
+			height: 12,
+		},
+		shadowOpacity: 0.58,
+		shadowRadius: 16.0,
+
+		elevation: 25,
 	},
 
-	btnSend: {
-		width: "60%",
+	textCheck: {
+		fontSize: 22,
+		color: "#ffffff",
+		textShadowColor: "#000000",
+		textShadowOffset: { width: 0, height: 2 },
+		textShadowRadius: 5,
+	},
+
+	bottom: {
+		flexDirection: "column",
+		justifyContent: "space-around",
+		alignItems: "center",
+		width: "90%",
+		height: "30%",
+	},
+
+	btnNext: {
+		width: "90%",
 		height: 60,
 		flexDirection: "row",
 		alignItems: "center",
@@ -229,7 +277,7 @@ const styles = StyleSheet.create({
 		elevation: 25,
 	},
 
-	textSend: {
+	textBottom: {
 		fontSize: 22,
 		color: "#ffffff",
 		textShadowColor: "#000000",
