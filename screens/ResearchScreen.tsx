@@ -14,8 +14,9 @@ import { CategoryState } from "../reducers/category";
 import React, { useState, useEffect } from "react";
 import { updateTuto } from "../reducers/tuto";
 import { BACKEND_URL } from "@env";
-import { updatePrevPage } from "../reducers/prevPage";
+// import { updatePrevPage } from "../reducers/prevPage";
 import { UserState } from "../reducers/user";
+import { useIsFocused } from "@react-navigation/native";
 
 type ResearchScreenProps = {
 	navigation: NavigationProp<ParamListBase>;
@@ -118,6 +119,9 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 		},
 	];
 
+	// pour être sûr de relancer le fetch à chaque retour sur la page
+	const isFocused = useIsFocused();
+
 	// useEffect qui ne s'applique qu'au chargement de la page pour ne pas lancer le setter de SelectedTutorials à l'infini
 	useEffect(() => {
 		// Code pour travailler avec le tableau de test :
@@ -138,7 +142,7 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 					setSelectedTutorials(data.tutorials);
 				}
 			});
-	}, []);
+	}, [isFocused]);
 
 	// automatisation de l'affichage des tutoriels : on crée le contenu à partir du tableau de tutoriels avec un "map"
 	const displayedTutorials = selectedTutorials.map(

@@ -12,12 +12,13 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { BACKEND_URL } from "@env";
-import { updatePrevPage } from "../reducers/prevPage";
+// import { updatePrevPage } from "../reducers/prevPage";
 import { UserState } from "../reducers/user";
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { updateTuto } from "../reducers/tuto";
 import { Types } from 'mongoose';
+import { useIsFocused } from "@react-navigation/native";
 
 type UserFavoritScreenProps = {
 	navigation: NavigationProp<ParamListBase>;
@@ -40,6 +41,10 @@ export default function UserFavoritScreen({
 	// on charge le reducer user pour afficher son prénom et connaître ses leçons favorites
 	const user = useSelector((state: {user: UserState }) => state.user.value);
 
+	// nous utilisons useIsFocused pour être sûrs que le useEffect va se recharger même suite à l'appui 
+	// sur un bouton retour d'une page suivante
+	const isFocused = useIsFocused();
+
 	useEffect(() => {
 		fetch(BACKEND_URL + "users/favoriteTutorials/" + user.token)
 			.then((response) => response.json())
@@ -48,7 +53,7 @@ export default function UserFavoritScreen({
 					setSelectedTutorials(data.favoriteTutorials);
 				}
 			});
-	}, []);
+	}, [isFocused]);
 
 	// automatisation de l'affichage des tutoriels : on crée le contenu à partir du tableau de tutoriels avec un "map"
 	const displayedTutorials = selectedTutorials.map(
