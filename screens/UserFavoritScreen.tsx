@@ -64,7 +64,7 @@ export default function UserFavoritScreen({
 						key={i}
 						onPress={() => {
 							dispatch(updateTuto(tutorial._id));
-							dispatch(updatePrevPage("Favoris"));
+							dispatch(updatePrevPage("TabNavigator"));
 							navigation.navigate("Tuto");
 						}}
 					>
