@@ -187,9 +187,7 @@ export default function TutoScreen({ navigation }: TutoScreenProps) {
 						// navigation conditionnelle : si l'utilisateur est connecté, on va sur la page de demande écrite
 						// sinon on va sur la page de connexion
 						if (isUserConnected) {
-							navigation.navigate("TabNavigator2", {
-							screen: "Ecrite",
-							});
+							navigation.navigate("Request");
 						} else {
 							navigation.navigate("Connection");
 						}

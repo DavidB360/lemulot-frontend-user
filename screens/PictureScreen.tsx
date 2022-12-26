@@ -82,6 +82,7 @@ export default function CameraScreen({ navigation }: any) {
 					on l'affiche */}
 					{image && (
 						<Image source={{ uri: image }} style={styles.avatar} />
+						// <Image source={require('../assets/zelda.jpg')} style={styles.avatar} />
 					)}
 				</TouchableOpacity>
 				<TouchableOpacity
