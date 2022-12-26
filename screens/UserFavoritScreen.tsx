@@ -64,7 +64,8 @@ export default function UserFavoritScreen({
 						key={i}
 						onPress={() => {
 							dispatch(updateTuto(tutorial._id));
-							dispatch(updatePrevPage("TabNavigator"));
+							// Plus nécessaire de "setter" le reducer prevPage suite à utilisation de navigation.goBack() dans page Tuto
+							// dispatch(updatePrevPage("TabNavigator"));
 							navigation.navigate("Tuto");
 						}}
 					>

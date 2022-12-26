@@ -122,7 +122,10 @@ export default function TutoScreen({ navigation }: TutoScreenProps) {
 			<View style={styles.btnTop}>
 				<TouchableOpacity
 					style={styles.btnRetour}
-					onPress={() => navigation.navigate(prevPage)}
+					// onPress={() => navigation.navigate(prevPage)}
+					// Simplification de la gestion du bouton retour par utilisation de la méthode goBack() intégrée
+					// à React Navgation pour revenir à la page précédente sans utilisation du reducer prevPage
+					onPress={() => navigation.goBack()}
 				>
 					<FontAwesome
 						name="long-arrow-left"

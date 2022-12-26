@@ -154,7 +154,8 @@ export default function ResearchScreen({ navigation }: ResearchScreenProps) {
 						key={i}
 						onPress={() => {
 							dispatch(updateTuto(tutorial._id));
-							dispatch(updatePrevPage("Research"));
+							// Plus nécessaire de "setter" le reducer prevPage suite à utilisation de navigation.goBack() dans page Tuto
+							// dispatch(updatePrevPage("Research"));
 							navigation.navigate("Tuto");
 						}}
 					>
