@@ -5,8 +5,11 @@ import { useSelector, useDispatch } from "react-redux";
 import * as ImagePicker from "expo-image-picker";
 import { ProcessusState } from "../reducers/processus";
 import { UserState } from "../reducers/user";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
+// import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+// import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { BACKEND_URL } from "@env";
+import { LOCAL_BACKEND_URL } from "@env";
+import { updateAvatar } from "../reducers/user";
 
 export default function CameraScreen({ navigation }: any) {
 	const user = useSelector((state: { user: UserState }) => state.user.value);
@@ -18,9 +21,11 @@ export default function CameraScreen({ navigation }: any) {
 		(state: { processus: ProcessusState }) => state.processus.value
 	);
 
+	// useState image pour tester fonction image-picker
+	const [image, setImage] = useState<string | undefined>(undefined);
+
 	// demande permission d'accès à la galerie d'image pour la fonctionnalité image-picker
 	const [hasGalleryPermission, setHasGalleryPermission] = useState(false);
-	const [image, setImage] = useState<string | undefined>(undefined);
 
 	useEffect(() => {
 		(async () => {
@@ -32,22 +37,72 @@ export default function CameraScreen({ navigation }: any) {
 
 	const PickImage = async () => {
 		let result = await ImagePicker.launchImageLibraryAsync({
-			mediaTypes: ImagePicker.MediaTypeOptions.All,
+			// mediaTypes: ImagePicker.MediaTypeOptions.All,
+			mediaTypes: ImagePicker.MediaTypeOptions.Images,
 			allowsEditing: true,
 			aspect: [4, 3],
-			quality: 1,
+			quality: 0.3,
 		});
 		if (!result.canceled) {
-			setImage(result.uri);
+			// console.log(result);
+			// setImage(result.uri);
+			setImage(result.assets[0].uri);
+
+			// préparation de l'envoi de la photo sélectionnée au backend
+			const formData = new FormData();
+			
+			formData.append('photoFromFront', {
+				uri: result.assets[0].uri,
+				name: 'photo.jpg',
+				type: 'image/jpeg',
+			} as unknown as Blob);
+
+			// envoi de la photo au backend, on commence par uploader dans cloudinary
+			// console.log(BACKEND_URL + 'uploadPic');
+			fetch(LOCAL_BACKEND_URL + 'uploadPic', {
+			// fetch(BACKEND_URL + 'uploadPic', {
+				method: 'POST',
+				body: formData,
+			})
+			.then((response) => response.json())
+			.then((data) => {
+				// on récupère de la route précédente l'url cloudinary
+				// et on l'enregistre dans la base de données mongoDB du projet
+
+				if (processus === "Paramètre") {
+					// si la page Camera a été appelée à partir de la page Paramètre, alors la photo est une photo de profil
+					// on met à jour l'url de la photo de profil dans la base de données user
+					fetch(BACKEND_URL + 'users/updateAvatar/', {
+						method: "PUT",
+						headers: { "Content-Type": "application/json" },
+						body: JSON.stringify({
+							token: user.token,
+							url: data.url,
+						}) 
+					})
+					.then((response) => response.json())
+					.then((doc) => {
+						// on met à jour l'url de la photo de profil dans le reducer user du store
+						dispatch(updateAvatar(doc.url));
+						// on revient à la page Paramètres
+						navigation.navigate(processus);
+					})
+				} else if (processus === "PictureRequest") {
+					// si la page Camera a été appelée à partir du processus de demande d'aide, alors la photo est
+					// ajoutée au flux de discussion de la demande d'aide en cours
+				}
+			});
+
 		}
 	};
 
-	if (!hasGalleryPermission) {
-		return <Text>Pas d'accès au stockage interne</Text>;
-	}
+	// if (!hasGalleryPermission) {
+	// 	return <Text>Pas d'accès au stockage interne</Text>;
+	// }
 
 	return (
 		<View style={styles.container}>
+
 			<View style={styles.btnTop}>
 				<TouchableOpacity
 					style={styles.btnRetour}
@@ -60,40 +115,25 @@ export default function CameraScreen({ navigation }: any) {
 					/>
 					<Text style={styles.textBtnRetour}>Retour</Text>
 				</TouchableOpacity>
-				<TouchableOpacity
-					style={styles.btnUsers}
-					onPress={() =>
-						navigation.navigate("TabNavigator", {
-							screen: "Paramètre",
-						})
-					}
-				>
-					{/* Si l'utilisateur n'est pas connecté ou n'a pas de photo de profil, 
-					on affiche une icone utilisateur générique : */}
-					{user.avatar === null && (
-						<FontAwesomeIcon
-							icon={faUser}
-							size={50}
-							style={styles.iconUsers}
-						/>
-					)}
 
-					{/* Si l'utilisateur est connecté et a une photo de profil, 
-					on l'affiche */}
-					{image && (
-						<Image source={{ uri: image }} style={styles.avatar} />
-						// <Image source={require('../assets/zelda.jpg')} style={styles.avatar} />
-					)}
-				</TouchableOpacity>
+				{/* Test affichage de l'image issue de image-picker */}
+				{image &&
+				<TouchableOpacity style={styles.btnUsers} >
+					<Image source={{ uri: image }} style={styles.avatar} />
+				</TouchableOpacity>}
+
 				<TouchableOpacity
 					style={styles.btnAide}
-					// onPress={() => navigation.navigate("Type")}
+					// onPress={() => {}}
 				>
 					<Text style={styles.textBtnAide}>?</Text>
 				</TouchableOpacity>
 			</View>
+
 			<View style={styles.profile}>
-				<TouchableOpacity style={styles.btnProfile} onPress={PickImage}>
+				{/* Affichage du bouton Utiliser mon image si l'autorisation d'accès à la galerie a été accordée */}
+				{ hasGalleryPermission && 
+				<TouchableOpacity style={styles.btnProfile} onPress={() => PickImage()}>
 					<Text style={styles.textBtnProfile}>
 						Utiliser mon image
 					</Text>
@@ -104,7 +144,8 @@ export default function CameraScreen({ navigation }: any) {
 							size={130}
 						/>
 					</View>
-				</TouchableOpacity>
+				</TouchableOpacity> }
+
 				<TouchableOpacity
 					style={styles.btnProfile}
 					onPress={() => {

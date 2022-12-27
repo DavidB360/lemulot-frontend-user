@@ -11,6 +11,7 @@ import { faCameraRotate } from "@fortawesome/free-solid-svg-icons";
 import { ProcessusState } from "../reducers/processus";
 import { UserState } from "../reducers/user";
 import { BACKEND_URL } from "@env";
+import { LOCAL_BACKEND_URL } from "@env";
 
 export default function CameraScreen({ navigation }: any) {
 	const dispatch = useDispatch();
@@ -60,7 +61,8 @@ export default function CameraScreen({ navigation }: any) {
 		// envoi de la photo au backend, on commence par uploader dans cloudinary
 		console.log(BACKEND_URL + 'uploadPic');
 		// fetch('http://192.168.1.20:3000/uploadPic', {
-		fetch(BACKEND_URL + 'uploadPic', {
+		fetch(LOCAL_BACKEND_URL + 'uploadPic', {
+		// fetch(BACKEND_URL + 'uploadPic', {
 			method: 'POST',
 			body: formData,
 		})
@@ -87,7 +89,10 @@ export default function CameraScreen({ navigation }: any) {
 					// on revient à la page Paramètres
 					navigation.navigate(processus);
 				})
-			}	
+			} else if (processus === "PictureRequest") {
+				// si la page Camera a été appelée à partir du processus de demande d'aide, alors la photo est
+				// ajoutée au flux de discussion de la demande d'aide en cours
+			}
 		});
 	};
 
