@@ -50,15 +50,16 @@ export default function CameraScreen({ navigation }: any) {
 
 		// puis préparation de l'envoi de la photo prise au backend
 		const formData = new FormData();
-
-		formData.append('photoFromFront', JSON.parse(JSON.stringify({
+		
+		formData.append('photoFromFront', {
 			uri: photo.uri,
 			name: 'photo.jpg',
 			type: 'image/jpeg',
-		})));
+		} as unknown as Blob);
 
 		// envoi de la photo au backend, on commence par uploader dans cloudinary
 		console.log(BACKEND_URL + 'uploadPic');
+		// fetch('http://192.168.1.20:3000/uploadPic', {
 		fetch(BACKEND_URL + 'uploadPic', {
 			method: 'POST',
 			body: formData,
@@ -66,13 +67,25 @@ export default function CameraScreen({ navigation }: any) {
 		.then((response) => response.json())
 		.then((data) => {
 			// on récupère de la route précédente l'url cloudinary
-			// et on l'enregistre de la photo dans la base de données mongoDB du projet
-			// si la photo est une photo de profil
-			if (processus === "Paramètres") {
-				fetch(BACKEND_URL + 'users/updateAvatar/'+ user.token +'/'+ data.url)
+			// et on l'enregistre dans la base de données mongoDB du projet
+
+			// si la page Camera a été appelée à partir de la page Paramètre, alors la photo est une photo de profil
+			if (processus === "Paramètre") {
+				// on met à jour l'url de la photo de profil dans la base de données user
+				fetch(BACKEND_URL + 'users/updateAvatar/', {
+					method: "PUT",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({
+						token: user.token,
+						url: data.url,
+					}) 
+				})
 				.then((response) => response.json())
 				.then((doc) => {
-					dispatch(updateAvatar(doc.url))
+					// on met à jour l'url de la photo de profil dans le reducer user du store
+					dispatch(updateAvatar(doc.url));
+					// on revient à la page Paramètres
+					navigation.navigate(processus);
 				})
 			}	
 		});
@@ -87,7 +100,7 @@ export default function CameraScreen({ navigation }: any) {
 			style={styles.container}
 			flashMode={flashMode}
 			type={type}
-			ref={(ref) => (cameraRef = ref)}
+			ref={(ref: any) => (cameraRef = ref)}
 		>
 			<View style={styles.btnTop}>
 				<TouchableOpacity

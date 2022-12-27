@@ -30,11 +30,12 @@ import CameraScreen from "./screens/CameraScreen";
 import ChatScreen from "./screens/ChatScreen";
 import PictureRequestScreen from "./screens/PictureRequestScreen";
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Provider } from "react-redux";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import user from "./reducers/user";
 import device from "./reducers/device";
 import category from "./reducers/category";

@@ -64,9 +64,7 @@ export const userSlice = createSlice({
 		// },
 
 		updateAvatar: (state, action) => {
-			if (action.payload.token) {
-					state.value.avatar = action.payload.value;
-			}	 
+			state.value.avatar = action.payload; 
 		},
 	},
 });
