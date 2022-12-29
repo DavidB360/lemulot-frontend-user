@@ -37,7 +37,7 @@ export default function OralRequestScreen({ navigation }: any) {
 			</View>
 			<View style={styles.titleRequest}>
 				<Text style={styles.textRequest}>
-					Indiquez la nature de votre demande
+					Indiquez la nature de votre demande :
 				</Text>
 				<View style={styles.checkContainer}>
 					<TextInput
@@ -54,7 +54,7 @@ export default function OralRequestScreen({ navigation }: any) {
 			</View>
 			<View style={styles.bottom}>
 				<Text style={styles.textRequest}>
-					Appuyer sur continuer afin de poursuivre votre demande
+					Puis appuyez sur continuer afin de poursuivre votre demande
 				</Text>
 				<TouchableOpacity
 					style={styles.btnNext}

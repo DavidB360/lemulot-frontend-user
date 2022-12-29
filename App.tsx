@@ -42,6 +42,7 @@ import category from "./reducers/category";
 import tuto from "./reducers/tuto";
 import prevPage from "./reducers/prevPage";
 import processus from "./reducers/processus";
+import helpReq from "./reducers/helpReq";
 
 const reducers = combineReducers({
 	user,
@@ -50,6 +51,7 @@ const reducers = combineReducers({
 	tuto,
 	prevPage,
 	processus,
+	helpReq,
 });
 const persistConfig = { key: "lemulot", storage: AsyncStorage };
 

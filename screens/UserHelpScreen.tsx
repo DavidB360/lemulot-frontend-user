@@ -19,23 +19,114 @@ import { faHourglassHalf } from "@fortawesome/free-regular-svg-icons";
 import { UserState } from "../reducers/user";
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { BACKEND_URL } from "@env";
+import { useIsFocused } from "@react-navigation/native";
+import { updateHelpReq } from "../reducers/helpReq";
 
 type UserHelpScreenProps = {
 	navigation: NavigationProp<ParamListBase>;
 };
 
 export default function UserHelpScreen({ navigation }: UserHelpScreenProps) {
-	// intitiation d'un useState pour l'input de recherche
-	const [tutorialSearch, setTutorialSearch] = useState("");
+	const dispatch = useDispatch();
 
-	// intitialisation d'un useState qui va stocker les demandes d'aide afficher
+	// intitiation d'un useState pour l'input de recherche
+	const [helpRequestSearch, setHelpRequestSearch] = useState("");
+
+	// intitialisation d'un useState qui va stocker les demandes d'aide à afficher
 	const [selectedHelpRequests, setSelectedHelpRequests] = useState<any>([]);
 
 	// initialisation d'un useState pour gérer la recherche avec une regex
 	const [regexSearch, setRegexSearch] = useState("");
 
-	// on charge le reducer user pour afficher son prénom
+	// on charge le reducer user pour afficher son prénom et connaître ses demandes d'aide
 	const user = useSelector((state: { user: UserState }) => state.user.value);
+
+	// nous utilisons useIsFocused pour être sûrs que le useEffect va se recharger même suite à l'appui 
+	// sur un bouton retour d'une page suivante
+	const isFocused = useIsFocused();
+
+	useEffect(() => {
+		// On va chercher la liste des demandes d'aide de l'utilisateur
+		fetch(BACKEND_URL + "users/myHelpRequests/" + user.token)
+			.then((response) => response.json())
+			.then((data) => {
+				if (data.result === true) {
+					setSelectedHelpRequests(data.myHelpRequests);
+				}
+			});
+	}, [isFocused]);
+
+	// automatisation de l'affichage des demandes d'aide de l'utilisateur : on crée le contenu à partir  
+	// du tableau de demandes d'aide avec un "map"
+	const displayedHelpRequests = selectedHelpRequests.map(
+		(helpRequest: any, i: number) => {
+			// préparation d'une regex pour permettre la recherche par mot clé dans le titre des demandes d'aide
+			const pattern = new RegExp(regexSearch, "i");
+			// on charge la date dans un objet Date pour pouvoir formater l'affichage de la date à notre façon
+			const date = new Date(helpRequest.creationDate);
+
+			if (pattern.test(helpRequest.title)) {
+				return (
+					<TouchableOpacity
+						key={i}
+						onPress={() => {
+							dispatch(updateHelpReq(helpRequest._id));
+							navigation.navigate("Chat");
+						}}
+					>	
+						<View style={styles.requestContainer}>
+							<View style={styles.request}>
+								<Text style={styles.textTitle}>
+									Titre : {helpRequest.title}
+								</Text>
+								<Text style={styles.textDate}>
+									Date de création : {date.getDate() + "/" +	(date.getMonth() + 1) + "/" + date.getFullYear()}
+								</Text>
+								<Text style={styles.textStatus}>
+									Statut : { helpRequest.isSolved ? 'résolue' : 'en cours'}
+								</Text>
+							</View>
+
+							{/* Pour afficher une cloche lorsque la fonctionnalité notification sera implémentée */}
+							{/* <View style={styles.iconBell}>
+								<FontAwesomeIcon
+									icon={faBell}
+									color={"#ff4500"}
+									size={40}
+								/>
+								<Text style={styles.textBell}>Réponse</Text>
+							</View> */}
+
+							{ !helpRequest.isSolved &&
+								<View style={styles.iconBell}>
+									<FontAwesomeIcon
+										style={styles.iconHourglass}
+										icon={faHourglassHalf}
+										color={"#808080"}
+										size={40}
+									/>
+									<Text style={styles.textBell}>En cours</Text>
+								</View>
+							}
+
+							{ helpRequest.isSolved &&
+								<View style={styles.iconBell}>
+									<FontAwesomeIcon
+										icon={faCircleCheck}
+										color={"#5db194"}
+										size={40}
+									/>
+									<Text style={styles.textBell}>Résolue</Text>
+								</View>
+							}
+						</View>
+
+					</TouchableOpacity>
+				);
+			}
+		}
+	);
 
 	return (
 		<View style={styles.container}>
@@ -77,20 +168,24 @@ export default function UserHelpScreen({ navigation }: UserHelpScreenProps) {
 					<Text style={styles.textBtnAide}>?</Text>
 				</TouchableOpacity>
 			</View>
+
 			<View style={styles.textContainer}>
-				<Text style={styles.pageTitle}>Mes demandes D'aide</Text>
+				<Text style={styles.pageTitle}>Mes demandes d'aide</Text>
 			</View>
+
 			<View style={styles.researchContainer}>
 				<TextInput
 					style={styles.input}
-					//onChangeText={(e) => setTutorial(e.target.value)}
-					//value={tutorial}
+					// on envoie le texte tapé dans le useState helpRequestSearch à chaque changement
+					onChangeText={(value) => setHelpRequestSearch(value)}
+					value={helpRequestSearch}
 					placeholder="Recherche..."
 					placeholderTextColor="#808080"
 				/>
 				<TouchableOpacity
 					style={styles.btnResearch}
-					// onPress={() => navigation.navigate("Tuto")}
+					// on affecte helpRequestSearch au useState regexSearch au clic sur le bouton loupe
+					onPress={() => setRegexSearch(helpRequestSearch)}
 				>
 					<FontAwesome
 						name="search"
@@ -99,9 +194,13 @@ export default function UserHelpScreen({ navigation }: UserHelpScreenProps) {
 					/>
 				</TouchableOpacity>
 			</View>
+
 			<View style={styles.resultResearch}>
 				<ScrollView>
-					<TouchableOpacity
+
+					{displayedHelpRequests}
+
+					{/* <TouchableOpacity
 						onPress={() => navigation.navigate("Chat")}
 					>
 						<View style={styles.requestContainer}>
@@ -227,9 +326,11 @@ export default function UserHelpScreen({ navigation }: UserHelpScreenProps) {
 								<Text style={styles.textBell}>Résolue</Text>
 							</View>
 						</View>
-					</TouchableOpacity>
+					</TouchableOpacity> */}
+
 				</ScrollView>
 			</View>
+
 			<View style={styles.helprequest}>
 				<TouchableOpacity
 					style={styles.btnHelrequest}
@@ -449,6 +550,24 @@ const styles = StyleSheet.create({
 		fontWeight: "bold",
 		fontSize: 15,
 		color: "#ffffff",
+	},
+
+	textTitle: {
+		fontWeight: "bold",
+		fontSize: 18,
+		color: "#ffffff",
+		marginTop: 4,
+	},
+
+	textDate: {
+		fontSize: 16,
+		color: "#ffffff",
+	},
+
+	textStatus: {
+		fontSize: 16,
+		color: "#ffffff",
+		marginBottom: 20,
 	},
 
 	iconBell: {

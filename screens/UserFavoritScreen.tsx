@@ -17,7 +17,7 @@ import { UserState } from "../reducers/user";
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { updateTuto } from "../reducers/tuto";
-import { Types } from 'mongoose';
+// import { Types } from 'mongoose';
 import { useIsFocused } from "@react-navigation/native";
 
 type UserFavoritScreenProps = {
@@ -46,6 +46,7 @@ export default function UserFavoritScreen({
 	const isFocused = useIsFocused();
 
 	useEffect(() => {
+		// on va chercher la liste de tutoriels favoris
 		fetch(BACKEND_URL + "users/favoriteTutorials/" + user.token)
 			.then((response) => response.json())
 			.then((data) => {
@@ -57,7 +58,7 @@ export default function UserFavoritScreen({
 
 	// automatisation de l'affichage des tutoriels : on crée le contenu à partir du tableau de tutoriels avec un "map"
 	const displayedTutorials = selectedTutorials.map(
-		(tutorial: any, i: any) => {
+		(tutorial: any, i: number) => {
 			// préparation d'une regex pour permettre la recherche par mot clé dans le titre des tutoriels
 			const pattern = new RegExp(regexSearch, "i");
 			// on charge la date dans un objet Date pour pouvoir formater l'affichage de la date à notre façon

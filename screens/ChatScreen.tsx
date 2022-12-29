@@ -121,7 +121,7 @@ export default function OralRequestScreen({ navigation }: any) {
 					<View style={styles.chatHelper}>
 						<Text style={styles.textChat}>
 							Avez-vous regardé le tuto dédié à l'impression de
-							ducument ?
+							document ?
 						</Text>
 						<View style={styles.iconContainer}>
 							<View style={styles.iconChat}>
@@ -153,13 +153,13 @@ export default function OralRequestScreen({ navigation }: any) {
 							</View>
 						</View>
 						<Text style={styles.textChat}>
-							Oui mais ça marche pas !
+							Oui mais ça ne marche pas !
 						</Text>
 					</View>
 					<Text style={styles.nameHelper}>Gerudo Ganondorf</Text>
 					<View style={styles.chatHelper}>
 						<Text style={styles.textChat}>
-							Avez-vous mit de l'encre dans votre imprimante ?
+							Avez-vous mis de l'encre dans votre imprimante ?
 						</Text>
 						<View style={styles.iconContainer}>
 							<View style={styles.iconChat}>
@@ -191,7 +191,7 @@ export default function OralRequestScreen({ navigation }: any) {
 							</View>
 						</View>
 						<Text style={styles.textChat}>
-							Ah non mince, j'y ai pas pensé. Merci de votre aide.
+							Ah non mince, je n'y ai pas pensé. Merci de votre aide.
 							Bonne journée.
 						</Text>
 					</View>
