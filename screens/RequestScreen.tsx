@@ -22,7 +22,7 @@ export default function RequestScreen({ navigation }: any) {
 	// intitiation d'un useState pour l'input du titre
 	const [helpRequestTitle, setHelpRequestTitle] = useState("");
 
-	// useStates pour gérer l'absence de saisie
+	// useStates pour gérer l'absence de saisie et les autres erreurs 
 	const [inputError, setInputError] = useState(false);
 	const [errorMessage, setErrorMessage] = useState("");
 

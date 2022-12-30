@@ -7,8 +7,67 @@ import {
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { useSelector } from "react-redux";
+import { userSlice, UserState } from "../reducers/user";
+import { HelpReqState } from "../reducers/helpReq";
+import React, { useState } from "react";
+import { BACKEND_URL } from "@env";
 
 export default function WrittenRequestScreen({ navigation }: any) {
+
+	// on charge le reducer user pour utiliser le token de l'utilisateur pour récupérer son Id
+	const user = useSelector((state: { user: UserState }) => state.user.value);
+
+	// on charge le reducer helpReq pour renseigner l'Id de la demande d'aide en cours
+	const helpReq = useSelector((state: { helpReq: HelpReqState }) => state.helpReq.value);
+
+	// intitiation d'un useState pour l'input de la demande écrite
+	const [writtenRequest, setWrittenRequest] = useState("");
+
+	// useStates pour gérer l'absence de saisie et les autres erreurs 
+	const [inputError, setInputError] = useState(false);
+	const [errorMessage, setErrorMessage] = useState("");
+
+	const handleContinueHelpRequest = () => {
+		if (writtenRequest !== '') {
+			// récupération de l'id de l'utilisateur
+			fetch(BACKEND_URL + "users/getUserId/" + user.token)
+			.then((response) => response.json())
+				.then((data) => {
+					if (data.result === true) {
+						// on ajoute à la demande d'aide en cours un message de type texte 
+						// avec comme contenu le texte de l'input writtenRequest et comme auteur
+						// l'utilisateur en cours
+						fetch(BACKEND_URL + "helprequests/addMessage/", {
+							method: "POST",
+							headers: { "Content-Type": "application/json" },
+							body: JSON.stringify({
+								helpRequestId: helpReq,
+								authorType: 'users',
+								authorId: data.userId,
+								type: 'text',
+								content: writtenRequest
+							}),
+						})
+						.then((response) => response.json())
+							.then((doc) => {
+								if (doc.result === true) {
+									setInputError(false);
+									navigation.navigate("PictureRequest")
+								}
+							});
+					} else {
+						setErrorMessage(data.error);
+						setInputError(true);
+					}
+				});	
+		} else {
+			setErrorMessage('Entrez une description du problème');
+			setInputError(true);
+		}
+
+	}
+
 	return (
 		<KeyboardAwareScrollView style={styles.all}>
 			<View style={styles.container}>
@@ -27,7 +86,7 @@ export default function WrittenRequestScreen({ navigation }: any) {
 					<Text style={styles.title}>Demande d'aide</Text>
 					<TouchableOpacity
 						style={styles.btnAide}
-						// onPress={() => navigation.navigate("Type")}
+						// onPress={() => {} }
 					>
 						<Text style={styles.textBtnAide}>?</Text>
 					</TouchableOpacity>
@@ -38,8 +97,8 @@ export default function WrittenRequestScreen({ navigation }: any) {
 					</Text>
 					<TextInput
 						style={styles.inputRequest}
-						//onChangeText={(e) => setTutorial(e.target.value)}
-						//value={tutorial}
+						onChangeText={(value) => setWrittenRequest(value)}
+						value={writtenRequest}
 						placeholder="Demande"
 						placeholderTextColor="#808080"
 						maxLength={280}
@@ -47,10 +106,15 @@ export default function WrittenRequestScreen({ navigation }: any) {
 						numberOfLines={6}
 					/>
 				</View>
+
+				{inputError && (
+						<Text style={styles.error}>{errorMessage}</Text>
+				)}
+
 				<View style={styles.btnBottom}>
 					<TouchableOpacity
 						style={styles.btnSend}
-						onPress={() => navigation.navigate("PictureRequest")}
+						onPress={() => { handleContinueHelpRequest() }}
 					>
 						<Text style={styles.textSend}>Continuer</Text>
 					</TouchableOpacity>
@@ -235,5 +299,10 @@ const styles = StyleSheet.create({
 		textShadowColor: "#000000",
 		textShadowOffset: { width: 0, height: 2 },
 		textShadowRadius: 5,
+	},
+
+	error: {
+		color: "red",
+		fontSize: 22,
 	},
 });
