@@ -94,7 +94,7 @@ export default function CameraScreen({ navigation }: any) {
 					// on revient à la page Paramètres
 					navigation.navigate(processus);
 				})
-			} else if (processus === "PictureRequest") {
+			} else if (processus === "PictureRequest" || processus === "Chat") {
 				// si la page Camera a été appelée à partir du processus de demande d'aide, alors la photo est
 				// ajoutée au flux de discussion de la demande d'aide en cours
 

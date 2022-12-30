@@ -65,8 +65,7 @@ export default function WrittenRequestScreen({ navigation }: any) {
 			setErrorMessage('Entrez une description du problème');
 			setInputError(true);
 		}
-
-	}
+	};
 
 	return (
 		<KeyboardAwareScrollView style={styles.all}>

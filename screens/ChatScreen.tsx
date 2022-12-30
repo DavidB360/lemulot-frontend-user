@@ -15,11 +15,176 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { updateProcessus } from "../reducers/processus";
 import { useSelector, useDispatch } from "react-redux";
 import { UserState } from "../reducers/user";
+import { HelpReqState } from "../reducers/helpReq";
+import { BACKEND_URL } from "@env";
+import { LOCAL_BACKEND_URL } from "@env";
+import React, { useEffect, useState } from "react";
+import { useIsFocused } from "@react-navigation/native";
+import { Types } from 'mongoose';
+// import { useSafeAreaFrame } from "react-native-safe-area-context";
 
 export default function OralRequestScreen({ navigation }: any) {
 	const dispatch = useDispatch();
 
+	// on charge le reducer user pour utiliser le token de l'utilisateur pour récupérer son Id et pour
+	// afficher l'avatar de l'utilisateur
 	const user = useSelector((state: { user: UserState }) => state.user.value);
+
+	// on charge le reducer helpReq pour renseigner l'Id de la demande d'aide en cours
+	const helpReq = useSelector((state: { helpReq: HelpReqState }) => state.helpReq.value);
+
+	// intitialisation d'un useState qui va stocker l'Id de l'utilisateur'
+	const [userId, setUserId] = useState<Types.ObjectId|null>(null);
+
+	// intitialisation d'un useState qui va servir à relancer le useEffect de mise à jour des messages du chat
+	const [reRenderCount, setReRenderCount] = useState<number>(0);
+
+	// intitialisation d'un useState qui va stocker le titre de la demande d'aide
+	const [helpReqTitle, setHelpReqTitle] = useState<string>('');
+
+	// intitialisation d'un useState qui va stocker les messages de la demande d'aide
+	const [messages, setMessages] = useState<any>([]);
+
+	// nous utilisons useIsFocused pour être sûrs que le useEffect suivant va se recharger à chaque retour 
+	// sur la page même si l'utilisateur s'est déconnecté
+	const isFocused = useIsFocused();
+
+	useEffect(() => {
+		// On va chercher l'Id de l'utilisateur pour le stocker dans l'état userId
+		fetch(BACKEND_URL + "users/getUserId/" + user.token)
+			.then((response) => response.json())
+				.then((data) => {
+					if (data.result === true) {
+						setUserId(data.userId);
+						// On va chercher la liste des messages de la demande d'aide courante
+						fetch(BACKEND_URL + "helprequests/getById/" + helpReq)
+						.then((response) => response.json())
+						.then((data) => {
+							if (data.result === true) {
+								setMessages(data.helpRequest.messages);
+								setHelpReqTitle(data.helpRequest.title);
+							}
+						});
+					} else {
+						console.log(data.error);
+					}
+				});				
+	}, [isFocused, reRenderCount]);
+
+	// Rafraîchissement du useEffect précédent avec un timer qui va mettre à jour
+	// périodiquement l'état reRenderCount
+	useEffect(() => {
+		// on lance un timer, reRenderCount est mis à jour toutes les 5 secondes
+		const interval = setInterval(() => {
+			setReRenderCount(reRenderCount + 1);
+		}, 5000);
+		// on stoppe le timer lorsque l'on quitte la page
+		return () => clearInterval(interval);
+	}, [isFocused, reRenderCount]);
+
+	const displayedMessages = messages.map( (msg: any, i: number) => {
+
+		const messageDate = new Date(msg.messageTime);
+
+		if (userId === msg.authorId) {
+			return (
+				<View key={i}>
+					<Text style={styles.nameUser}>
+						{user.firstName +', le '+ 
+						messageDate.getDate() +'/'+ (messageDate.getMonth() + 1) +'/'+ messageDate.getFullYear() +' à '+
+						messageDate.getHours() +':'+ messageDate.getMinutes()}
+					</Text>
+
+					{ msg.type === 'image' && 
+						<Image style={[styles.img, {width: '100%', height: '100%'}]} source={{uri: msg.content}} />
+					}
+
+					{ msg.type === 'text' &&
+					<View style={styles.chatUser}>
+						<View style={styles.iconContainer}>
+							<View style={styles.iconChat}>
+								{user.avatar === null && (
+									<FontAwesomeIcon
+										icon={faUser}
+										size={28}
+										style={styles.icon}
+										color="#5db194"
+									/>
+								)}
+								{user.avatar && (
+									<Image
+										style={styles.icon}
+										source={{ uri: user.avatar }}
+									/>
+								)}
+							</View>
+						</View>						
+						<Text style={styles.textChat}>{msg.content}</Text>
+					</View>
+					}
+				</View>
+			);		
+		} else {
+			return (
+				<View key={i}>
+					<Text style={styles.nameHelper}>
+						Mulotin assistant{', le '+ 
+						messageDate.getDate() +'/'+ (messageDate.getMonth() + 1) +'/'+ messageDate.getFullYear() +' à '+
+						messageDate.getHours() +':'+ messageDate.getMinutes()}
+					</Text>
+
+					{ msg.type === 'image' && 
+					<Image style={[styles.img, {width: '100%', height: '100%'}]} source={{uri: msg.content}} />
+					}
+					
+					{ msg.type === 'text' &&
+					<View style={styles.chatHelper}>				
+						<Text style={styles.textChat}>{msg.content}</Text>
+						<View style={styles.iconContainer}>
+							<View style={styles.iconChat}>
+								<Image
+									style={styles.icon}
+									source={require("../assets/mulot_assistant.jpg")}
+								/>
+							</View>
+						</View>
+					</View>
+					}
+				</View>
+			);
+		}}
+	);
+
+	
+	// intitiation d'un useState pour l'input d'ajout de message écrit
+	const [writtenRequest, setWrittenRequest] = useState("");
+
+	const addMessage = () => {
+		if (writtenRequest !== '') {			
+			// on ajoute à la demande d'aide en cours un message de type texte 
+			// avec comme contenu le texte de l'input writtenRequest et comme auteur
+			// l'utilisateur en cours
+			fetch(BACKEND_URL + "helprequests/addMessage/", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({
+					helpRequestId: helpReq,
+					authorType: 'users',
+					authorId: userId,
+					type: 'text',
+					content: writtenRequest
+				}),
+			})
+			.then((response) => response.json())
+				.then((doc) => {
+					if (doc.result === true) {
+						// on set l'état reRenderCount pour re-déclencher le useEffect d'affichage des messages
+						setReRenderCount(reRenderCount + 1);
+						setWrittenRequest('');
+					}
+				});
+		}
+	};
 
 	return (
 		<KeyboardAvoidingView
@@ -45,17 +210,22 @@ export default function OralRequestScreen({ navigation }: any) {
 				</TouchableOpacity>
 				<TouchableOpacity
 					style={styles.btnAide}
-					// onPress={() => navigation.navigate("Type")}
+					// onPress={() => {} }
 				>
 					<Text style={styles.textBtnAide}>?</Text>
 				</TouchableOpacity>
 			</View>
+
 			<View style={styles.title}>
-				<Text style={styles.titleChat}>Imprimer un document</Text>
+				<Text style={styles.titleChat}>{helpReqTitle}</Text>
 			</View>
+
 			<View style={styles.chatContainer}>
-				<ScrollView>
-					<Text style={styles.nameUser}>Hyrule Zelda</Text>
+				<ScrollView contentContainerStyle={styles.scrollView}>
+					
+					{ displayedMessages }
+
+					{/* <Text style={styles.nameUser}>Hyrule Zelda</Text>
 					<View style={styles.chatUser}>
 						<View style={styles.iconContainer}>
 							<View style={styles.iconChat}>
@@ -208,27 +378,30 @@ export default function OralRequestScreen({ navigation }: any) {
 								/>
 							</View>
 						</View>
-					</View>
+					</View> */}
+
 				</ScrollView>
 			</View>
+
 			<View style={styles.messageContainer}>
 				<TextInput
 					style={styles.inputMessage}
-					// on envoie le texte tapé dans le useState tutorialSearch à chaque changement
-					// onChangeText={(value) => setTutorialSearch(value)}
-					// value={tutorialSearch}
+					// on envoie le texte tapé dans le useState writtenRequest à chaque changement
+					onChangeText={(value) => setWrittenRequest(value)}
+					value={writtenRequest}
 					placeholder="Message"
 					placeholderTextColor="#808080"
 					multiline={true}
 				/>
 				<TouchableOpacity
 					style={styles.btnSend}
-					// on affecte tutorialSearch au useState regexSearch au clic sur le bouton loupe
-					// onPress={() => setRegexSearch(tutorialSearch)}
+					// on envoie le message à l'appui sur le bouton Envoyer
+					onPress={() => addMessage()}
 				>
 					<Text style={styles.textSend}>Envoyer</Text>
 				</TouchableOpacity>
 			</View>
+
 			<View style={styles.bottom}>
 				<TouchableOpacity
 					style={styles.btnBottom}
@@ -244,9 +417,10 @@ export default function OralRequestScreen({ navigation }: any) {
 						style={styles.iconBottom}
 					/>
 				</TouchableOpacity>
+
 				<TouchableOpacity
 					style={styles.btnBottom}
-					// onPress={() => navigation.navigate("Type")}
+					// onPress={() => {navigation.navigate("Orale")}}
 				>
 					<FontAwesome
 						name="microphone"
@@ -553,5 +727,14 @@ const styles = StyleSheet.create({
 		textShadowColor: "#000",
 		textShadowOffset: { width: 0, height: 2 },
 		textShadowRadius: 5,
+	},
+
+	img: {
+		marginBottom: 5,
+		resizeMode: 'contain',
+	},
+
+	scrollView: {
+		paddingBottom: 1000,
 	},
 });

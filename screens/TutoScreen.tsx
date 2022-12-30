@@ -33,8 +33,8 @@ export default function TutoScreen({ navigation }: TutoScreenProps) {
 	// on charge le reducer tuto pour connaître l'id du tutoriel à afficher
 	const tuto = useSelector((state: { tuto: TutoState }) => state.tuto.value);
 
-	// on charge le reducer prevPage pour indiquer la page précédente au bouton retour
-	const prevPage = useSelector((state: {prevPage: PrevPageState }) => state.prevPage.value);
+	// on charge le reducer prevPage pour indiquer la page précédente au bouton retour => obsolète remplacé par navigation.goBack()
+	// const prevPage = useSelector((state: {prevPage: PrevPageState }) => state.prevPage.value);
 
 	// on charge le reducer user pour savoir si l'utilisateur est connecté et connaître ses leçons favorites
 	const user = useSelector((state: {user: UserState }) => state.user.value);
