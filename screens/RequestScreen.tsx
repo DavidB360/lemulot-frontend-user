@@ -7,8 +7,71 @@ import {
 	Image,
 } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { useSelector, useDispatch } from "react-redux";
+import { UserState } from "../reducers/user";
+import React, { useState } from "react";
+import { BACKEND_URL } from "@env";
+import { updateHelpReq } from "../reducers/helpReq";
 
-export default function OralRequestScreen({ navigation }: any) {
+export default function RequestScreen({ navigation }: any) {
+	const dispatch = useDispatch();
+
+	// on charge le reducer user pour utiliser le token de l'utilisateur pour la route newHelpRequest
+	const user = useSelector((state: { user: UserState }) => state.user.value);
+
+	// intitiation d'un useState pour l'input du titre
+	const [helpRequestTitle, setHelpRequestTitle] = useState("");
+
+	// useStates pour gérer l'absence de saisie
+	const [inputError, setInputError] = useState(false);
+	const [errorMessage, setErrorMessage] = useState("");
+
+	const handleContinueHelpRequest = () => {
+		if (helpRequestTitle !== '') {
+			// on récupère l'ID de l'utilisateur
+			fetch(BACKEND_URL + "users/getUserId/" + user.token)
+			.then((response) => response.json())
+				.then((data) => {
+					if (data.result === true) {
+						// création de la demande d'aide
+						fetch(BACKEND_URL + "helprequests/newHelpRequest", {
+							method: "POST",
+							headers: { "Content-Type": "application/json" },
+							body: JSON.stringify({
+								title: helpRequestTitle,
+								author: data.userId
+							}),
+						})
+						.then((response) => response.json())
+							.then((doc) => {
+								if (doc.result === true) {
+									setInputError(false);
+									// ajout de l'id de la demande d'aide créée dans le tableau helpRequest de l'utilisateur
+									fetch(BACKEND_URL + "users/addToHelpRequests/" + user.token + "/" + doc.helpRequestId, { method: "PUT" });
+									// mise à jour du reducer helpReq avec l'id de la demande d'aide créée
+									dispatch(updateHelpReq(doc.helpRequestId));
+									// navigation vers page de rédaction de la demande d'aide
+									navigation.navigate("TabNavigator2", {
+										screen: "Ecrite",
+									});
+								} else {
+									setErrorMessage(doc.error);
+									setInputError(true);
+								}
+							});
+					} else {
+						// console.log('erreur');
+						setErrorMessage(data.error);
+						setInputError(true);
+					}
+				});
+		} else {
+			setErrorMessage('Entrez un titre');
+			setInputError(true);
+		}
+
+	}
+
 	return (
 		<View style={styles.container}>
 			<View style={styles.btnTop}>
@@ -27,14 +90,17 @@ export default function OralRequestScreen({ navigation }: any) {
 					/>
 					<Text style={styles.textBtnRetour}>Retour</Text>
 				</TouchableOpacity>
+
 				<Text style={styles.title}>Demande d'aide</Text>
+
 				<TouchableOpacity
 					style={styles.btnAide}
-					// onPress={() => navigation.navigate("Type")}
+					// onPress={() => {} }
 				>
 					<Text style={styles.textBtnAide}>?</Text>
 				</TouchableOpacity>
 			</View>
+
 			<View style={styles.titleRequest}>
 				<Text style={styles.textRequest}>
 					Indiquez la nature de votre demande :
@@ -42,9 +108,9 @@ export default function OralRequestScreen({ navigation }: any) {
 				<View style={styles.checkContainer}>
 					<TextInput
 						style={styles.inputTitleRequest}
-						// on envoie le texte tapé dans le useState tutorialSearch à chaque changement
-						// onChangeText={(value) => setTutorialSearch(value)}
-						// value={tutorialSearch}
+						// on envoie le texte tapé dans le useState helpRequestTitle à chaque changement
+						onChangeText={(value) => setHelpRequestTitle(value)}
+						value={helpRequestTitle}
 						placeholder="Titre"
 						placeholderTextColor="#808080"
 						maxLength={33}
@@ -52,17 +118,19 @@ export default function OralRequestScreen({ navigation }: any) {
 					/>
 				</View>
 			</View>
+
 			<View style={styles.bottom}>
 				<Text style={styles.textRequest}>
 					Puis appuyez sur continuer afin de poursuivre votre demande
 				</Text>
+
+				{inputError && (
+						<Text style={styles.error}>{errorMessage}</Text>
+				)}
+
 				<TouchableOpacity
 					style={styles.btnNext}
-					onPress={() =>
-						navigation.navigate("TabNavigator2", {
-							screen: "Ecrite",
-						})
-					}
+					onPress={() => { handleContinueHelpRequest() }}
 				>
 					<Text style={styles.textBottom}>Continuer</Text>
 				</TouchableOpacity>
@@ -283,5 +351,10 @@ const styles = StyleSheet.create({
 		textShadowColor: "#000000",
 		textShadowOffset: { width: 0, height: 2 },
 		textShadowRadius: 5,
+	},
+
+	error: {
+		color: "red",
+		fontSize: 22,
 	},
 });
