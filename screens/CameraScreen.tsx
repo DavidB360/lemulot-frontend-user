@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCameraRotate } from "@fortawesome/free-solid-svg-icons";
 import { ProcessusState } from "../reducers/processus";
 import { UserState } from "../reducers/user";
+import { HelpReqState } from "../reducers/helpReq";
 import { BACKEND_URL } from "@env";
 import { LOCAL_BACKEND_URL } from "@env";
 
@@ -33,8 +34,12 @@ export default function CameraScreen({ navigation }: any) {
 		}
 	}, []);
 
-	// on charge le reducer user pour avoir accès à son token pour permettre la mise à jour de son avatar
+	// on charge le reducer user pour utiliser le token de l'utilisateur pour changer sa photo 
+	// de profil ou pour récupérer son Id afin d'ajouter un message image de demande d'aide
 	const user = useSelector((state: {user: UserState }) => state.user.value);
+
+	// on charge le reducer helpReq pour renseigner l'Id de la demande d'aide en cours
+	const helpReq = useSelector((state: { helpReq: HelpReqState }) => state.helpReq.value);
 	
 	let cameraRef: any = useRef(null);
 
@@ -92,6 +97,37 @@ export default function CameraScreen({ navigation }: any) {
 			} else if (processus === "PictureRequest") {
 				// si la page Camera a été appelée à partir du processus de demande d'aide, alors la photo est
 				// ajoutée au flux de discussion de la demande d'aide en cours
+
+				// récupération de l'id de l'utilisateur
+				fetch(BACKEND_URL + "users/getUserId/" + user.token)
+				.then((response) => response.json())
+					.then((newdata) => {
+						if (newdata.result === true) {
+							// on ajoute à la demande d'aide en cours un message de type image 
+							// avec comme contenu l'url cloudinary de la photo uploadée et comme auteur
+							// l'utilisateur en cours
+							fetch(BACKEND_URL + "helprequests/addMessage/", {
+								method: "POST",
+								headers: { "Content-Type": "application/json" },
+								body: JSON.stringify({
+									helpRequestId: helpReq,
+									authorType: 'users',
+									authorId: newdata.userId,
+									type: 'image',
+									content: data.url
+								}),
+							})
+							.then((response) => response.json())
+								.then((doc) => {
+									if (doc.result === true) {
+										// si le message image a bien été ajouté on navigue vers le Chat
+										navigation.navigate("Chat")
+									}
+								});
+						} else {
+							console.log(newdata.error);
+						}
+					});
 			}
 		});
 	};

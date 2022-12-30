@@ -129,8 +129,8 @@ export default function CameraScreen({ navigation }: any) {
 								console.log(newdata.error);
 							}
 						});	
-						}
-					});
+				}
+			});
 		}
 	};
 
