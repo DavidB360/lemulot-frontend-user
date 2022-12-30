@@ -27,7 +27,7 @@ export default function PictureRequestScreen({ navigation }: any) {
 				<Text style={styles.title}>Demande d'aide</Text>
 				<TouchableOpacity
 					style={styles.btnAide}
-					// onPress={() => navigation.navigate("Type")}
+					// onPress={() => {} }
 				>
 					<Text style={styles.textBtnAide}>?</Text>
 				</TouchableOpacity>

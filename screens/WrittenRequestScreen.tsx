@@ -8,7 +8,7 @@ import {
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { useSelector } from "react-redux";
-import { userSlice, UserState } from "../reducers/user";
+import { UserState } from "../reducers/user";
 import { HelpReqState } from "../reducers/helpReq";
 import React, { useState } from "react";
 import { BACKEND_URL } from "@env";
@@ -304,5 +304,6 @@ const styles = StyleSheet.create({
 	error: {
 		color: "red",
 		fontSize: 22,
+		marginBottom: 20,
 	},
 });

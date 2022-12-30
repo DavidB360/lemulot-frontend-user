@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import * as ImagePicker from "expo-image-picker";
 import { ProcessusState } from "../reducers/processus";
 import { UserState } from "../reducers/user";
+import { HelpReqState } from "../reducers/helpReq";
 // import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 // import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { BACKEND_URL } from "@env";
@@ -12,11 +13,17 @@ import { LOCAL_BACKEND_URL } from "@env";
 import { updateAvatar } from "../reducers/user";
 
 export default function CameraScreen({ navigation }: any) {
-	const user = useSelector((state: { user: UserState }) => state.user.value);
-
 	const dispatch = useDispatch();
 
-	// on charge le reducer processus pour gérer la navigation du bouton retour
+	// on charge le reducer user pour utiliser le token de l'utilisateur pour changer sa photo 
+	// de profil ou pour récupérer son Id afin d'ajouter un message image de demande d'aide
+	const user = useSelector((state: { user: UserState }) => state.user.value);
+
+	// on charge le reducer helpReq pour renseigner l'Id de la demande d'aide en cours
+	const helpReq = useSelector((state: { helpReq: HelpReqState }) => state.helpReq.value);
+
+	// on charge le reducer processus pour gérer la navigation du bouton retour et 
+	// conditionner les actions à réaliser après la prise de photo en fonction du processus
 	const processus = useSelector(
 		(state: { processus: ProcessusState }) => state.processus.value
 	);
@@ -69,6 +76,7 @@ export default function CameraScreen({ navigation }: any) {
 				// on récupère de la route précédente l'url cloudinary
 				// et on l'enregistre dans la base de données mongoDB du projet
 
+				// console.log(processus);
 				if (processus === "Paramètre") {
 					// si la page Camera a été appelée à partir de la page Paramètre, alors la photo est une photo de profil
 					// on met à jour l'url de la photo de profil dans la base de données user
@@ -86,13 +94,43 @@ export default function CameraScreen({ navigation }: any) {
 						dispatch(updateAvatar(doc.url));
 						// on revient à la page Paramètres
 						navigation.navigate(processus);
-					})
+					});
 				} else if (processus === "PictureRequest") {
 					// si la page Camera a été appelée à partir du processus de demande d'aide, alors la photo est
 					// ajoutée au flux de discussion de la demande d'aide en cours
-				}
-			});
 
+					// récupération de l'id de l'utilisateur
+					fetch(BACKEND_URL + "users/getUserId/" + user.token)
+					.then((response) => response.json())
+						.then((newdata) => {
+							if (newdata.result === true) {
+								// on ajoute à la demande d'aide en cours un message de type image 
+								// avec comme contenu l'url cloudinary de la photo uploadée et comme auteur
+								// l'utilisateur en cours
+								fetch(BACKEND_URL + "helprequests/addMessage/", {
+									method: "POST",
+									headers: { "Content-Type": "application/json" },
+									body: JSON.stringify({
+										helpRequestId: helpReq,
+										authorType: 'users',
+										authorId: newdata.userId,
+										type: 'image',
+										content: data.url
+									}),
+								})
+								.then((response) => response.json())
+									.then((doc) => {
+										if (doc.result === true) {
+											// si le message image a bien été ajouté on navigue vers le Chat
+											navigation.navigate("Chat")
+										}
+									});
+							} else {
+								console.log(newdata.error);
+							}
+						});	
+						}
+					});
 		}
 	};
 
