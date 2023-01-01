@@ -134,7 +134,10 @@ export default function OralRequestScreen({ navigation }: any) {
 					</Text>
 
 					{ msg.type === 'image' && 
-					<Image style={[styles.img, {width: '100%', height: '100%'}]} source={{uri: msg.content}} />
+					<Image 
+						source={{uri: msg.content}}
+						style={[styles.img, {width: '100%', height: '100%'}]} 
+					/>
 					}
 					
 					{ msg.type === 'text' &&
@@ -735,6 +738,6 @@ const styles = StyleSheet.create({
 	},
 
 	scrollView: {
-		paddingBottom: 1000,
+		paddingBottom: 1300,
 	},
 });
