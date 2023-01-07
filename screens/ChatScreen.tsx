@@ -23,7 +23,7 @@ import { useIsFocused } from "@react-navigation/native";
 import { Types } from 'mongoose';
 // import { useSafeAreaFrame } from "react-native-safe-area-context";
 
-export default function OralRequestScreen({ navigation }: any) {
+export default function ChatScreen({ navigation }: any) {
 	const dispatch = useDispatch();
 
 	// on charge le reducer user pour utiliser le token de l'utilisateur pour récupérer son Id et pour
