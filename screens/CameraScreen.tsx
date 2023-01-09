@@ -65,6 +65,7 @@ export default function CameraScreen({ navigation }: any) {
 
 		// envoi de la photo au backend, on commence par uploader dans cloudinary
 		console.log(BACKEND_URL + 'uploadPic');
+		console.log(LOCAL_BACKEND_URL + 'uploadPic');
 		// fetch('http://192.168.1.20:3000/uploadPic', {
 		fetch(LOCAL_BACKEND_URL + 'uploadPic', {
 		// fetch(BACKEND_URL + 'uploadPic', {
