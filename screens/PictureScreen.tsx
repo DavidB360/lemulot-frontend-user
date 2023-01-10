@@ -9,7 +9,6 @@ import { HelpReqState } from "../reducers/helpReq";
 // import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 // import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { BACKEND_URL } from "@env";
-import { LOCAL_BACKEND_URL } from "@env";
 import { updateAvatar } from "../reducers/user";
 
 export default function CameraScreen({ navigation }: any) {
@@ -66,8 +65,7 @@ export default function CameraScreen({ navigation }: any) {
 
 			// envoi de la photo au backend, on commence par uploader dans cloudinary
 			// console.log(BACKEND_URL + 'uploadPic');
-			fetch(LOCAL_BACKEND_URL + 'uploadPic', {
-			// fetch(BACKEND_URL + 'uploadPic', {
+			fetch(BACKEND_URL + 'uploadPic', {
 				method: 'POST',
 				body: formData,
 			})
