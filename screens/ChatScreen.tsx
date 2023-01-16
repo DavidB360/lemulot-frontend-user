@@ -8,6 +8,7 @@ import {
 	KeyboardAvoidingView,
 	Platform,
 	Image,
+	Dimensions,
 } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -17,8 +18,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { UserState } from "../reducers/user";
 import { HelpReqState } from "../reducers/helpReq";
 import { BACKEND_URL } from "@env";
-import { LOCAL_BACKEND_URL } from "@env";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useIsFocused } from "@react-navigation/native";
 import { Types } from 'mongoose';
 // import { useSafeAreaFrame } from "react-native-safe-area-context";
@@ -82,9 +82,26 @@ export default function ChatScreen({ navigation }: any) {
 		return () => clearInterval(interval);
 	}, [isFocused, reRenderCount]);
 
+	// création d'un useRef pour dynamiquement stocker la taille des images lors du map du contenu sans entraîner de re-render de la page
+	// chaque image occupera 90% de la largeur de l'écran, on définit dès la création un paramètre largeur qui sera commun à chaque image
+	// puis les hauteurs des images successives seront stockées dans le tableau hauteur
+	let picDimensions : any = useRef({ largeur: Dimensions.get('screen').width*0.9, hauteur: [] });
+
 	const displayedMessages = messages.map( (msg: any, i: number) => {
 
 		const messageDate = new Date(msg.messageTime);
+
+		if (msg.type === 'image') {		
+			// On récupère les dimensions (largeur et hauteur) de l'image à afficher
+			// On va utiliser les dimensions recueillies pour définir une hauteur qui s'adapte au ratio de l'image d'origine
+			// On stocke la hauteur calculée dans le tableau hauteur
+			Image.getSize(msg.content, (width, height) => {
+				picDimensions.current.hauteur[i] = picDimensions.current.largeur*height/width;
+				// console.log(picDimensions.current.hauteur);				
+			}, (errorMsg) => {
+				console.log(errorMsg);
+			});
+		}
 
 		if (userId === msg.authorId) {
 			return (
@@ -96,7 +113,11 @@ export default function ChatScreen({ navigation }: any) {
 					</Text>
 
 					{ msg.type === 'image' && 
-						<Image style={[styles.img, {width: '100%', height: '100%'}]} source={{uri: msg.content}} />
+						<Image 
+							source={{uri: msg.content}} 
+							// on charge les dimensions de l'image à partir du useRef picDimensions
+							style={[styles.img, {width: picDimensions.current.largeur, height: picDimensions.current.hauteur[i]}]}
+						/>
 					}
 
 					{ msg.type === 'text' &&
@@ -136,7 +157,8 @@ export default function ChatScreen({ navigation }: any) {
 					{ msg.type === 'image' && 
 					<Image 
 						source={{uri: msg.content}}
-						style={[styles.img, {width: '100%', height: '100%'}]} 
+						// on charge les dimensions de l'image à partir du useRef picDimensions
+						style={[styles.img, {width: picDimensions.current.largeur, height: picDimensions.current.hauteur[i]}]} 
 					/>
 					}
 					
@@ -735,9 +757,10 @@ const styles = StyleSheet.create({
 	img: {
 		marginBottom: 5,
 		resizeMode: 'contain',
+		alignSelf: 'center',
 	},
 
 	scrollView: {
-		paddingBottom: 1300,
+		paddingBottom: 10,
 	},
 });

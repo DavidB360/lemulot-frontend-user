@@ -46,7 +46,8 @@ export default function CameraScreen({ navigation }: any) {
 			// mediaTypes: ImagePicker.MediaTypeOptions.All,
 			mediaTypes: ImagePicker.MediaTypeOptions.Images,
 			allowsEditing: true,
-			aspect: [4, 3],
+			// aspect mis en commentaire pour en pas forcer le format de l'image
+			// aspect: [4, 3],
 			quality: 0.3,
 		});
 		if (!result.canceled) {
