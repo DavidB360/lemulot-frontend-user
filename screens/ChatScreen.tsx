@@ -97,7 +97,7 @@ export default function ChatScreen({ navigation }: any) {
 			// On stocke la hauteur calculée dans le tableau hauteur
 			Image.getSize(msg.content, (width, height) => {
 				picDimensions.current.hauteur[i] = picDimensions.current.largeur*height/width;
-				// console.log(picDimensions.current.hauteur);				
+				console.log(picDimensions.current.hauteur);				
 			}, (errorMsg) => {
 				console.log(errorMsg);
 			});

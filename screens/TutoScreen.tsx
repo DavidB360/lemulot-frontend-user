@@ -5,10 +5,11 @@ import {
 	StyleSheet,
 	ScrollView,
 	Image,
+	Dimensions,
 } from "react-native";
 
 import { NavigationProp, ParamListBase } from "@react-navigation/native";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
 	addToFavoriteLessons,
@@ -44,7 +45,7 @@ export default function TutoScreen({ navigation }: TutoScreenProps) {
 		title: "",
 		creationDate: "",
 		author: "",
-		content: [{type: 'text', content: 'pas de contenu'}],
+		content: [{type: 'text', content: 'chargement...'}],
 		_id: "",
 	});
 
@@ -94,6 +95,11 @@ export default function TutoScreen({ navigation }: TutoScreenProps) {
 
 	const dateCrea = new Date(tutorialToDisplay.creationDate);
 
+	// création d'un useRef pour dynamiquement stocker la taille des images lors du map du contenu sans entraîner de re-render de la page
+	// chaque image occupera 90% de la largeur de l'écran, on définit dès la création un paramètre largeur qui sera commun à chaque image
+	// puis les hauteurs des images successives seront stockées dans le tableau hauteur
+	let picDimensions : any = useRef({ largeur: Dimensions.get('screen').width*0.9, hauteur: [] });
+
 	// console.log(tutorialToDisplay.content);
 	const tutorialContent = tutorialToDisplay.content.map((obj: any, i: number) => {
 		// console.log(obj.content);
@@ -103,13 +109,22 @@ export default function TutoScreen({ navigation }: TutoScreenProps) {
 			);
 		} else if (obj.type === 'image') {
 			// console.log(obj.content);
+
+			// On récupère les dimensions (largeur et hauteur) de l'image à afficher
+			// On va utiliser les dimensions recueillies pour définir une hauteur qui s'adapte au ratio de l'image d'origine
+			// On stocke la hauteur calculée dans le tableau hauteur
+			Image.getSize(obj.content, (width, height) => {
+				picDimensions.current.hauteur[i] = picDimensions.current.largeur*height/width;
+				console.log(picDimensions.current.hauteur);				
+			}, (errorMsg) => {
+				console.log(errorMsg);
+			});
+
 			return (
-				<View key={i} style={styles.imgContainer}>
-					<Image 
-						style={[styles.img, {width: '100%', height: '100%'}]} 
-						// source={require(obj.content)} // ne fonctionne pas
-						// source={require('../assets/creation_compte_google.jpg')} // fonctionne !?!
-						// on va chercher la photo stockée en ligne sur Cloudinary (url renseignée dans la base de données) :
+				<View key={i}>
+					<Image
+						// on charge les dimensions de l'image à partir du useRef picDimensions
+						style={[styles.img, {width: picDimensions.current.largeur, height: picDimensions.current.hauteur[i]}]} 
 						source={{uri: obj.content}}
 					/>
 				</View>		
@@ -427,19 +442,13 @@ const styles = StyleSheet.create({
 		marginBottom: 5,
 	},
 
-	imgContainer: {
-		width: "100%",
-		height: "100%",
-	},
-
 	img: {
 		marginBottom: 5,
-		// height: "100%",
-		// width: "100%",
 		resizeMode: 'contain',
+		alignSelf: 'center',
 	},
 
 	scrollView: {
-		paddingBottom: 1000,
+		paddingBottom: 10,
 	},
 });
