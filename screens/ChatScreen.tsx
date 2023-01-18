@@ -49,6 +49,32 @@ export default function ChatScreen({ navigation }: any) {
 	// sur la page même si l'utilisateur s'est déconnecté
 	const isFocused = useIsFocused();
 
+	// création d'un useRef pour dynamiquement stocker la taille des images lors du map du contenu sans entraîner de re-render de la page
+	// chaque image occupera 90% de la largeur de l'écran, on définit dès la création un paramètre largeur qui sera commun à chaque image
+	// puis les hauteurs des images successives seront stockées dans le tableau hauteur
+	let picDimensions : any = useRef({ largeur: Dimensions.get('screen').width*0.9, hauteur: [] });
+
+	// Fonction qui va mettre à jour le useRef picDimensions
+	const prepareMessagesDisplay = async (msgArray: any) => {
+		// On récupère au préalable la taille des images de la demande d'aide reçue que l'on injecte dans le useRef picDimensions
+		// On définit une fonction asynchrone pour pouvoir attendre la fin de la promesse Image.getSize avant de passer à la suite
+		for (let i = 0; i < msgArray.length; i++) {
+			if (msgArray[i].type === 'image') {		
+				// On récupère les dimensions (largeur et hauteur) de l'image à afficher
+				// On va utiliser les dimensions recueillies pour définir une hauteur qui s'adapte au ratio de l'image d'origine
+				// On stocke la hauteur calculée dans le tableau picDimensions.current.hauteur
+				await Image.getSize(msgArray[i].content, (width, height) => {
+					picDimensions.current.hauteur[i] = picDimensions.current.largeur*height/width;
+					// console.log(picDimensions.current.hauteur);				
+				}, (errorMsg) => {
+					console.log(errorMsg);
+				});
+			}
+		}
+		// une fois la taille des images connue, on va pouvoir lancer l'automatisation de l'affichage des messages en "settant" le useState messages
+		setMessages(msgArray);
+	};
+
 	useEffect(() => {
 		// On va chercher l'Id de l'utilisateur pour le stocker dans l'état userId
 		fetch(BACKEND_URL + "users/getUserId/" + user.token)
@@ -61,7 +87,8 @@ export default function ChatScreen({ navigation }: any) {
 						.then((response) => response.json())
 						.then((data) => {
 							if (data.result === true) {
-								setMessages(data.helpRequest.messages);
+								prepareMessagesDisplay(data.helpRequest.messages);
+								// setMessages(data.helpRequest.messages);
 								setHelpReqTitle(data.helpRequest.title);
 							}
 						});
@@ -82,26 +109,9 @@ export default function ChatScreen({ navigation }: any) {
 		return () => clearInterval(interval);
 	}, [isFocused, reRenderCount]);
 
-	// création d'un useRef pour dynamiquement stocker la taille des images lors du map du contenu sans entraîner de re-render de la page
-	// chaque image occupera 90% de la largeur de l'écran, on définit dès la création un paramètre largeur qui sera commun à chaque image
-	// puis les hauteurs des images successives seront stockées dans le tableau hauteur
-	let picDimensions : any = useRef({ largeur: Dimensions.get('screen').width*0.9, hauteur: [] });
-
 	const displayedMessages = messages.map( (msg: any, i: number) => {
 
 		const messageDate = new Date(msg.messageTime);
-
-		if (msg.type === 'image') {		
-			// On récupère les dimensions (largeur et hauteur) de l'image à afficher
-			// On va utiliser les dimensions recueillies pour définir une hauteur qui s'adapte au ratio de l'image d'origine
-			// On stocke la hauteur calculée dans le tableau hauteur
-			Image.getSize(msg.content, (width, height) => {
-				picDimensions.current.hauteur[i] = picDimensions.current.largeur*height/width;
-				console.log(picDimensions.current.hauteur);				
-			}, (errorMsg) => {
-				console.log(errorMsg);
-			});
-		}
 
 		if (userId === msg.authorId) {
 			return (

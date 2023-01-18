@@ -81,6 +81,33 @@ export default function TutoScreen({ navigation }: TutoScreenProps) {
 			});
 	};
 
+	// création d'un useRef pour dynamiquement stocker la taille des images lors du map du contenu sans entraîner de re-render de la page
+	// chaque image occupera 90% de la largeur de l'écran, on définit dès la création un paramètre largeur qui sera commun à chaque image
+	// puis les hauteurs des images successives seront stockées dans le tableau hauteur
+	let picDimensions : any = useRef({ largeur: Dimensions.get('screen').width*0.9, hauteur: [] });
+
+	// Fonction qui va mettre à jour le useRef picDimensions
+	const prepareContentDisplay = async (tuto: any) => {
+		// On récupère au préalable la taille des images de la demande d'aide reçue que l'on injecte dans le useRef picDimensions
+		// On définit une fonction asynchrone pour pouvoir attendre la fin de la promesse Image.getSize avant de passer à la suite
+		for (let i = 0; i < tuto.content.length; i++) {
+			if (tuto.content[i].type === 'image') {		
+				// On récupère les dimensions (largeur et hauteur) de l'image à afficher
+				// On va utiliser les dimensions recueillies pour définir une hauteur qui s'adapte au ratio de l'image d'origine
+				// On stocke la hauteur calculée dans le tableau picDimensions.current.hauteur
+				await Image.getSize(tuto.content[i].content, (width, height) => {
+					picDimensions.current.hauteur[i] = picDimensions.current.largeur*height/width;
+					// console.log(picDimensions.current.hauteur);				
+				}, (errorMsg) => {
+					console.log(errorMsg);
+				});
+			}
+		}
+		// une fois la taille des images connue, on va pouvoir lancer l'automatisation de l'affichage du contenu en "settant" le useState tutorialToDisplay
+		setTutorialToDisplay(tuto);
+	};
+
+
 	useEffect(() => {
 		// on récupère le tutoriel par son id dans la base de données
 		fetch(BACKEND_URL + "tutorials/tutoId/" + tuto)
@@ -88,38 +115,20 @@ export default function TutoScreen({ navigation }: TutoScreenProps) {
 			.then((data) => {
 				if (data.result === true) {
 					// console.log(data.tutorial);
-					setTutorialToDisplay(data.tutorial);
+					// setTutorialToDisplay(data.tutorial);
+					prepareContentDisplay(data.tutorial);
 				}
 			});
 	}, []);
 
 	const dateCrea = new Date(tutorialToDisplay.creationDate);
 
-	// création d'un useRef pour dynamiquement stocker la taille des images lors du map du contenu sans entraîner de re-render de la page
-	// chaque image occupera 90% de la largeur de l'écran, on définit dès la création un paramètre largeur qui sera commun à chaque image
-	// puis les hauteurs des images successives seront stockées dans le tableau hauteur
-	let picDimensions : any = useRef({ largeur: Dimensions.get('screen').width*0.9, hauteur: [] });
-
-	// console.log(tutorialToDisplay.content);
 	const tutorialContent = tutorialToDisplay.content.map((obj: any, i: number) => {
-		// console.log(obj.content);
 		if (obj.type === 'text') {
 			return (
 				<View key={i}><Text  style={styles.textContent}>{obj.content}</Text></View>
 			);
 		} else if (obj.type === 'image') {
-			// console.log(obj.content);
-
-			// On récupère les dimensions (largeur et hauteur) de l'image à afficher
-			// On va utiliser les dimensions recueillies pour définir une hauteur qui s'adapte au ratio de l'image d'origine
-			// On stocke la hauteur calculée dans le tableau hauteur
-			Image.getSize(obj.content, (width, height) => {
-				picDimensions.current.hauteur[i] = picDimensions.current.largeur*height/width;
-				console.log(picDimensions.current.hauteur);				
-			}, (errorMsg) => {
-				console.log(errorMsg);
-			});
-
 			return (
 				<View key={i}>
 					<Image
@@ -386,7 +395,6 @@ const styles = StyleSheet.create({
 
 	tuto: {
 		marginTop: 20,
-		padding: 10,
 		flexDirection: "column",
 		justifyContent: "center",
 		alignItems: "center",
@@ -440,6 +448,8 @@ const styles = StyleSheet.create({
 		fontSize: 20,
 		textAlign: "justify",
 		marginBottom: 5,
+		marginLeft: 10,
+		marginRight: 10,
 	},
 
 	img: {
