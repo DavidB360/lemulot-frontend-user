@@ -84,12 +84,19 @@ const TabNavigator = () => {
 					}
 
 					return (
-						<FontAwesome name={iconName} size={35} color={color} />
+						<FontAwesome name={iconName} size={40} color={color} />
 					);
 				},
 				tabBarActiveTintColor: "#778ed4",
 				tabBarInactiveTintColor: "#b2b2b2",
 				headerShown: false,
+				tabBarLabelStyle: {
+					fontSize: 15,
+					fontWeight: "bold",
+				},
+				tabBarStyle: {
+					height: 70,
+				},
 			})}
 		>
 			<Tab.Screen name="Demandes" component={UserHelpScreen} />
@@ -114,12 +121,19 @@ const TabNavigator2 = () => {
 					}
 
 					return (
-						<FontAwesome name={iconName} size={35} color={color} />
+						<FontAwesome name={iconName} size={45} color={color} />
 					);
 				},
 				tabBarActiveTintColor: "#778ed4",
 				tabBarInactiveTintColor: "#b2b2b2",
 				headerShown: false,
+				tabBarLabelStyle: {
+					fontSize: 20,
+					fontWeight: "bold",
+				},
+				tabBarStyle: {
+					height: 80,
+				},
 			})}
 		>
 			<Tab.Screen name="Orale" component={OralRequestScreen} />
